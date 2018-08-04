@@ -50,24 +50,13 @@ export class HomePage {
     this.navCtrl.push('EventListPage');
   }
 
-  length(){
-    console.log("===> " + this.items.length);
-    this.items.forEach(function(element){
-      console.log(element);
-    });
-  }
-
-
-
 
   //Was originally empty
   //Test loading from firebase
   ionViewDidLoad(){
-    console.log("Init");
     this.tasksProvider.getTasksList().on("value", eventListSnapshot => {
       this.items = [];
       eventListSnapshot.forEach(snap => {
-        console.log("pushing");
         this.items.push({
           id: snap.key,
           taskTitle: snap.val().taskTitle,
@@ -75,9 +64,13 @@ export class HomePage {
           taskDate: snap.val().taskDate,
           taskCategory: snap.val().taskCategory
         });
-        return false;
+        //return false;
       });
+      console.log("reversed");
+      this.items.reverse();
     });
+
+
   }
 
   goToTaskDetail(item, itemId){
@@ -90,7 +83,6 @@ export class HomePage {
 
   deleteFB(key){
     console.log("in deletefb");
-    console.log("key is " + key);
     this.tasksProvider.deleteTask(key);
   }
 
@@ -121,17 +113,15 @@ export class HomePage {
   /*
   Search bar functionality
   */
-
   getItems(ev) {
     // Reset items back to all of the items
-    //this.initializeItems();
+    this.ionViewDidLoad();
     // set val to the value of the ev target
     var val = ev.target.value;
-
     // if the value is an empty string don't filter the items
     if (val && val.trim() != '') {
       this.items = this.items.filter((item) => {
-        return (item.title.toLowerCase().indexOf(val.toLowerCase()) > -1);
+        return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
     }
   }

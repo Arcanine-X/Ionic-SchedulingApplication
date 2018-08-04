@@ -1,59 +1,25 @@
 <ion-header>
   <ion-navbar>
-
     <ion-title>
         Tasks To Complete
     </ion-title>
-    
-    <!-- Profile Button -->
-    <!-- <ion-buttons end>
-      <button ion-button icon-only (click)="goToProfile()">
-        <ion-icon name="person"></ion-icon>
-      </button>
-    </ion-buttons> -->
     <ion-buttons end>
       <button ion-button icon-only (click)="addItem()"><ion-icon name="add-circle"></ion-icon></button>
     </ion-buttons>
-
-
-
-
-
   </ion-navbar>
 </ion-header>
 
 <ion-content>
   <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
-  <ion-list>
-    <!-- <ion-item *ngFor="let item of items" (click)="viewItem(item)">{{item.title}}
-
-
-
-
-    </ion-item> -->
-
-
-    
-  </ion-list>
-
-
-
   <ion-list class="login-sliding-demo" >
       <ion-item-sliding *ngFor="let item of items; let i = index" >
-        <ion-item (click)="viewItem(item)">
-            {{item.taskTitle}}
-        </ion-item>
+        <ion-item (click)="goToTaskDetail(item, item.id)">
+            <p>Title: <strong>{{item?.taskTitle}}</strong></p>
+            <p>Description: <strong>{{item?.taskDescription}}</strong></p>
+          </ion-item>
+
         <ion-item-options side="left">
-
-
             <button ion-button color="danger" (click)="deleteFB(item.id)">
-
-          <!-- <button ion-button color="danger" (click)="showConfirm(item, i)"> -->
-
-
-
-
-            <!-- <button ion-button color="danger" (click)="delete(item, i)"> -->
               <ion-icon name="trash"></ion-icon>
                 Delete
               </button>
@@ -67,40 +33,4 @@
           </ion-item-options>
       </ion-item-sliding>
     </ion-list>
-
-
-
-
-
-
-
-  <!-- <ion-content class="outer-content">
-      <ion-list class="login-sliding-demo">    
-        <ion-item-sliding *ngFor="let item of items" #item>
-          <ion-item>
-            <ion-icon [name]="login.icon" item-start></ion-icon>
-          </ion-item>
-          <ion-item-options side="left">
-            <button ion-button color="danger">
-              <ion-icon name="trash"></ion-icon>
-            </button>
-          </ion-item-options>
-        </ion-item-sliding>
-      </ion-list>
-  <ion-content class="outer-content"> -->
-
-    <button ion-button (click) = "length()">click me</button>
-
-
-    <ion-list>
-      <ion-item *ngFor="let item of items"(click)="goToTaskDetail(item, item.id)">
-        <p>Title: <strong>{{item?.taskTitle}}</strong></p>
-        <p>Description: <strong>{{item?.taskDescription}}</strong></p>
-        <p>Date: <strong>{{item?.taskDate}}</strong></p>
-        <p>Category: <strong>{{item?.taskCategory}}</strong></p>
-      </ion-item>
-    </ion-list>
-
-
-
 </ion-content>
