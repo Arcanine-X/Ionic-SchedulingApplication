@@ -13,6 +13,7 @@ import { CategoriesPage } from '../pages/categories/categories';
 import { CompletedTasksPage } from '../pages/completed-tasks/completed-tasks';
 import { TaskCreatePage } from '../pages/task-create/task-create';
 import { TaskDetailPage } from '../pages/task-detail/task-detail';
+import { TasksProvider } from '../providers/tasks/task';
 
 
 
@@ -48,7 +49,8 @@ import { TaskDetailPage } from '../pages/task-detail/task-detail';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
-    ProfileProvider
+    ProfileProvider,
+    TasksProvider
   ]
 })
 export class AppModule {}

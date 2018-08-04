@@ -5,7 +5,8 @@ import { ToastController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { TaskCreatePage } from '../task-create/task-create';
 import { TaskDetailPage } from '../task-detail/task-detail';
-import { CompletedTasksPage } from '../completed-tasks/completed-tasks';
+import { TasksProvider } from '../../providers/tasks/task';
+
 
 
 @Component({
@@ -31,7 +32,8 @@ export class HomePage {
   constructor(public alertCtrl: AlertController, 
     private toastCtrl: ToastController, 
     public navCtrl: NavController, 
-    public modalCtrl: ModalController) {
+    public modalCtrl: ModalController,
+    public tasksProvider : TasksProvider) {
 
   }
 
@@ -48,10 +50,51 @@ export class HomePage {
     this.navCtrl.push('EventListPage');
   }
 
-
-  ionViewDidLoad(){
- 
+  length(){
+    console.log("===> " + this.items.length);
+    this.items.forEach(function(element){
+      console.log(element);
+    });
   }
+
+
+
+
+  //Was originally empty
+  //Test loading from firebase
+  ionViewDidLoad(){
+    console.log("Init");
+    this.tasksProvider.getTasksList().on("value", eventListSnapshot => {
+      this.items = [];
+      eventListSnapshot.forEach(snap => {
+        console.log("pushing");
+        this.items.push({
+          id: snap.key,
+          taskTitle: snap.val().taskTitle,
+          taskDescription: snap.val().taskDescription,
+          taskDate: snap.val().taskDate,
+          taskCategory: snap.val().taskCategory
+        });
+        return false;
+      });
+    });
+  }
+
+  goToTaskDetail(item, itemId){
+    console.log("Item ID is: " + itemId);
+    this.navCtrl.push(TaskDetailPage, {
+      item: item,
+      key: itemId
+    });
+  }
+
+  deleteFB(key){
+    console.log("in deletefb");
+    console.log("key is " + key);
+    this.tasksProvider.deleteTask(key);
+  }
+
+  //////////////////////////
  
   addItem(){
     let addModal = this.modalCtrl.create(TaskCreatePage);

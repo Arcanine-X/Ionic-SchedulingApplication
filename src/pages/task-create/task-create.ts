@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-
+import { TasksProvider } from '../../providers/tasks/task';
 /**
  * Generated class for the TaskCreatePage page.
  *
@@ -17,7 +17,9 @@ export class TaskCreatePage {
   title: string;
   description: string;
 
-  constructor(public navCtrl: NavController, public view: ViewController) {
+  constructor(public navCtrl: NavController, 
+    public view: ViewController,
+    public tasksProvider: TasksProvider) {
   }
 
   ionViewDidLoad() {
@@ -39,5 +41,22 @@ export class TaskCreatePage {
   close(){
     this.view.dismiss();
   }
+
+    //////////////////////////////// Attempt to store to firebase
+    createEvent(
+      taskTitle: string,
+      taskDesciption: string,
+      taskDate: string,
+      taskCategory: string
+    ): void {
+      console.log("in create event method");
+      this.tasksProvider
+        .createTask(taskTitle, taskDesciption, taskDate, taskCategory)
+        .then(newEvent => {
+          this.navCtrl.pop();
+        });
+    }
+  
+    ////////////////////////////////
 
 }

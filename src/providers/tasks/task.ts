@@ -5,7 +5,7 @@ import 'firebase/database';
 import 'firebase/storage';
 
 @Injectable()
-export class EventProvider {
+export class TasksProvider {
   public eventListRef: firebase.database.Reference;
   constructor() {
     firebase.auth().onAuthStateChanged(user => {
@@ -19,17 +19,65 @@ export class EventProvider {
 
   createTask(
     taskTitle: string,
-    taskDesciption: string,
+    taskDescription: string,
     taskDate: string,
     taskCategory: string
   ): firebase.database.ThenableReference {
     return this.eventListRef.push({
-      title: taskTitle,
-      description: taskDesciption,
-      date: taskDate,
+      taskTitle: taskTitle,
+      taskDescription: taskDescription,
+      taskDate: taskDate,
       taskCategory: taskCategory,
     });
   }
+
+  /*
+  Key is the id
+  Item stores all the information for the task being updated
+  */
+  updateTask(key, item){
+    console.log("Event list reference is " + this.eventListRef);
+    //this.eventListRef.update(key);
+   // let reference = '/eventList/' + key;
+    //firebase.database().ref(reference).update(item);
+    //var updates = {};
+   // updates['/eventsList/'+key] = "hello";
+    //firebase.database().ref().update(updates);
+
+    // this.getTasksList().update({
+    //   key : {
+    //     taskTitle : "ffssss work"
+    //   }
+    // });
+
+    console.log("FFFFFFS " + key);
+
+    firebase.database().ref('userProfile/gTETPLFSSTXo94gQcLZoboSwn6f2/eventList/' + key).update({
+      taskCategory : item.taskCategory,
+      taskDate : item.taskDate,
+      taskTitle: item.taskTitle,
+      taskDescription: item.taskDescription
+    });
+
+    // this.eventListRef.update({
+    //   key : {
+    //     taskCategory : item.taskCategory,
+    //     taskDate : item.taskDate,
+    //     taskTitle: item.taskTitle,
+    //     taskDescription: "hello"
+    //   }
+    // });
+
+  }
+
+  deleteTask(key){
+    console.log(firebase.database().ref);
+    console.log("Key in task.ts is " + key);
+    let reference = '/eventList/' + key;
+
+    //this.eventListRef.remove(key);
+    firebase.database().ref('userProfile/gTETPLFSSTXo94gQcLZoboSwn6f2/eventList/' + key).remove();
+    }
 
   getTasksList(): firebase.database.Reference {
     return this.eventListRef;

@@ -37,5 +37,8 @@
     </ion-item>
   </ion-list>
  
-  <button full ion-button color="secondary" (click)="saveItem()">Save</button>
+  <!-- <button full ion-button color="secondary" (click)="saveItem()">Save</button> -->
+  <button full ion-button color="primary" (click) = "createEvent(title, description, eventDate, eventName)">
+    Create task and store to FB
+  </button>
 </ion-content>

@@ -41,10 +41,18 @@
   <ion-list class="login-sliding-demo" >
       <ion-item-sliding *ngFor="let item of items; let i = index" >
         <ion-item (click)="viewItem(item)">
-            {{item.title}}
+            {{item.taskTitle}}
         </ion-item>
         <ion-item-options side="left">
-          <button ion-button color="danger" (click)="showConfirm(item, i)">
+
+
+            <button ion-button color="danger" (click)="deleteFB(item.id)">
+
+          <!-- <button ion-button color="danger" (click)="showConfirm(item, i)"> -->
+
+
+
+
             <!-- <button ion-button color="danger" (click)="delete(item, i)"> -->
               <ion-icon name="trash"></ion-icon>
                 Delete
@@ -59,6 +67,11 @@
           </ion-item-options>
       </ion-item-sliding>
     </ion-list>
+
+
+
+
+
 
 
   <!-- <ion-content class="outer-content">
@@ -76,6 +89,17 @@
       </ion-list>
   <ion-content class="outer-content"> -->
 
+    <button ion-button (click) = "length()">click me</button>
+
+
+    <ion-list>
+      <ion-item *ngFor="let item of items"(click)="goToTaskDetail(item, item.id)">
+        <p>Title: <strong>{{item?.taskTitle}}</strong></p>
+        <p>Description: <strong>{{item?.taskDescription}}</strong></p>
+        <p>Date: <strong>{{item?.taskDate}}</strong></p>
+        <p>Category: <strong>{{item?.taskCategory}}</strong></p>
+      </ion-item>
+    </ion-list>
 
 
 
