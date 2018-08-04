@@ -14,6 +14,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class CompletedTasksPage {
 
+  public completedItems = [];
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 

@@ -5,6 +5,7 @@ import { ToastController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { TaskCreatePage } from '../task-create/task-create';
 import { TaskDetailPage } from '../task-detail/task-detail';
+import { CompletedTasksPage } from '../completed-tasks/completed-tasks';
 
 
 @Component({
@@ -78,31 +79,9 @@ export class HomePage {
   Search bar functionality
   */
 
-  getItemsClone(){
-    if(this.items.length == 0){
-      return [];
-    }
-    let toReturn = [];
-    for(var i = 0; i < this.items.length; i++){
-      toReturn.push(this.items[i]);
-    }
-    console.log("=> " + toReturn.length);
-    return toReturn;
-  }
-
-  initializeItems(){
-    this.items = this.itemsClone;
-  }
-
-  doThis(){
-    this.items = this.itemsClone;
-    console.log("weaeee");
-  }
-
-
   getItems(ev) {
     // Reset items back to all of the items
-    this.initializeItems();
+    //this.initializeItems();
     // set val to the value of the ev target
     var val = ev.target.value;
 
@@ -123,6 +102,7 @@ export class HomePage {
     console.log('Complete Task'); 
     var removed = this.items.splice(index, 1);
     this.completedItems.push(removed);
+    
   }
 
   delete(item: ItemSliding, index) {

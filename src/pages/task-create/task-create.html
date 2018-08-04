@@ -14,16 +14,28 @@
  
     <ion-item>
       <ion-label floating>Title</ion-label>
-      <ion-input type="text" [(ngModel)]="title"></ion-input>
+      <ion-input type="text" [(ngModel)]="title" ></ion-input>
     </ion-item>
  
     <ion-item>
       <ion-label floating>Description</ion-label>
       <ion-input type="text" [(ngModel)]="description"></ion-input>
     </ion-item>
- 
+
+    <ion-item>
+      <ion-label floating>Event Date</ion-label>
+      <ion-datetime displayFormat="D MMM, YY" pickerFormat="DD MMM YYYY"
+      [(ngModel)]="eventDate">
+      </ion-datetime>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label stacked>Category</ion-label>
+      <ion-input [(ngModel)]="eventName" type="text"placeholder="Default">
+      </ion-input>
+    </ion-item>
   </ion-list>
  
   <button full ion-button color="secondary" (click)="saveItem()">Save</button>
- 
 </ion-content>
