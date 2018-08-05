@@ -6,6 +6,7 @@ import 'firebase/storage';
 
 @Injectable()
 export class CompletedTasksProvider {
+  public userId;
   public completedTasksRef: firebase.database.Reference;
   constructor() {
     firebase.auth().onAuthStateChanged(user => {
@@ -13,6 +14,7 @@ export class CompletedTasksProvider {
         this.completedTasksRef = firebase
           .database()
           .ref(`/userProfile/${user.uid}/completedTasksList`);
+          this.userId = `${user.uid}`;
       }
     });
   }
@@ -31,6 +33,10 @@ export class CompletedTasksProvider {
       taskDate: taskDate,
       taskCategory: taskCategory,
     });
+  }
+
+  deleteTask(key){
+    firebase.database().ref('userProfile/'+this.userId+'/completedTasksList/' + key).remove();
   }
 
   getCompletedTasks(): firebase.database.Reference {

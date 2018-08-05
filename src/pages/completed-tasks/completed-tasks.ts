@@ -1,14 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ActionSheetController, Platform } from 'ionic-angular';
 import { CompletedTasksProvider } from '../../providers/tasks/completedTask'
 import { TaskRestorePage } from '../task-restore/task-restore';
+import { TasksProvider } from '../../providers/tasks/task';
 
-/**
- * Generated class for the CompletedTasksPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+
 
 @Component({
   selector: 'page-completed-tasks',
@@ -21,7 +17,10 @@ export class CompletedTasksPage {
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
-              public completedTasksProvider : CompletedTasksProvider) {
+              public completedTasksProvider : CompletedTasksProvider, 
+              public platform: Platform,
+              public actionsheetCtrl: ActionSheetController,
+              public tasksProvider: TasksProvider) {
   }
 
   ionViewDidLoad() {
@@ -42,6 +41,21 @@ export class CompletedTasksPage {
   }
 
 
+  delete(key){
+    console.log("in delete");
+    this.completedTasksProvider.deleteTask(key);
+  }
+
+  restore(item, itemId){
+    console.log("in restore");
+    this.tasksProvider.createTask(item.taskTitle,
+    item.taskDescription, item.taskDate,
+    item.taskCategory).then(newEvent =>{
+    this.delete(itemId)
+  });
+    
+  }
+
   goToTaskDetail(item, itemId){
     console.log("Item ID is: " + itemId);
     this.navCtrl.push(TaskRestorePage, {
@@ -49,7 +63,5 @@ export class CompletedTasksPage {
       key: itemId
     });
   }
-
-
 
 }

@@ -7,12 +7,14 @@ import 'firebase/storage';
 @Injectable()
 export class TasksProvider {
   public eventListRef: firebase.database.Reference;
+  public userId;
   constructor() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.eventListRef = firebase
           .database()
           .ref(`/userProfile/${user.uid}/tasksList`);
+          this.userId = `${user.uid}`;
       }
     });
   }
@@ -32,7 +34,7 @@ export class TasksProvider {
   }
 
   updateTask(key, item){
-    firebase.database().ref('userProfile/gTETPLFSSTXo94gQcLZoboSwn6f2/tasksList/' + key).update({
+    firebase.database().ref('userProfile/'+this.userId+'/tasksList/' + key).update({
       taskCategory : item.taskCategory,
       taskDate : item.taskDate,
       taskTitle: item.taskTitle,
@@ -41,7 +43,7 @@ export class TasksProvider {
   }
 
   deleteTask(key){
-    firebase.database().ref('userProfile/gTETPLFSSTXo94gQcLZoboSwn6f2/tasksList/' + key).remove();
+    firebase.database().ref('userProfile/'+this.userId+'/tasksList/' + key).remove();
   }
 
   getTasksList(): firebase.database.Reference {
