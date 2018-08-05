@@ -16,6 +16,7 @@ import { TaskDetailPage } from '../pages/task-detail/task-detail';
 import { TasksProvider } from '../providers/tasks/task';
 import { CompletedTasksProvider } from '../providers/tasks/completedTask';
 import { TaskRestorePage } from '../pages/task-restore/task-restore';
+import { CategoryViewPage } from '../pages/category-view/category-view';
 
 
 
@@ -29,7 +30,8 @@ import { TaskRestorePage } from '../pages/task-restore/task-restore';
     CompletedTasksPage,
     TaskCreatePage,
     TaskDetailPage,
-    TaskRestorePage
+    TaskRestorePage,
+    CategoryViewPage
   ],
   imports: [
     BrowserModule,
@@ -45,7 +47,8 @@ import { TaskRestorePage } from '../pages/task-restore/task-restore';
     CompletedTasksPage,
     TaskCreatePage,
     TaskDetailPage,
-    TaskRestorePage
+    TaskRestorePage,
+    CategoryViewPage
 
   ],
   providers: [

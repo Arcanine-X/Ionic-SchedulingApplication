@@ -45,6 +45,18 @@ export class HomePage {
     this.navCtrl.push("ProfilePage");
   }
 
+  testing(){
+    let categories = [];
+    for(let i = 0; i < this.items.length; i ++){
+      let needle = this.items[i].taskCategory;
+      if(categories.indexOf(needle) == -1){
+        categories.push(needle);
+      }
+    }
+    console.log("Categories length is: " + categories.length);
+    console.log("Categories are: " + categories);
+  }
+
   //Was originally empty
   //Test loading from firebase
   ionViewDidLoad(){
@@ -63,8 +75,6 @@ export class HomePage {
       console.log("reversed");
       this.items.reverse();
     });
-
-
   }
 
   goToTaskDetail(item, itemId){

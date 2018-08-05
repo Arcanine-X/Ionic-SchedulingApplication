@@ -1,13 +1,17 @@
+
 <ion-header>
   <ion-navbar>
     <ion-title>
-        Tasks To Complete
+        Your Day
     </ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="addItem()"><ion-icon name="add-circle"></ion-icon></button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
+
+
+
 
 <ion-content>
   <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
@@ -27,10 +31,21 @@
 
         <ion-item-options side="right">
             <button ion-button color="secondary" (click)="addToCompletedTasks(item)">
-                <ion-icon name="ribbon"></ion-icon>
+                <ion-icon name="checkmark"></ion-icon>
                 Complete
               </button>
           </ion-item-options>
       </ion-item-sliding>
     </ion-list>
+
+
+    <ion-fab right bottom>
+      <button ion-fab (click)="addItem()" color="light"><ion-icon name="add" (click) = "addItem()"></ion-icon></button>
+    </ion-fab>
+
+
+    <ion-fab left bottom>
+      <button ion-fab (click)="testing()" color="light"><ion-icon name="add" (click) = "addItem()"></ion-icon></button>
+    </ion-fab>
+
 </ion-content>

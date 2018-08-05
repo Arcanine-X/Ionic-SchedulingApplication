@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { TasksProvider } from '../../providers/tasks/task';
 
 /**
@@ -20,7 +20,9 @@ export class TaskDetailPage {
   item;
   key;
   constructor(public navCtrl: NavController, public navParams: NavParams,
-  public tasksProvier: TasksProvider) {
+  public tasksProvier: TasksProvider,
+  public view: ViewController,
+) {
     this.item = navParams.get('item');
     this.key = navParams.get('key');
     console.log(this.item);
@@ -52,6 +54,10 @@ export class TaskDetailPage {
   unsave(){
     console.log("init");
     document.getElementById("saveButton").innerHTML = "Save";
+  }
+
+  close(){
+    this.view.dismiss();
   }
 
 }
