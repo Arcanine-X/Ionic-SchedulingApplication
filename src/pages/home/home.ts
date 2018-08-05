@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController } from 'ionic-angular';
-import { ItemSliding } from 'ionic-angular';
-import { ToastController } from 'ionic-angular';
-import { AlertController } from 'ionic-angular';
+import { NavController, 
+        ModalController,
+        ToastController,
+        AlertController,
+        ItemSliding
+      } from 'ionic-angular';
 import { TaskCreatePage } from '../task-create/task-create';
 import { TaskDetailPage } from '../task-detail/task-detail';
 import { TasksProvider } from '../../providers/tasks/task';
-
+import { CompletedTasksProvider } from '../../providers/tasks/completedTask';
 
 
 @Component({
@@ -33,23 +35,15 @@ export class HomePage {
     private toastCtrl: ToastController, 
     public navCtrl: NavController, 
     public modalCtrl: ModalController,
-    public tasksProvider : TasksProvider) {
+    public tasksProvider : TasksProvider  ,
+    public completedTasksProvider : CompletedTasksProvider  
+  ) {
 
   }
-
 
   goToProfile(): void {
     this.navCtrl.push("ProfilePage");
   }
-
-  goToCreate(): void {
-    this.navCtrl.push('EventCreatePage');
-  }
-
-  goToList(): void {
-    this.navCtrl.push('EventListPage');
-  }
-
 
   //Was originally empty
   //Test loading from firebase
@@ -79,6 +73,18 @@ export class HomePage {
       item: item,
       key: itemId
     });
+  }
+
+
+  /*
+  Complete tasks test
+  */
+  addToCompletedTasks(item){
+    this.completedTasksProvider
+      .addCompletedTask(item.taskTitle, item.taskDescription, 
+        item.taskDate, item.taskCategory).then(newEvent=>{
+          this.deleteFB(item.id);
+        });
   }
 
   deleteFB(key){
@@ -131,19 +137,6 @@ export class HomePage {
   For the swiping gesture
   */
 
-  complete(item: ItemSliding, index) {
-    console.log('Complete Task'); 
-    var removed = this.items.splice(index, 1);
-    this.completedItems.push(removed);
-    
-  }
-
-  delete(item: ItemSliding, index) {
-    console.log("Delete");
-    this.items.splice(index,1);
-  }
-
-
   expandAction(item: ItemSliding, _: any, text: string) {
     // TODO item.setElementClass(action, true);
     setTimeout(() => {
@@ -171,7 +164,7 @@ export class HomePage {
         text: 'Yes',
         handler: () => {
           console.log('Yes clicked');
-          this.delete(item,index);
+          this.deleteFB(item.id);
         }
       },
       {
@@ -185,5 +178,4 @@ export class HomePage {
   });
   confirm.present();
 }
-
 }

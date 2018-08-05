@@ -12,7 +12,7 @@ export class TasksProvider {
       if (user) {
         this.eventListRef = firebase
           .database()
-          .ref(`/userProfile/${user.uid}/eventList`);
+          .ref(`/userProfile/${user.uid}/tasksList`);
       }
     });
   }
@@ -32,7 +32,7 @@ export class TasksProvider {
   }
 
   updateTask(key, item){
-    firebase.database().ref('userProfile/gTETPLFSSTXo94gQcLZoboSwn6f2/eventList/' + key).update({
+    firebase.database().ref('userProfile/gTETPLFSSTXo94gQcLZoboSwn6f2/tasksList/' + key).update({
       taskCategory : item.taskCategory,
       taskDate : item.taskDate,
       taskTitle: item.taskTitle,
@@ -41,7 +41,7 @@ export class TasksProvider {
   }
 
   deleteTask(key){
-    firebase.database().ref('userProfile/gTETPLFSSTXo94gQcLZoboSwn6f2/eventList/' + key).remove();
+    firebase.database().ref('userProfile/gTETPLFSSTXo94gQcLZoboSwn6f2/tasksList/' + key).remove();
   }
 
   getTasksList(): firebase.database.Reference {

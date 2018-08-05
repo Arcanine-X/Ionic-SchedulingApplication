@@ -14,6 +14,8 @@ import { CompletedTasksPage } from '../pages/completed-tasks/completed-tasks';
 import { TaskCreatePage } from '../pages/task-create/task-create';
 import { TaskDetailPage } from '../pages/task-detail/task-detail';
 import { TasksProvider } from '../providers/tasks/task';
+import { CompletedTasksProvider } from '../providers/tasks/completedTask';
+import { TaskRestorePage } from '../pages/task-restore/task-restore';
 
 
 
@@ -26,7 +28,8 @@ import { TasksProvider } from '../providers/tasks/task';
     CategoriesPage,
     CompletedTasksPage,
     TaskCreatePage,
-    TaskDetailPage
+    TaskDetailPage,
+    TaskRestorePage
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,8 @@ import { TasksProvider } from '../providers/tasks/task';
     CategoriesPage,
     CompletedTasksPage,
     TaskCreatePage,
-    TaskDetailPage
+    TaskDetailPage,
+    TaskRestorePage
 
   ],
   providers: [
@@ -50,7 +54,8 @@ import { TasksProvider } from '../providers/tasks/task';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
     ProfileProvider,
-    TasksProvider
+    TasksProvider,
+    CompletedTasksProvider
   ]
 })
 export class AppModule {}
