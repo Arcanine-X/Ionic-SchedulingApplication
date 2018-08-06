@@ -33,7 +33,8 @@ export class CompletedTasksPage {
           taskTitle: snap.val().taskTitle,
           taskDescription: snap.val().taskDescription,
           taskDate: snap.val().taskDate,
-          taskCategory: snap.val().taskCategory
+          taskCategory: snap.val().taskCategory,
+          taskCompletionTime: snap.val().taskCompletionTime
         });
         return false;
       });

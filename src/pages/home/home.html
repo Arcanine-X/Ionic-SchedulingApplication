@@ -7,6 +7,9 @@
     <ion-buttons end>
       <button ion-button icon-only (click)="addItem()"><ion-icon name="add-circle"></ion-icon></button>
     </ion-buttons>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="addItem()"><ion-icon name="more"></ion-icon></button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -15,11 +18,19 @@
 
 <ion-content>
   <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
-  <ion-list class="login-sliding-demo" >
+  
+  <!-- <ion-list class="login-sliding-demo" >
+
+      <ion-item-divider color="light">Today</ion-item-divider>
+      <ion-item-divider color="light">Tomorrow</ion-item-divider>
+      <ion-item-divider color="light">Upcoming</ion-item-divider>
+
       <ion-item-sliding *ngFor="let item of items; let i = index" >
+
         <ion-item (click)="goToTaskDetail(item, item.id)">
-            <p>Title: <strong>{{item?.taskTitle}}</strong></p>
-            <p>Description: <strong>{{item?.taskDescription}}</strong></p>
+           <h2>{{item?.taskTitle}}</h2>
+            <h3>Description: <strong>{{item?.taskDescription}}</strong></h3>
+            <p>{{item?.taskDate}}</p>
           </ion-item>
 
         <ion-item-options side="left">
@@ -36,16 +47,139 @@
               </button>
           </ion-item-options>
       </ion-item-sliding>
-    </ion-list>
+    </ion-list> -->
 
+
+
+    <ion-list class="login-sliding-demo" >
+
+        <ion-item-divider color="light">Missed</ion-item-divider>
+
+  
+        <ion-item-sliding *ngFor="let item of missedItems;" >
+  
+          <ion-item (click)="goToTaskDetail(item, item.id)">
+             <h2>{{item?.taskTitle}}</h2>
+              <h3>Description: <strong>{{item?.taskDescription}}</strong></h3>
+              <p>{{item?.taskDate}}</p>
+            </ion-item>
+  
+          <ion-item-options side="left">
+              <button ion-button color="danger" (click)="deleteFB(item.id)">
+                <ion-icon name="trash"></ion-icon>
+                  Delete
+                </button>
+          </ion-item-options>
+  
+          <ion-item-options side="right">
+              <button ion-button color="secondary" (click)="addToCompletedTasks(item)">
+                  <ion-icon name="checkmark"></ion-icon>
+                  Complete
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+
+    <ion-list class="login-sliding-demo" >
+
+        <ion-item-divider color="light">Today</ion-item-divider>
+
+  
+        <ion-item-sliding *ngFor="let item of todaysItems;" >
+  
+          <ion-item (click)="goToTaskDetail(item, item.id)">
+             <h2>{{item?.taskTitle}}</h2>
+              <h3>Description: <strong>{{item?.taskDescription}}</strong></h3>
+              <p>{{item?.taskDate}}</p>
+            </ion-item>
+  
+          <ion-item-options side="left">
+              <button ion-button color="danger" (click)="deleteFB(item.id)">
+                <ion-icon name="trash"></ion-icon>
+                  Delete
+                </button>
+          </ion-item-options>
+  
+          <ion-item-options side="right">
+              <button ion-button color="secondary" (click)="addToCompletedTasks(item)">
+                  <ion-icon name="checkmark"></ion-icon>
+                  Complete
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+
+
+      <ion-list class="login-sliding-demo" >
+
+          <ion-item-divider color="light">Tomorrow</ion-item-divider>
+  
+    
+          <ion-item-sliding *ngFor="let item of tomorrowsItems;" >
+    
+            <ion-item (click)="goToTaskDetail(item, item.id)">
+               <h2>{{item?.taskTitle}}</h2>
+                <h3>Description: <strong>{{item?.taskDescription}}</strong></h3>
+                <p>{{item?.taskDate}}</p>
+              </ion-item>
+    
+            <ion-item-options side="left">
+                <button ion-button color="danger" (click)="deleteFB(item.id)">
+                  <ion-icon name="trash"></ion-icon>
+                    Delete
+                  </button>
+            </ion-item-options>
+    
+            <ion-item-options side="right">
+                <button ion-button color="secondary" (click)="addToCompletedTasks(item)">
+                    <ion-icon name="checkmark"></ion-icon>
+                    Complete
+                  </button>
+              </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+
+
+
+        
+        
+      <ion-list class="login-sliding-demo" >
+
+          <ion-item-divider *ngIf="upcomingItems?.length > 0" color="light">Future</ion-item-divider>
+  
+    
+          <ion-item-sliding *ngFor="let item of upcomingItems;" >
+    
+            <ion-item (click)="goToTaskDetail(item, item.id)">
+               <h2>{{item?.taskTitle}}</h2>
+                <h3>Description: <strong>{{item?.taskDescription}}</strong></h3>
+                <p>{{item?.taskDate}}</p>
+              </ion-item>
+    
+            <ion-item-options side="left">
+                <button ion-button color="danger" (click)="deleteFB(item.id)">
+                  <ion-icon name="trash"></ion-icon>
+                    Delete
+                  </button>
+            </ion-item-options>
+    
+            <ion-item-options side="right">
+                <button ion-button color="secondary" (click)="addToCompletedTasks(item)">
+                    <ion-icon name="checkmark"></ion-icon>
+                    Complete
+                  </button>
+              </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+
+
+
+
+      
+
+    <!-- <ion-datetime displayFormat="H:mm on DD MMMM" [(ngModel)]="myDate"></ion-datetime> -->
 
     <ion-fab right bottom>
       <button ion-fab (click)="addItem()" color="light"><ion-icon name="add" (click) = "addItem()"></ion-icon></button>
     </ion-fab>
-
-
-    <ion-fab left bottom>
-      <button ion-fab (click)="testing()" color="light"><ion-icon name="add" (click) = "addItem()"></ion-icon></button>
-    </ion-fab>
-
 </ion-content>

@@ -17,6 +17,7 @@ import { TasksProvider } from '../providers/tasks/task';
 import { CompletedTasksProvider } from '../providers/tasks/completedTask';
 import { TaskRestorePage } from '../pages/task-restore/task-restore';
 import { CategoryViewPage } from '../pages/category-view/category-view';
+import { IonTextAvatar } from 'ionic-text-avatar';
 
 
 
@@ -31,7 +32,8 @@ import { CategoryViewPage } from '../pages/category-view/category-view';
     TaskCreatePage,
     TaskDetailPage,
     TaskRestorePage,
-    CategoryViewPage
+    CategoryViewPage,
+    IonTextAvatar
   ],
   imports: [
     BrowserModule,
@@ -48,7 +50,7 @@ import { CategoryViewPage } from '../pages/category-view/category-view';
     TaskCreatePage,
     TaskDetailPage,
     TaskRestorePage,
-    CategoryViewPage
+    CategoryViewPage,
 
   ],
   providers: [

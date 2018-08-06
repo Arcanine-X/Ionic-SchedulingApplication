@@ -23,7 +23,8 @@ export class CompletedTasksProvider {
     taskTitle: string,
     taskDescription: string,
     taskDate: string,
-    taskCategory: string
+    taskCategory: string,
+    taskCompletionTime: string
   ): firebase.database.ThenableReference {
     console.log("hereeeeee");
 
@@ -32,6 +33,7 @@ export class CompletedTasksProvider {
       taskDescription: taskDescription,
       taskDate: taskDate,
       taskCategory: taskCategory,
+      taskCompletionTime: taskCompletionTime
     });
   }
 

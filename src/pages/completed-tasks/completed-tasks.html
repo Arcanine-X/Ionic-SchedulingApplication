@@ -10,8 +10,8 @@
     <ion-list class="login-sliding-demo" >
         <ion-item-sliding *ngFor="let item of completedItems;" >
           <ion-item (click)="goToTaskDetail(item, item.id)">
-              <p>Title: <strong>{{item?.taskTitle}}</strong></p>
-              <p>Description: <strong>{{item?.taskDescription}}</strong></p>
+              <p><s>Title: <strong>{{item?.taskTitle}}</strong></s></p>
+              <ion-note>Completed on {{item?.taskCompletionTime}}</ion-note>
             </ion-item>
   
           <ion-item-options side="left">

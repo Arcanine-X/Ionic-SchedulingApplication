@@ -42,7 +42,6 @@ export class TaskCreatePage {
     this.view.dismiss();
   }
 
-    //////////////////////////////// Attempt to store to firebase
     createEvent(
       taskTitle: string,
       taskDesciption: string,
@@ -50,13 +49,16 @@ export class TaskCreatePage {
       taskCategory: string
     ): void {
       console.log("in create event method");
+      if(taskDesciption == undefined){
+       taskDesciption = " ";
+      }
+      if(taskCategory == undefined){
+        taskCategory = "Default";
+      }
       this.tasksProvider
         .createTask(taskTitle, taskDesciption, taskDate, taskCategory)
         .then(newEvent => {
           this.navCtrl.pop();
         });
     }
-  
-    ////////////////////////////////
-
 }

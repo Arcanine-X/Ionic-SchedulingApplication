@@ -21,11 +21,16 @@ export class HomePage {
   //Stores the tasks
   public items = [];
 
-  //Array which is used for the searching functionality
-  public itemsClone = [];
-
   //Array where the completed tasks get put in
   public completedItems = [];
+
+
+  //Testing====
+  public missedItems = [];
+  public todaysItems = [];
+  public tomorrowsItems = [];
+  public upcomingItems = [];
+  //===========
 
   //Variables for the altert when deleting tasks
   testRadioOpen: boolean;
@@ -62,6 +67,10 @@ export class HomePage {
   ionViewDidLoad(){
     this.tasksProvider.getTasksList().on("value", eventListSnapshot => {
       this.items = [];
+      this.todaysItems = [];
+      this.tomorrowsItems = [];
+      this.upcomingItems = [];
+      this.missedItems = [];
       eventListSnapshot.forEach(snap => {
         this.items.push({
           id: snap.key,
@@ -72,9 +81,105 @@ export class HomePage {
         });
         //return false;
       });
-      console.log("reversed");
+
       this.items.reverse();
+      this.populateToday();
+
+
     });
+    console.log(":( ) " + this.items.length);
+
+  }
+
+  populateToday(){
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+    var ddd;
+    var mmm;
+    if(dd<10) {
+      ddd = '0'+dd
+    }else{
+      ddd = dd;
+    } 
+    if(mm<10) {
+        mmm = '0'+mm
+    }else{
+      mmm = mm;
+    }
+    var todayy = yyyy + '-' + mmm + '-' + ddd;
+
+    
+    //missed
+    for(let i = 0; i < this.items.length; i++){
+      if(this.items[i].taskDate < todayy){
+       // console.log("yay");
+       this.missedItems.push(this.items[i]);
+      }
+    }
+
+    //today
+    for(let i = 0; i < this.items.length; i++){
+      if(this.items[i].taskDate == todayy){
+        //console.log("wohoo");
+        this.todaysItems.push(this.items[i]);
+      }
+    }
+    this.stoopid();
+
+  }
+
+
+  stoopid(){
+    var currentDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+    var day = currentDate.getDate()
+    var month = currentDate.getMonth() + 1
+    var year = currentDate.getFullYear()
+    var dayy;
+    var monthh;
+    if(day<10) {
+      dayy = '0'+day
+    }else{
+      dayy = day;
+    } 
+    if(month<10) {
+      monthh = '0'+month
+    }else{
+      monthh = month;
+    }
+    console.log("----((((((>>>>>");
+   var tomorrow = year + "-" + monthh + "-" + dayy;
+    //tomorrow
+    for(let i = 0; i < this.items.length; i++){
+      if(this.items[i].taskDate == tomorrow){
+        console.log("weeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+        this.tomorrowsItems.push(this.items[i]);
+
+        console.log("pushed " + this.tomorrowsItems.length);
+      }
+    }
+
+    console.log("Tomorrows size is " + this.tomorrowsItems.length);
+
+    
+
+
+
+        //furture
+        for(let i = 0; i < this.items.length; i++){
+          console.log(this.items[i].taskDate);
+          if(this.items[i].taskDate > tomorrow){
+            //console.log("furturistic");
+            this.upcomingItems.push(this.items[i]);
+          }
+        }
+
+
+
+
+
+
   }
 
   goToTaskDetail(item, itemId){
@@ -85,6 +190,16 @@ export class HomePage {
     });
   }
 
+  getCompletetionTime(){
+    var currentdate = new Date();
+
+    var datetime = currentdate.getDate() + "/"+(currentdate.getMonth()+1) 
+    + "/" + currentdate.getFullYear() + " at " 
+    + currentdate.getHours() + ":" 
+    + currentdate.getMinutes();
+    return datetime;
+  }
+
 
   /*
   Complete tasks test
@@ -92,7 +207,7 @@ export class HomePage {
   addToCompletedTasks(item){
     this.completedTasksProvider
       .addCompletedTask(item.taskTitle, item.taskDescription, 
-        item.taskDate, item.taskCategory).then(newEvent=>{
+        item.taskDate, item.taskCategory, this.getCompletetionTime()).then(newEvent=>{
           this.deleteFB(item.id);
         });
   }
@@ -116,8 +231,8 @@ export class HomePage {
   }
  
   saveItem(item){
+    console.log("in this thinggg");
     this.items.push(item);
-    this.itemsClone.push(item);
   }
  
   viewItem(item){
@@ -135,8 +250,54 @@ export class HomePage {
     // set val to the value of the ev target
     var val = ev.target.value;
     // if the value is an empty string don't filter the items
+
+    this.A(ev);
+    this.B(ev);
+    this.C(ev);
+    this.D(ev);
+
+    // if (val && val.trim() != '') {
+    //   this.items = this.items.filter((item) => {
+    //     return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
+    //   })
+    // }
+  }
+
+  A(ev){
+    var val = ev.target.value;
+
     if (val && val.trim() != '') {
-      this.items = this.items.filter((item) => {
+      this.missedItems = this.missedItems.filter((item) => {
+        return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
+  }
+
+  B(ev){
+    var val = ev.target.value;
+
+    if (val && val.trim() != '') {
+      this.todaysItems = this.todaysItems.filter((item) => {
+        return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
+  }
+
+  C(ev){
+    var val = ev.target.value;
+
+    if (val && val.trim() != '') {
+      this.tomorrowsItems = this.tomorrowsItems.filter((item) => {
+        return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
+  }
+
+  D(ev){
+    var val = ev.target.value;
+
+    if (val && val.trim() != '') {
+      this.upcomingItems = this.upcomingItems.filter((item) => {
         return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
     }

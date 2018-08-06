@@ -61,4 +61,8 @@ export class CategoryViewPage {
       key: itemId
     });
   }
+
+  debugger(){
+    console.log("==> " + this.categoryItems.length)
+  }
 }

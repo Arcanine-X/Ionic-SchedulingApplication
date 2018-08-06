@@ -11,12 +11,11 @@ import { CategoryViewPage } from '../category-view/category-view';
 export class CategoriesPage {
   public categoriesList = [];
   public itemsList = [];
-  public itemsInCategory;
 
-  public testArray = [];
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public tasksProvider : TasksProvider) {
+                console.log("constructorrrrrrr");
     
   }
 
@@ -41,8 +40,9 @@ export class CategoriesPage {
     for(let i = 0; i < this.itemsList.length; i++){
       let itemCategory = this.itemsList[i].taskCategory.toLowerCase();
       let itemMap = {
-        title : this.itemsList[i].taskCategory,
-        total : -1
+        title : this.itemsList[i].taskCategory.toLowerCase(),
+        total : -1,
+        letter: this.itemsList[i].taskCategory.substring(0,1).toUpperCase()
       };
 
       if(!this.categoriesContains(itemCategory)){
@@ -54,13 +54,14 @@ export class CategoriesPage {
       }
     }
 
-
+    //sort it 
+    this.selectionSort(this.categoriesList);
   }
 
 
   private categoryIndex(categoryTitle){
     for(let i = 0; i < this.categoriesList.length; i++){
-      if(this.categoriesList[i].title === categoryTitle){
+      if(this.categoriesList[i].title === categoryTitle.toLowerCase()){
         return i;
       }
     }
@@ -69,17 +70,53 @@ export class CategoriesPage {
 
   private categoriesContains(categoryTitle) : boolean{
     for(let i = 0; i < this.categoriesList.length; i++){
-      if(this.categoriesList[i].title === categoryTitle){
+      if(this.categoriesList[i].title === categoryTitle.toLowerCase()){
         return true;
       }
     }
     return false;
   }
 
+/*
+Selection sorts by a natural sort of alphanumerical strings
+*/
+selectionSort(arr){
+  let i,m,j;
+  for (i = -1; ++i < arr.length;) {
+    for (m = j = i; ++j < arr.length;) {
+      if (this.selectionSortComparator(arr[m].title, arr[j].title)) m = j;
+    }
+    [arr[m], arr[i]] = [arr[i], arr[m]];
+ }
+ return arr;
+}
+
+/*
+Comparator method for selection sort using localeCompare. By passing the
+numeric: true option, it will smartly recognize numbers. You can do case-insensitive using sensitivity: 'base'
+*/
+selectionSortComparator(a, b){
+	var arr = [];
+	arr.push(a);
+	arr.push(b);
+	var collator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
+	arr.sort(collator.compare);
+	if(arr[0] == a){
+		return false;
+	}else{
+		return true;
+	}
+}
+
+
   debugger(){
-    console.log("in debugger");
-    console.log(this.testArray.length);
-    console.log(this.testArray);
+    var currentdate = new Date();
+
+    var datetime = currentdate.getDate() + "/"+(currentdate.getMonth()+1) 
+    + "/" + currentdate.getFullYear() + " at " 
+    + currentdate.getHours() + ":" 
+    + currentdate.getMinutes();
+    console.log(datetime);
   }
 
   openCategory(categoryName){
@@ -88,8 +125,5 @@ export class CategoriesPage {
     })
   }
 
-
-
-   
 
 }
