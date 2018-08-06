@@ -7,12 +7,35 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>category-view</ion-title>
+    <ion-title>{{categoryName}}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+    <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+  <ion-list class="login-sliding-demo" >
+      <ion-item-sliding *ngFor="let item of categoryItems;" >
+        <ion-item (click)="goToTaskDetail(item, item.id)">
+            <p>Title: <strong>{{item?.taskTitle}}</strong></p>
+            <p>Description: <strong>{{item?.taskDescription}}</strong></p>
+          </ion-item>
+
+        <ion-item-options side="left">
+            <button ion-button color="danger" (click)="deleteFB(item.id)">
+              <ion-icon name="trash"></ion-icon>
+                Delete
+              </button>
+        </ion-item-options>
+
+        <ion-item-options side="right">
+            <button ion-button color="secondary" (click)="addToCompletedTasks(item)">
+                <ion-icon name="checkmark"></ion-icon>
+                Complete
+              </button>
+          </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
 
 </ion-content>

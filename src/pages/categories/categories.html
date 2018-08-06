@@ -12,9 +12,14 @@
 
 
 <ion-content padding>
-  <ion-card *ngFor="let categories of categoriesList; ">
-    <ion-item (click) = "openCategory()">
-      {{categories}}
+  <ion-card *ngFor="let category of categoriesList; ">
+    <ion-item (click) = "openCategory(category.title)">
+      {{category.title}} there are {{category.total}} items
     </ion-item>
   </ion-card>
+
+
+  <ion-fab left bottom>
+      <button ion-fab (click)="debugger()" color="light"><ion-icon name="add" (click) = "addItem()"></ion-icon></button>
+  </ion-fab>
 </ion-content>
