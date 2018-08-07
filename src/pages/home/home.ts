@@ -17,6 +17,7 @@ import { CompletedTasksProvider } from '../../providers/tasks/completedTask';
 })
 export class HomePage {
 
+  public isSearchbarOpened = false;
 
   //Stores the tasks
   public items = [];
@@ -262,6 +263,7 @@ export class HomePage {
     //   })
     // }
   }
+  
 
   A(ev){
     var val = ev.target.value;
