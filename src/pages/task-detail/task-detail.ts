@@ -53,6 +53,7 @@ export class TaskDetailPage {
   * into 07-08-2018, reversing the date.
   */
  formatDate(date){
+   
     var newDate = date.substring(9,10);
     var year = date.substring(0,4);
     var month = date.substring(5,7);

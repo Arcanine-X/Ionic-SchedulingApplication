@@ -92,37 +92,32 @@ export class HomePage {
     return mm;
   }
 
+  d(){
+
+  }
+
+  dateStructure(date){
+    var split = date.split('-');
+    return split[2] + "-" + split[1] + "-" +split[0];
+  }
+
+
   populateToday(){
-    var today = this.getTodaysDate();
-    var tomorrow = this.getTodaysDate();
-    //missed
-    for(let i = 0; i < this.items.length; i++){
-      if(this.items[i].taskDate < today){
-       this.missedItems.push(this.items[i]);
+    let today = Date.parse(this.dateStructure(this.getTodaysDate()));
+    let tomorrow = Date.parse(this.dateStructure(this.getTomorrowsDate()));
+    for(let i  = 0; i < this.items.length; i++){
+      let itemDate = Date.parse(this.dateStructure(this.items[i].taskDate));
+      if(itemDate == today) this.todaysItems.push(this.items[i]);
+      else if(itemDate == tomorrow) this.tomorrowsItems.push(this.items[i]);
+      else if(itemDate < today) this.missedItems.push(this.items[i]);
+      else if(itemDate > tomorrow) this.upcomingItems.push(this.items[i]);
+      else {
+        console.log("Shouldn't get in here");
+        console.log("Date that got here is " + this.items[i].taskDate);
       }
-    }
-
-    //today
-    for(let i = 0; i < this.items.length; i++){
-      if(this.items[i].taskDate == today){
-        this.todaysItems.push(this.items[i]);
-      }
-    }
-
-   //tomorrow
-   for(let i = 0; i < this.items.length; i++){
-    if(this.items[i].taskDate == tomorrow){
-      this.tomorrowsItems.push(this.items[i]);
-    }
-    }
-
-    //future
-    for(let i = 0; i < this.items.length; i++){
-      if(this.items[i].taskDate > tomorrow){
-      this.upcomingItems.push(this.items[i]);
-    }
     }
   }
+
 
   getTomorrowsDate(){
     var currentDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
@@ -169,16 +164,9 @@ export class HomePage {
     let addModal = this.modalCtrl.create(TaskCreatePage);
  
     addModal.onDidDismiss((item) => {
-          if(item){
-            this.saveItem(item);
-          }
+
     });
     addModal.present();
-  }
- 
-  saveItem(item){
-    console.log("in this thinggg");
-    this.items.push(item);
   }
  
   viewItem(item){
@@ -196,23 +184,12 @@ export class HomePage {
     // set val to the value of the ev target
     var val = ev.target.value;
     // if the value is an empty string don't filter the items
-
     this.A(ev);
     this.B(ev);
     this.C(ev);
     this.D(ev);
-
-
-
-    // if (val && val.trim() != '') {
-    //   this.items = this.items.filter((item) => {
-    //     return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
-    //   })
-    // }
   }
 
-
-  
   A(ev){
     var val = ev.target.value;
     if (val && val.trim() != '') {

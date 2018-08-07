@@ -46,6 +46,10 @@ export class TaskCreatePage {
   * into 07-08-2018, reversing the date.
   */
   formatDate(date){
+    if(date == undefined){
+      console.log(this.getTodaysDate());
+      return this.getTodaysDate();
+    }
     var newDate = date.substring(9,10);
     var year = date.substring(0,4);
     var month = date.substring(5,7);
@@ -65,5 +69,25 @@ export class TaskCreatePage {
       return "Default";
     }
     return taskCategory;
+  }
+
+  getTodaysDate(){
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+    dd = this.formatDays(dd);
+    mm = this.formatMonths(mm);
+    return dd + '-' + mm + '-' + yyyy;
+  }
+
+  formatDays(dd){
+    if(dd < 10) return '0' + dd;
+    return dd;
+  }
+
+  formatMonths(mm){
+    if(mm < 10) return '0' + mm;
+    return mm;
   }
 }
