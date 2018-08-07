@@ -37,10 +37,40 @@ export class TaskDetailPage {
 
   save(){
     this.buttonText = "Saved";
+    this.item.taskDate = this.formatDate(this.item.taskDate);
+    this.item.taskDescription = this.formatDescription(this.item.taskDescription);
+    this.item.taskCategory = this.formatCategory(this.item.taskCategory);
     this.tasksProvier.updateTask(this.key, this.item);
   }
 
   close(){
     this.view.dismiss();
+  }
+
+
+  /*
+  * Takes in a date in the format of 2018-08-07 which is converted
+  * into 07-08-2018, reversing the date.
+  */
+ formatDate(date){
+    var newDate = date.substring(9,10);
+    var year = date.substring(0,4);
+    var month = date.substring(5,7);
+    var day = date.substring(8,10);
+    return day+"-"+month+"-"+year;
+  }
+
+  formatDescription(taskDescription){
+    if(taskDescription == undefined){
+      return " ";
+    }
+    return taskDescription;
+  }
+
+  formatCategory(taskCategory){
+    if(taskCategory == undefined){
+      return "Default";
+    }
+    return taskCategory;
   }
 }

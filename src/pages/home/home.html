@@ -1,4 +1,3 @@
-
 <ion-header>
   <ion-navbar>
     <ion-title *ngIf="!isSearchbarOpened">
@@ -62,7 +61,10 @@
             </ion-item>
   
           <ion-item-options side="left">
-              <button ion-button color="danger" (click)="deleteFB(item.id)">
+
+              <button ion-button color="danger" (click)="showConfirm(item)">
+
+              <!-- <button ion-button color="danger" (click)="deleteFB(item.id)"> -->
                 <ion-icon name="trash"></ion-icon>
                   Delete
                 </button>
@@ -135,9 +137,8 @@
           </ion-item-sliding>
         </ion-list>
 
-
       <!-- Plus button -->
     <ion-fab right bottom>
-      <button ion-fab (click)="addItem()" color="light"><ion-icon name="add" (click) = "addItem()"></ion-icon></button>
+      <button ion-fab (click)="addItem()" color="light"><ion-icon name="add"></ion-icon></button>
     </ion-fab>
 </ion-content>

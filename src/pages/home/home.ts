@@ -68,91 +68,73 @@ export class HomePage {
     });
   }
 
-  populateToday(){
+
+  /*
+  * Returns today's date
+  */
+  getTodaysDate(){
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth()+1; //January is 0!
     var yyyy = today.getFullYear();
-    var ddd;
-    var mmm;
-    if(dd<10) {
-      ddd = '0'+dd
-    }else{
-      ddd = dd;
-    } 
-    if(mm<10) {
-        mmm = '0'+mm
-    }else{
-      mmm = mm;
-    }
-    //var todayy = yyyy + '-' + mmm + '-' + ddd;
-    var todayy = ddd + '-' + mmm + '-' + yyyy;
-    
+    dd = this.formatDays(dd);
+    mm = this.formatMonths(mm);
+    return dd + '-' + mm + '-' + yyyy;
+  }
+
+  formatDays(dd){
+    if(dd < 10) return '0' + dd;
+    return dd;
+  }
+
+  formatMonths(mm){
+    if(mm < 10) return '0' + mm;
+    return mm;
+  }
+
+  populateToday(){
+    var today = this.getTodaysDate();
+    var tomorrow = this.getTodaysDate();
     //missed
     for(let i = 0; i < this.items.length; i++){
-      if(this.items[i].taskDate < todayy){
-       // console.log("yay");
+      if(this.items[i].taskDate < today){
        this.missedItems.push(this.items[i]);
       }
     }
 
     //today
     for(let i = 0; i < this.items.length; i++){
-      if(this.items[i].taskDate == todayy){
-        //console.log("wohoo");
+      if(this.items[i].taskDate == today){
         this.todaysItems.push(this.items[i]);
       }
     }
-    this.stoopid();
 
+   //tomorrow
+   for(let i = 0; i < this.items.length; i++){
+    if(this.items[i].taskDate == tomorrow){
+      this.tomorrowsItems.push(this.items[i]);
+    }
+    }
+
+    //future
+    for(let i = 0; i < this.items.length; i++){
+      if(this.items[i].taskDate > tomorrow){
+      this.upcomingItems.push(this.items[i]);
+    }
+    }
   }
 
-
-  stoopid(){
+  getTomorrowsDate(){
     var currentDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
     var day = currentDate.getDate()
     var month = currentDate.getMonth() + 1
     var year = currentDate.getFullYear()
-    var dayy;
-    var monthh;
-    if(day<10) {
-      dayy = '0'+day
-    }else{
-      dayy = day;
-    } 
-    if(month<10) {
-      monthh = '0'+month
-    }else{
-      monthh = month;
-    }
-    console.log("----((((((>>>>>");
-   //var tomorrow = year + "-" + monthh + "-" + dayy;
-   var tomorrow = dayy + "-" + monthh + "-" + year;
-    
-   
-   //tomorrow
-    for(let i = 0; i < this.items.length; i++){
-      if(this.items[i].taskDate == tomorrow){
-        console.log("weeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-        this.tomorrowsItems.push(this.items[i]);
-
-        console.log("pushed " + this.tomorrowsItems.length);
-      }
-    }
-
-    console.log("Tomorrows size is " + this.tomorrowsItems.length);
-        //furture
-        for(let i = 0; i < this.items.length; i++){
-          console.log(this.items[i].taskDate);
-          if(this.items[i].taskDate > tomorrow){
-            //console.log("furturistic");
-            this.upcomingItems.push(this.items[i]);
-          }
-        }
+    day = this.formatDays(day);
+    month = this.formatMonths(month);
+    return day + "-" + month + "-" + year;
   }
 
   goToTaskDetail(item, itemId){
-    console.log("Item ID is: " + itemId);
     this.navCtrl.push(TaskDetailPage, {
       item: item,
       key: itemId
@@ -161,14 +143,12 @@ export class HomePage {
 
   getCompletetionTime(){
     var currentdate = new Date();
-
     var datetime = currentdate.getDate() + "/"+(currentdate.getMonth()+1) 
     + "/" + currentdate.getFullYear() + " at " 
     + currentdate.getHours() + ":" 
     + currentdate.getMinutes();
     return datetime;
   }
-
 
   /*
   Complete tasks test
@@ -182,11 +162,8 @@ export class HomePage {
   }
 
   deleteFB(key){
-    console.log("in deletefb");
     this.tasksProvider.deleteTask(key);
   }
-
-  //////////////////////////
  
   addItem(){
     let addModal = this.modalCtrl.create(TaskCreatePage);
@@ -295,7 +272,7 @@ export class HomePage {
   */
 
 
- showConfirm(item, index) {
+ showConfirm(item) {
   const confirm = this.alertCtrl.create({
     title: 'Confirmation',
     message: 'Are you sure you want to delete the task?',
