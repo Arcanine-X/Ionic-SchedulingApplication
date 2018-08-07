@@ -49,14 +49,26 @@ export class CategoriesPage {
         itemMap.total = 1;
         this.categoriesList.push(itemMap);
       }else{
+        console.log("---->" + itemCategory);
         let indexToEdit = this.categoryIndex(itemCategory);
         this.categoriesList[indexToEdit].total++;
       }
     }
 
+    //Uppercase first letter to make it look nicer
+    for(let i = 0; i < this.categoriesList.length; i++){
+      this.categoriesList[i].title = this.capitalizeFirstLetter(this.categoriesList[i].title);
+    }
+
     //sort it 
     this.selectionSort(this.categoriesList);
   }
+
+  
+  capitalizeFirstLetter(string) :string {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
 
 
   private categoryIndex(categoryTitle){
@@ -117,6 +129,8 @@ selectionSortComparator(a, b){
     + currentdate.getHours() + ":" 
     + currentdate.getMinutes();
     console.log(datetime);
+
+    console.log(this.categoriesList);
   }
 
   openCategory(categoryName){

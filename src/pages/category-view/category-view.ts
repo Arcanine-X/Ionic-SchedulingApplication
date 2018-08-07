@@ -48,8 +48,9 @@ export class CategoryViewPage {
 
     //filter items to get specific category
     for(let i = 0; i < this.itemsList.length; i++){
-      if(this.itemsList[i].taskCategory === this.categoryName){
+      if(this.itemsList[i].taskCategory.toLowerCase() === this.categoryName.toLowerCase()){
         this.categoryItems.push(this.itemsList[i]);
+
       }
     }
   }
