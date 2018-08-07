@@ -1,51 +1,41 @@
 <ion-header>
-    <ion-navbar color="secondary">
-      <ion-title>
-        {{item.taskTitle}}
-      </ion-title>
-    </ion-navbar>
-  </ion-header>
-   
-  <ion-content>
+  <ion-navbar color="secondary">
+    <ion-title>
+      {{item.taskTitle}}
+    </ion-title>
+  </ion-navbar>
+</ion-header>
 
-
-      <ion-card>
-
-          <ion-card-header class = "textCenter">
-            This task has been completed
-          </ion-card-header>
-        
-          <ion-card-content>
-
-          </ion-card-content>
-        
-        </ion-card>
-    <ion-list>
-        <ion-item>
-          <ion-label floating>Title</ion-label>
-          <ion-input type="text" [disabled] = "true" [(ngModel)]="item.taskTitle" ></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-label floating>Description</ion-label>
-          <ion-input type="text" [disabled] = "true" [(ngModel)]="item.taskDescription"></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-label floating>Event Date</ion-label>
-          <ion-datetime displayFormat="D MMM, YY" pickerFormat="DD MMM YYYY"  [disabled] = "true" [(ngModel)]="item.taskDate">
-          </ion-datetime>
-        </ion-item>
-
-        <ion-item>
-          <ion-label stacked>Category</ion-label>
-          <ion-input [disabled] = "true" [(ngModel)]="item.taskCategory" type="text">
-          </ion-input>
-        </ion-item>
-  
-  
-      </ion-list>
-    <button full ion-button color="secondary" id = "saveButton">Restore</button>
-  
-  
-  </ion-content>
+<ion-content>
+  <ion-card>
+    <ion-card-header class="textCenter">
+      This task has been completed
+    </ion-card-header>
+  </ion-card>
+  <ion-list>
+    <!-- Title -->
+    <ion-item>
+      <ion-label floating>Title</ion-label>
+      <ion-input type="text" [disabled]="true" [(ngModel)]="item.taskTitle"></ion-input>
+    </ion-item>
+    <!-- Description -->
+    <ion-item>
+      <ion-label floating>Description</ion-label>
+      <ion-input type="text" [disabled]="true" [(ngModel)]="item.taskDescription"></ion-input>
+    </ion-item>
+    <!-- Date -->
+    <ion-item>
+      <ion-label floating>Event Date</ion-label>
+      <ion-datetime displayFormat="D MMM, YY" pickerFormat="DD MMM YYYY" [disabled]="true" [(ngModel)]="item.taskDate">
+      </ion-datetime>
+    </ion-item>
+    <!-- Category -->
+    <ion-item>
+      <ion-label stacked>Category</ion-label>
+      <ion-input [disabled]="true" [(ngModel)]="item.taskCategory" type="text">
+      </ion-input>
+    </ion-item>
+  </ion-list>
+  <!-- Restore Button -->
+  <button full ion-button color="secondary" (click) = "restore()" >Restore Task</button>
+</ion-content>

@@ -10,7 +10,6 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmailValidator } from '../../validators/email'
 import { AuthProvider } from '../../providers/auth/auth';
-import { HomePage } from '../home/home';
 import { TabsPage } from '../tabs/tabs';
 
 @IonicPage()

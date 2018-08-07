@@ -44,6 +44,4 @@ export class CompletedTasksProvider {
   getCompletedTasks(): firebase.database.Reference {
     return this.completedTasksRef;
   }
-
-
 }

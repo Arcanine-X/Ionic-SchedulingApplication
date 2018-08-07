@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {  NavController, NavParams } from 'ionic-angular';
 import { TasksProvider } from '../../providers/tasks/task';
 import { CategoryViewPage } from '../category-view/category-view';
-
 
 @Component({
   selector: 'page-categories',
@@ -14,9 +13,7 @@ export class CategoriesPage {
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
-              public tasksProvider : TasksProvider) {
-                console.log("constructorrrrrrr");
-    
+              public tasksProvider : TasksProvider) {    
   }
 
   ionViewDidLoad() {
@@ -49,7 +46,6 @@ export class CategoriesPage {
         itemMap.total = 1;
         this.categoriesList.push(itemMap);
       }else{
-        console.log("---->" + itemCategory);
         let indexToEdit = this.categoryIndex(itemCategory);
         this.categoriesList[indexToEdit].total++;
       }
@@ -70,7 +66,6 @@ export class CategoriesPage {
   }
 
 
-
   private categoryIndex(categoryTitle){
     for(let i = 0; i < this.categoriesList.length; i++){
       if(this.categoriesList[i].title === categoryTitle.toLowerCase()){
@@ -89,55 +84,39 @@ export class CategoriesPage {
     return false;
   }
 
-/*
-Selection sorts by a natural sort of alphanumerical strings
-*/
-selectionSort(arr){
-  let i,m,j;
-  for (i = -1; ++i < arr.length;) {
-    for (m = j = i; ++j < arr.length;) {
-      if (this.selectionSortComparator(arr[m].title, arr[j].title)) m = j;
+  /*
+  Selection sorts by a natural sort of alphanumerical strings
+  */
+  selectionSort(arr){
+    let i,m,j;
+    for (i = -1; ++i < arr.length;) {
+      for (m = j = i; ++j < arr.length;) {
+        if (this.selectionSortComparator(arr[m].title, arr[j].title)) m = j;
+      }
+      [arr[m], arr[i]] = [arr[i], arr[m]];
     }
-    [arr[m], arr[i]] = [arr[i], arr[m]];
- }
- return arr;
-}
-
-/*
-Comparator method for selection sort using localeCompare. By passing the
-numeric: true option, it will smartly recognize numbers. You can do case-insensitive using sensitivity: 'base'
-*/
-selectionSortComparator(a, b){
-	var arr = [];
-	arr.push(a);
-	arr.push(b);
-	var collator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
-	arr.sort(collator.compare);
-	if(arr[0] == a){
-		return false;
-	}else{
-		return true;
-	}
-}
-
-
-  debugger(){
-    var currentdate = new Date();
-
-    var datetime = currentdate.getDate() + "/"+(currentdate.getMonth()+1) 
-    + "/" + currentdate.getFullYear() + " at " 
-    + currentdate.getHours() + ":" 
-    + currentdate.getMinutes();
-    console.log(datetime);
-
-    console.log(this.categoriesList);
+    return arr;
   }
 
+  /*
+  Comparator method for selection sort using localeCompare. By passing the
+  numeric: true option, it will smartly recognize numbers. You can do case-insensitive using sensitivity: 'base'
+  */
+  selectionSortComparator(a, b) {
+    var arr = [];
+    arr.push(a);
+    arr.push(b);
+    var collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+    arr.sort(collator.compare);
+    if (arr[0] == a) {
+      return false;
+    } else {
+      return true;
+    }
+  }
   openCategory(categoryName){
     this.navCtrl.push(CategoryViewPage, {
       categoryName : categoryName
     })
   }
-
-
 }

@@ -17,21 +17,20 @@ import { CompletedTasksProvider } from '../../providers/tasks/completedTask';
 })
 export class HomePage {
 
+  //For the search bar
   public isSearchbarOpened = false;
 
-  //Stores the tasks
+  //Stores all the tasks retrvied from firebase which are to be completed
   public items = [];
 
-  //Array where the completed tasks get put in
+  //Stores all the completed tasks
   public completedItems = [];
 
-
-  //Testing====
+  //Stores the corresponding tasks
   public missedItems = [];
   public todaysItems = [];
   public tomorrowsItems = [];
   public upcomingItems = [];
-  //===========
 
   //Variables for the altert when deleting tasks
   testRadioOpen: boolean;
@@ -47,24 +46,6 @@ export class HomePage {
 
   }
 
-  goToProfile(): void {
-    this.navCtrl.push("ProfilePage");
-  }
-
-  testing(){
-    let categories = [];
-    for(let i = 0; i < this.items.length; i ++){
-      let needle = this.items[i].taskCategory;
-      if(categories.indexOf(needle) == -1){
-        categories.push(needle);
-      }
-    }
-    console.log("Categories length is: " + categories.length);
-    console.log("Categories are: " + categories);
-  }
-
-  //Was originally empty
-  //Test loading from firebase
   ionViewDidLoad(){
     this.tasksProvider.getTasksList().on("value", eventListSnapshot => {
       this.items = [];
@@ -82,14 +63,9 @@ export class HomePage {
         });
         //return false;
       });
-
       this.items.reverse();
       this.populateToday();
-
-
     });
-    console.log(":( ) " + this.items.length);
-
   }
 
   populateToday(){
@@ -249,17 +225,19 @@ export class HomePage {
     this.C(ev);
     this.D(ev);
 
+
+
     // if (val && val.trim() != '') {
     //   this.items = this.items.filter((item) => {
     //     return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
     //   })
     // }
   }
-  
 
+
+  
   A(ev){
     var val = ev.target.value;
-
     if (val && val.trim() != '') {
       this.missedItems = this.missedItems.filter((item) => {
         return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
@@ -269,7 +247,6 @@ export class HomePage {
 
   B(ev){
     var val = ev.target.value;
-
     if (val && val.trim() != '') {
       this.todaysItems = this.todaysItems.filter((item) => {
         return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
@@ -279,7 +256,6 @@ export class HomePage {
 
   C(ev){
     var val = ev.target.value;
-
     if (val && val.trim() != '') {
       this.tomorrowsItems = this.tomorrowsItems.filter((item) => {
         return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
@@ -289,7 +265,6 @@ export class HomePage {
 
   D(ev){
     var val = ev.target.value;
-
     if (val && val.trim() != '') {
       this.upcomingItems = this.upcomingItems.filter((item) => {
         return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);

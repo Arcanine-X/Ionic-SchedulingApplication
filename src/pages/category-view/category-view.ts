@@ -1,14 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { TasksProvider } from '../../providers/tasks/task';
 import { TaskDetailPage } from '../task-detail/task-detail';
 
-/**
- * Generated class for the CategoryViewPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @Component({
   selector: 'page-category-view',
@@ -25,11 +19,8 @@ export class CategoryViewPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad CategoryViewPage');
-
-
+    console.log('Category View Loaded');
   }
-
 
   populate(){
     //get all the items
@@ -50,20 +41,14 @@ export class CategoryViewPage {
     for(let i = 0; i < this.itemsList.length; i++){
       if(this.itemsList[i].taskCategory.toLowerCase() === this.categoryName.toLowerCase()){
         this.categoryItems.push(this.itemsList[i]);
-
       }
     }
   }
 
   goToTaskDetail(item, itemId){
-    console.log("Item ID is: " + itemId);
     this.navCtrl.push(TaskDetailPage, {
       item: item,
       key: itemId
     });
-  }
-
-  debugger(){
-    console.log("==> " + this.categoryItems.length)
   }
 }
