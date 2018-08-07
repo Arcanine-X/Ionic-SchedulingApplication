@@ -109,8 +109,8 @@ export class HomePage {
     }else{
       mmm = mm;
     }
-    var todayy = yyyy + '-' + mmm + '-' + ddd;
-
+    //var todayy = yyyy + '-' + mmm + '-' + ddd;
+    var todayy = ddd + '-' + mmm + '-' + yyyy;
     
     //missed
     for(let i = 0; i < this.items.length; i++){
@@ -150,8 +150,11 @@ export class HomePage {
       monthh = month;
     }
     console.log("----((((((>>>>>");
-   var tomorrow = year + "-" + monthh + "-" + dayy;
-    //tomorrow
+   //var tomorrow = year + "-" + monthh + "-" + dayy;
+   var tomorrow = dayy + "-" + monthh + "-" + year;
+    
+   
+   //tomorrow
     for(let i = 0; i < this.items.length; i++){
       if(this.items[i].taskDate == tomorrow){
         console.log("weeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
@@ -162,11 +165,6 @@ export class HomePage {
     }
 
     console.log("Tomorrows size is " + this.tomorrowsItems.length);
-
-    
-
-
-
         //furture
         for(let i = 0; i < this.items.length; i++){
           console.log(this.items[i].taskDate);
@@ -175,12 +173,6 @@ export class HomePage {
             this.upcomingItems.push(this.items[i]);
           }
         }
-
-
-
-
-
-
   }
 
   goToTaskDetail(item, itemId){
