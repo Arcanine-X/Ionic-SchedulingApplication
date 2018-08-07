@@ -8,47 +8,29 @@
  
 <ion-content>
   <ion-list>
+      <!-- Title -->
       <ion-item>
         <ion-label floating>Title</ion-label>
-        <ion-input type="text" [(ngModel)]="item.taskTitle" (tap)="unsave()"></ion-input>
+        <ion-input type="text" id = "title" [(ngModel)]="item.taskTitle" (keyup)="unsave()"></ion-input>
       </ion-item>
-     
+     <!-- Description -->
       <ion-item>
         <ion-label floating>Description</ion-label>
-        <ion-input type="text" [(ngModel)]="item.taskDescription" (tap)="unsave()"></ion-input>
+        <ion-input type="text" [(ngModel)]="item.taskDescription" (keyup)="unsave()"></ion-input>
       </ion-item>
-
-
-
+      <!-- Date -->
       <ion-item>
         <ion-label floating>Event Date</ion-label>
         <ion-datetime displayFormat="D MMM, YY" pickerFormat="DD MMM YYYY"
-        [(ngModel)]="item.taskDate">
+        [(ngModel)]="item.taskDate" >
         </ion-datetime>
       </ion-item>
-  
-  
+      <!-- Category -->
       <ion-item>
         <ion-label stacked>Category</ion-label>
-        <ion-input [(ngModel)]="item.taskCategory" type="text">
-        </ion-input>
+        <ion-input [(ngModel)]="item.taskCategory" type="text" (keyup)="unsave()"></ion-input>
       </ion-item>
-
-
     </ion-list>
-
-
-
-
-  <!-- <ion-card (click) = 'updateDetails()'>
-    <ion-card-content>
-        <ion-input value={{description}} [(ngModel)]="inputName"></ion-input>
-        <ion-input [(ngModel)]="description" value={{description}}></ion-input>
-
-
-    </ion-card-content>
-  </ion-card> -->
-  <button full ion-button color="secondary" id = "saveButton" (click)="fbSave()">Save</button>
-
-
+    <!-- Save Button -->
+  <button full ion-button color="secondary" id = "saveButton" (click)="save()">{{buttonText}}</button>
 </ion-content>
