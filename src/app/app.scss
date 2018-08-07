@@ -14,3 +14,31 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+.tabbar {
+	a.tab-button[aria-selected=true]:nth-of-type(1) {
+		color:  rgb(32, 55, 206);
+		.tab-button-icon {
+			color: rgb(32, 55, 206);
+		}
+	}
+	a.tab-button[aria-selected=true]:nth-of-type(2) {
+		color: purple;
+		.tab-button-icon {
+			color: purple;
+		}
+	}
+	a.tab-button[aria-selected=true]:nth-of-type(3) {
+		color: red;
+		.tab-button-icon {
+			color: red;
+		}
+    }
+    
+    a.tab-button[aria-selected=true]:nth-of-type(4) {
+		color: rgb(32, 200, 26);
+		.tab-button-icon {
+			color: rgb(32, 200, 26);
+		}
+	}
+}
