@@ -33,7 +33,16 @@
       <ion-input [(ngModel)]="eventName" type="text"placeholder="Default">
       </ion-input>
     </ion-item>
+
+    <!-- Category drop down thing -->
+    <ion-item >
+        <ion-label stacked>Category</ion-label>
+        <ion-select [(ngModel)]="rating" interface="action-sheet" >
+          <ion-option *ngFor="let c of categoriesList;">{{c.title}}</ion-option>
+        </ion-select>
+      </ion-item>
   </ion-list>
+
   <!-- Button to save -->
   <button full ion-button color="primary" (click) = "createEvent(title, description, eventDate, eventName)">
     Create task

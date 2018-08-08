@@ -47,13 +47,16 @@ export class HomePage {
   }
 
   ionViewDidLoad(){
-    this.tasksProvider.getTasksList().on("value", eventListSnapshot => {
+    this.tasksProvider.getTasksList().on("value", tasksList => {
+
+
       this.items = [];
       this.todaysItems = [];
       this.tomorrowsItems = [];
       this.upcomingItems = [];
       this.missedItems = [];
-      eventListSnapshot.forEach(snap => {
+
+      tasksList.forEach(snap => {
         this.items.push({
           id: snap.key,
           taskTitle: snap.val().taskTitle,
@@ -158,6 +161,14 @@ export class HomePage {
 
   deleteFB(key){
     this.tasksProvider.deleteTask(key);
+  }
+
+  addPush(){
+    console.log("init");
+    console.log("Pushed items with " + this.items.length + " items");
+    this.navCtrl.push(TaskCreatePage, {
+      items: this.items
+    });
   }
  
   addItem(){
