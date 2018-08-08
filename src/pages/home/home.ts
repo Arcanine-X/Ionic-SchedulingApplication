@@ -9,6 +9,8 @@ import { TaskCreatePage } from '../task-create/task-create';
 import { TaskDetailPage } from '../task-detail/task-detail';
 import { TasksProvider } from '../../providers/tasks/task';
 import { CompletedTasksProvider } from '../../providers/tasks/completedTask';
+import { CategoriesProvider } from '../../providers/tasks/categories';
+import { HelpProvider } from '../../providers/helper/helper';
 
 
 @Component({
@@ -41,7 +43,9 @@ export class HomePage {
     public navCtrl: NavController, 
     public modalCtrl: ModalController,
     public tasksProvider : TasksProvider  ,
-    public completedTasksProvider : CompletedTasksProvider  
+    public completedTasksProvider : CompletedTasksProvider,
+    public categoriesProvider : CategoriesProvider,
+    public helper : HelpProvider  
   ) {
 
   }
@@ -69,35 +73,10 @@ export class HomePage {
       this.items.reverse();
       this.populateToday();
     });
+
+    this.loadCategories();
   }
 
-
-  /*
-  * Returns today's date
-  */
-  getTodaysDate(){
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth()+1; //January is 0!
-    var yyyy = today.getFullYear();
-    dd = this.formatDays(dd);
-    mm = this.formatMonths(mm);
-    return dd + '-' + mm + '-' + yyyy;
-  }
-
-  formatDays(dd){
-    if(dd < 10) return '0' + dd;
-    return dd;
-  }
-
-  formatMonths(mm){
-    if(mm < 10) return '0' + mm;
-    return mm;
-  }
-
-  d(){
-
-  }
 
   dateStructure(date){
     var split = date.split('-');
@@ -106,8 +85,8 @@ export class HomePage {
 
 
   populateToday(){
-    let today = Date.parse(this.dateStructure(this.getTodaysDate()));
-    let tomorrow = Date.parse(this.dateStructure(this.getTomorrowsDate()));
+    let today = Date.parse(this.dateStructure(this.helper.getTodaysDate()));
+    let tomorrow = Date.parse(this.dateStructure(this.helper.getTomorrowsDate()));
     for(let i  = 0; i < this.items.length; i++){
       let itemDate = Date.parse(this.dateStructure(this.items[i].taskDate));
       if(itemDate == today) this.todaysItems.push(this.items[i]);
@@ -121,31 +100,11 @@ export class HomePage {
     }
   }
 
-
-  getTomorrowsDate(){
-    var currentDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
-    var day = currentDate.getDate()
-    var month = currentDate.getMonth() + 1
-    var year = currentDate.getFullYear()
-    day = this.formatDays(day);
-    month = this.formatMonths(month);
-    return day + "-" + month + "-" + year;
-  }
-
   goToTaskDetail(item, itemId){
     this.navCtrl.push(TaskDetailPage, {
       item: item,
       key: itemId
     });
-  }
-
-  getCompletetionTime(){
-    var currentdate = new Date();
-    var datetime = currentdate.getDate() + "/"+(currentdate.getMonth()+1) 
-    + "/" + currentdate.getFullYear() + " at " 
-    + currentdate.getHours() + ":" 
-    + currentdate.getMinutes();
-    return datetime;
   }
 
   /*
@@ -154,18 +113,77 @@ export class HomePage {
   addToCompletedTasks(item){
     this.completedTasksProvider
       .addCompletedTask(item.taskTitle, item.taskDescription, 
-        item.taskDate, item.taskCategory, this.getCompletetionTime()).then(newEvent=>{
+        item.taskDate, item.taskCategory, this.helper.getCompletetionTime()).then(newEvent=>{
+          let categoryKey = this.findCategoryId(item.taskCategory);
+          let categoryCount = this.getMinusCounty(item.taskCategory);
+          this.categoriesProvider.updateCategoryCount(categoryKey, categoryCount, item.taskCategory);
           this.deleteFB(item.id);
         });
   }
 
+  cateTest(key, item){
+    console.log("IN CATE TEST");
+    //update fb count
+    let categoryKey = this.findCategoryId(item.taskCategory);
+    console.log("CATE KEY is " + categoryKey);
+    let count  = this.getCounty(item.taskCategory);
+    console.log("1COUNT is " + count);
+    count--;
+    console.log("2COUNT is " + count);
+    this.categoriesProvider.updateCategoryCount(categoryKey, count, item.taskCategory);
+
+    //then delete
+    this.tasksProvider.deleteTask(key);
+
+  }
+
+  getMinusCounty(categoryName : string){
+    for(let i = 0; i < this.categoriesList.length; i++){
+      if(this.categoriesList[i].categoryName === categoryName){
+        let original = this.categoriesList[i].categoryCount;
+        return original - 1;
+      }
+    }
+    return 0;
+  }
+
+  getCounty(categoryName : string){
+    for(let i = 0; i < this.categoriesList.length; i++){
+      if(this.categoriesList[i].categoryName === categoryName){
+       return this.categoriesList[i].categoryCount;
+      }
+    }
+    return 0;
+  }
+
+    //Tricky Businesss
+    findCategoryCount(categoryName : string){
+      for(let i = 0; i < this.categoriesList.length; i++){
+        if(this.categoriesList[i].categoryName === categoryName){
+          let original = this.categoriesList[i].categoryCount;
+          return original + 1;
+        }
+      }
+      return 0;
+    }
+  
+    findCategoryId(categoryName : string){
+      console.log("Entered " + categoryName);
+      for(let i = 0;i < this.categoriesList.length; i++){
+  
+        if(this.categoriesList[i].categoryName === categoryName){
+          console.log("In IT???");
+          return this.categoriesList[i].id;
+        }
+      }
+    }
+
   deleteFB(key){
+    //update count of categories
     this.tasksProvider.deleteTask(key);
   }
 
   addPush(){
-    console.log("init");
-    console.log("Pushed items with " + this.items.length + " items");
     this.navCtrl.push(TaskCreatePage, {
       items: this.items
     });
@@ -201,41 +219,6 @@ export class HomePage {
     this.D(ev);
   }
 
-  A(ev){
-    var val = ev.target.value;
-    if (val && val.trim() != '') {
-      this.missedItems = this.missedItems.filter((item) => {
-        return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
-    }
-  }
-
-  B(ev){
-    var val = ev.target.value;
-    if (val && val.trim() != '') {
-      this.todaysItems = this.todaysItems.filter((item) => {
-        return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
-    }
-  }
-
-  C(ev){
-    var val = ev.target.value;
-    if (val && val.trim() != '') {
-      this.tomorrowsItems = this.tomorrowsItems.filter((item) => {
-        return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
-    }
-  }
-
-  D(ev){
-    var val = ev.target.value;
-    if (val && val.trim() != '') {
-      this.upcomingItems = this.upcomingItems.filter((item) => {
-        return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
-    }
-  }
 
 
   /*
@@ -283,4 +266,76 @@ export class HomePage {
   });
   confirm.present();
 }
+
+
+
+
+
+public categoriesList = [];
+
+
+
+
+
+  loadCategories(){
+    this.categoriesProvider.getCategories().on("value", categoriesList => {
+      this.categoriesList = [];
+      categoriesList.forEach(snap => {
+        console.log("got close");
+        console.log(snap.key);
+        console.log(snap.val().categoryName);
+        this.categoriesList.push({
+          id: snap.key,
+          categoryName: snap.val().categoryName,
+          categoryCount: snap.val().categoryCount
+        });
+        console.log("pushed i guess");
+        console.log(this.categoriesList.length);
+        //return false;
+      });
+    });
+  }
+
+
+
+
+  //stupid
+
+  A(ev){
+    var val = ev.target.value;
+    if (val && val.trim() != '') {
+      this.missedItems = this.missedItems.filter((item) => {
+        return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
+  }
+
+  B(ev){
+    var val = ev.target.value;
+    if (val && val.trim() != '') {
+      this.todaysItems = this.todaysItems.filter((item) => {
+        return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
+  }
+
+  C(ev){
+    var val = ev.target.value;
+    if (val && val.trim() != '') {
+      this.tomorrowsItems = this.tomorrowsItems.filter((item) => {
+        return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
+  }
+
+  D(ev){
+    var val = ev.target.value;
+    if (val && val.trim() != '') {
+      this.upcomingItems = this.upcomingItems.filter((item) => {
+        return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
+  }
+
+
 }

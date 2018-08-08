@@ -23,7 +23,19 @@ export class CategoriesProvider {
       categoryName: string
   ): firebase.database.ThenableReference {
     return this.completedTasksRef.push({
-      categoryName: categoryName
+      categoryName: categoryName,
+      categoryCount: 0
+    });
+  }
+
+  updateCategoryCount(key, newCount, name){
+    console.log("In provider update");
+    console.log("Key is " + key);
+    console.log("Count is " + newCount);
+    console.log("Name is " + name);
+    firebase.database().ref('userProfile/'+this.userId+'/categoriesList/' + key).update({
+      categoryName : name,
+      categoryCount : newCount
     });
   }
 

@@ -18,6 +18,8 @@ import { CompletedTasksProvider } from '../providers/tasks/completedTask';
 import { TaskRestorePage } from '../pages/task-restore/task-restore';
 import { CategoryViewPage } from '../pages/category-view/category-view';
 import { IonTextAvatar } from 'ionic-text-avatar';
+import { CategoriesProvider } from '../providers/tasks/categories';
+import { HelpProvider } from '../providers/helper/helper';
 
 
 
@@ -60,7 +62,9 @@ import { IonTextAvatar } from 'ionic-text-avatar';
     AuthProvider,
     ProfileProvider,
     TasksProvider,
-    CompletedTasksProvider
+    CompletedTasksProvider,
+    CategoriesProvider,
+    HelpProvider
   ]
 })
 export class AppModule {}
