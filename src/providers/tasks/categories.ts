@@ -6,6 +6,7 @@ import 'firebase/storage';
 
 @Injectable()
 export class CategoriesProvider {
+  public categoriesList = [];
   public userId;
   public completedTasksRef: firebase.database.Reference;
   constructor() {
@@ -24,15 +25,12 @@ export class CategoriesProvider {
   ): firebase.database.ThenableReference {
     return this.completedTasksRef.push({
       categoryName: categoryName,
-      categoryCount: 0
+      categoryCount: 0,
+      categoryLetter : categoryName.substring(0,1).toUpperCase()
     });
   }
 
   updateCategoryCount(key, newCount, name){
-    console.log("In provider update");
-    console.log("Key is " + key);
-    console.log("Count is " + newCount);
-    console.log("Name is " + name);
     firebase.database().ref('userProfile/'+this.userId+'/categoriesList/' + key).update({
       categoryName : name,
       categoryCount : newCount

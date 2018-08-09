@@ -20,76 +20,6 @@ export class CategoriesPage {
 
   ionViewDidLoad(){
     this.loadCategories();
-    console.log("Cate size is " + this.categoriesList.length);
-  }
-
-
-  // ionViewDidLoad() {
-  //   //get all the items
-  //   this.tasksProvider.getTasksList().on("value", eventListSnapshot => {
-  //     this.itemsList = [];
-  //     eventListSnapshot.forEach(snap => {
-  //       this.itemsList.push({
-  //         id: snap.key,
-  //         taskTitle: snap.val().taskTitle,
-  //         taskDescription: snap.val().taskDescription,
-  //         taskDate: snap.val().taskDate,
-  //         taskCategory: snap.val().taskCategory
-  //       });
-  //     });
-  //   });
-
-  //   //populate the categories
-  //   this.categoriesList = [];
-
-  //   for(let i = 0; i < this.itemsList.length; i++){
-  //     let itemCategory = this.itemsList[i].taskCategory.toLowerCase();
-  //     let itemMap = {
-  //       title : this.itemsList[i].taskCategory.toLowerCase(),
-  //       total : -1,
-  //       letter: this.itemsList[i].taskCategory.substring(0,1).toUpperCase()
-  //     };
-
-  //     if(!this.categoriesContains(itemCategory)){
-  //       itemMap.total = 1;
-  //       this.categoriesList.push(itemMap);
-  //     }else{
-  //       let indexToEdit = this.categoryIndex(itemCategory);
-  //       this.categoriesList[indexToEdit].total++;
-  //     }
-  //   }
-
-  //   //Uppercase first letter to make it look nicer
-  //   for(let i = 0; i < this.categoriesList.length; i++){
-  //     this.categoriesList[i].title = this.capitalizeFirstLetter(this.categoriesList[i].title);
-  //   }
-
-  //   //sort it 
-  //   this.selectionSort(this.categoriesList);
-  // }
-
-  
-  capitalizeFirstLetter(string) :string {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
-
-  private categoryIndex(categoryTitle){
-    for(let i = 0; i < this.categoriesList.length; i++){
-      if(this.categoriesList[i].title === categoryTitle.toLowerCase()){
-        return i;
-      }
-    }
-    return -1;
-  }
-
-  private categoriesContains(categoryTitle) : boolean{
-    for(let i = 0; i < this.categoriesList.length; i++){
-      if(this.categoriesList[i].title === categoryTitle.toLowerCase()){
-        return true;
-      }
-    }
-    return false;
   }
 
   /*
@@ -138,23 +68,18 @@ export class CategoriesPage {
     return (!str || 0 === str.length);
   }
 
-
   loadCategories(){
     this.categoriesProvider.getCategories().on("value", categoriesList => {
       this.categoriesList = [];
       categoriesList.forEach(snap => {
-        console.log("got close");
-        console.log(snap.key);
-        console.log(snap.val().categoryName);
         this.categoriesList.push({
           id: snap.key,
           categoryName: snap.val().categoryName,
-          categoryCount: snap.val().categoryCount
+          categoryCount: snap.val().categoryCount,
+          categoryLetter : snap.val().categoryLetter
         });
-        console.log("pushed i guess");
-        console.log(this.categoriesList.length);
-        //return false;
       });
+      this.selectionSort(this.categoriesList);
     });
   }
 }

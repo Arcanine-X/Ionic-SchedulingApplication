@@ -3,18 +3,19 @@
       <ion-title>Categories</ion-title>
     </ion-navbar>
   </ion-header>
-  
   <ion-content padding>
-    <ion-card class = "card" *ngFor="let category of categoriesList; let letter of categoryLetters;">
+    <div *ngIf ="categoriesList"> 
+        {{categoriesList | json}}
+      </div>
+    <ion-card class = "card" *ngFor="let category of categoriesList; let lettersArray of arr">
         <ion-item (click) = "openCategory(category.categoryName)">
             <ion-avatar item-start>
-                <ion-text-avatar>{{category.letter}}</ion-text-avatar>
+                <ion-text-avatar>{{category.categoryLetter}}</ion-text-avatar>
               </ion-avatar>
             <h2>{{category.categoryName}}</h2>
             <p>{{category.categoryCount}} ITEMS</p>
           </ion-item>
     </ion-card>
-  
     <ion-item>
         <ion-label floating>Add a category</ion-label>
         <ion-input  type="text" [(ngModel)]="MyModel"></ion-input>
@@ -22,39 +23,4 @@
           <ion-icon name="md-add-circle"></ion-icon>
         </button>
       </ion-item>
-  
-  
   </ion-content>
-  
-
-
-<!-- Old Categories -->
-
-
-<!-- <ion-header>
-  <ion-navbar color = "burple">
-    <ion-title>Categories</ion-title>
-  </ion-navbar>
-</ion-header>
-
-<ion-content padding>
-  <ion-card class = "card" *ngFor="let category of categoriesList; let letter of categoryLetters;">
-      <ion-item (click) = "openCategory(category.title)">
-          <ion-avatar item-start>
-              <ion-text-avatar>{{category.letter}}</ion-text-avatar>
-            </ion-avatar>
-          <h2>{{category.title}}</h2>
-          <p>{{category.total}} ITEMS</p>
-        </ion-item>
-  </ion-card>
-
-  <ion-item>
-      <ion-label floating>Add a category</ion-label>
-      <ion-input  type="text" [(ngModel)]="MyModel"></ion-input>
-      <button ion-button large clear (click)="doSomething(MyModel)" item-end>
-        <ion-icon name="md-add-circle"></ion-icon>
-      </button>
-    </ion-item>
-
-
-</ion-content> -->
