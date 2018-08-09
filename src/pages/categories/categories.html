@@ -4,11 +4,16 @@
     </ion-navbar>
   </ion-header>
   <ion-content padding>
-    <div *ngIf ="categoriesList"> 
+    <!-- <div *ngIf ="categoriesList"> 
         {{categoriesList | json}}
-      </div>
-    <ion-card class = "card" *ngFor="let category of categoriesList; let lettersArray of arr">
+      </div> -->
+
+
+    <ion-card class = "card" *ngFor="let category of categoriesList;">
         <ion-item (click) = "openCategory(category.categoryName)">
+            <button ion-button *ngIf="category.categoryName != 'Default'" icon-only item-right clear (click) = "deleteCategory">
+                <ion-icon name="close"></ion-icon>
+              </button>
             <ion-avatar item-start>
                 <ion-text-avatar>{{category.categoryLetter}}</ion-text-avatar>
               </ion-avatar>
@@ -16,11 +21,18 @@
             <p>{{category.categoryCount}} ITEMS</p>
           </ion-item>
     </ion-card>
-    <ion-item>
-        <ion-label floating>Add a category</ion-label>
-        <ion-input  type="text" [(ngModel)]="MyModel"></ion-input>
-        <button ion-button large clear (click)="doSomething(MyModel)" item-end>
-          <ion-icon name="md-add-circle"></ion-icon>
-        </button>
-      </ion-item>
+
+
+
+      <ion-footer>
+          <ion-toolbar style = "position: absolute">
+              <ion-item >
+                  <ion-label floating>Add a category</ion-label>
+                  <ion-input  type="text" [(ngModel)]="MyModel" ></ion-input>
+                  <button ion-button large clear (click)="doSomething(MyModel)" item-end>
+                    <ion-icon name="md-add-circle"></ion-icon>
+                  </button>
+                </ion-item>
+          </ion-toolbar>
+        </ion-footer>
   </ion-content>

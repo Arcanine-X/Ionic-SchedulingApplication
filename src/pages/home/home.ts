@@ -3,7 +3,8 @@ import { NavController,
         ModalController,
         ToastController,
         AlertController,
-        ItemSliding
+        ItemSliding,
+        LoadingController
       } from 'ionic-angular';
 import { TaskCreatePage } from '../task-create/task-create';
 import { TaskDetailPage } from '../task-detail/task-detail';
@@ -37,6 +38,7 @@ export class HomePage {
   //Variables for the altert when deleting tasks
   testRadioOpen: boolean;
   testRadioResult;
+  loader;
 
   constructor(public alertCtrl: AlertController, 
     private toastCtrl: ToastController, 
@@ -45,12 +47,23 @@ export class HomePage {
     public tasksProvider : TasksProvider  ,
     public completedTasksProvider : CompletedTasksProvider,
     public categoriesProvider : CategoriesProvider,
-    public helper : HelpProvider  
+    public helper : HelpProvider,
+    public loadingCtrl : LoadingController  
   ) {
 
   }
 
+  doLoad(){
+    this.loader = this.loadingCtrl.create(
+      {
+        content: "Please wait...",
+      }
+    );
+    this.loader.present();
+  }
+
   ionViewDidLoad(){
+    this.doLoad();
     this.tasksProvider.getTasksList().on("value", tasksList => {
 
 
@@ -204,6 +217,8 @@ export class HomePage {
     });
   }
 
+  
+
   /*
   Search bar functionality
   */
@@ -278,6 +293,7 @@ public categoriesList = [];
 
 
   loadCategories(){
+    let self = this;
     this.categoriesProvider.getCategories().on("value", categoriesList => {
       this.categoriesList = [];
       categoriesList.forEach(snap => {
@@ -293,6 +309,7 @@ public categoriesList = [];
         console.log(this.categoriesList.length);
         //return false;
       });
+      self.loader.dismiss();
     });
   }
 

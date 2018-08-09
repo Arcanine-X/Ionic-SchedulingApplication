@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  NavController, NavParams } from 'ionic-angular';
+import {  NavController, NavParams, LoadingController } from 'ionic-angular';
 import { TasksProvider } from '../../providers/tasks/task';
 import { CategoryViewPage } from '../category-view/category-view';
 import { CategoriesProvider } from '../../providers/tasks/categories';
@@ -11,16 +11,22 @@ import { CategoriesProvider } from '../../providers/tasks/categories';
 export class CategoriesPage {
   public categoriesList = [];
   public itemsList = [];
+  loader;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public tasksProvider : TasksProvider,
-              public categoriesProvider : CategoriesProvider) {    
+              public categoriesProvider : CategoriesProvider,
+              public loadingCtrl : LoadingController) {    
   }
 
   ionViewDidLoad(){
+    this.doLoad();
     this.loadCategories();
   }
+
+
+
 
   /*
   Selection sorts by a natural sort of alphanumerical strings
@@ -59,16 +65,40 @@ export class CategoriesPage {
   }
 
   doSomething(category){
-    if(category == undefined) return false;
-    if(this.isEmpty(category)) return false;
+    if(category == undefined) return;
+    if(this.isEmpty(category)) return;
+    if(this.alreadyContains(category)) return; 
     this.categoriesProvider.addCategory(category);
+
   }
+
+  alreadyContains(category){
+    console.log("TECST " + this.categoriesList[0].categoryName);
+    for(let i = 0; i < this.categoriesList.length; i ++){
+      if(this.categoriesList[i].categoryName.toLowerCase() == category.toLowerCase()){
+        console.log("Returned true");
+        return true;
+      }
+    }
+    return false;
+  }
+
 
   isEmpty(str) {
     return (!str || 0 === str.length);
   }
 
+  doLoad(){
+    this.loader = this.loadingCtrl.create(
+      {
+        content: "Please wait...",
+      }
+    );
+    this.loader.present();
+  }
+
   loadCategories(){
+    let self = this;
     this.categoriesProvider.getCategories().on("value", categoriesList => {
       this.categoriesList = [];
       categoriesList.forEach(snap => {
@@ -80,6 +110,12 @@ export class CategoriesPage {
         });
       });
       this.selectionSort(this.categoriesList);
+      self.loader.dismiss();
     });
+    
+  }
+
+  deleteCategory(){
+    console.log("in delete category");
   }
 }
