@@ -12,6 +12,7 @@ export class CategoriesPage {
   public categoriesList = [];
   public itemsList = [];
   loader;
+  categoryToCreate;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -35,7 +36,7 @@ export class CategoriesPage {
     let i,m,j;
     for (i = -1; ++i < arr.length;) {
       for (m = j = i; ++j < arr.length;) {
-        if (this.selectionSortComparator(arr[m].title, arr[j].title)) m = j;
+        if (this.selectionSortComparator(arr[m].categoryName, arr[j].categoryName)) m = j;
       }
       [arr[m], arr[i]] = [arr[i], arr[m]];
     }
@@ -69,6 +70,7 @@ export class CategoriesPage {
     if(this.isEmpty(category)) return;
     if(this.alreadyContains(category)) return; 
     this.categoriesProvider.addCategory(category);
+    this.categoryToCreate = "";
 
   }
 

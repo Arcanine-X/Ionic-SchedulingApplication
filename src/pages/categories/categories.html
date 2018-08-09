@@ -1,38 +1,37 @@
 <ion-header>
-    <ion-navbar color = "burple">
-      <ion-title>Categories</ion-title>
-    </ion-navbar>
-  </ion-header>
-  <ion-content padding>
-    <!-- <div *ngIf ="categoriesList"> 
+  <ion-navbar color="burple">
+    <ion-title>Categories</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <!-- <div *ngIf ="categoriesList"> 
         {{categoriesList | json}}
-      </div> -->
+  </div> -->
 
+  <ion-card class="card" *ngFor="let category of categoriesList;">
+    <ion-item (click)="openCategory(category.categoryName)">
 
-    <ion-card class = "card" *ngFor="let category of categoriesList;">
-        <ion-item (click) = "openCategory(category.categoryName)">
-            <button ion-button *ngIf="category.categoryName != 'Default'" (click) = "deleteCategory()" icon-only item-right clear >
-                <ion-icon name="close"></ion-icon>
-              </button>
-            <ion-avatar item-start>
-                <ion-text-avatar>{{category.categoryLetter}}</ion-text-avatar>
-              </ion-avatar>
-            <h2>{{category.categoryName}}</h2>
-            <p>{{category.categoryCount}} ITEMS</p>
-          </ion-item>
-    </ion-card>
+      <button ion-button *ngIf="category.categoryName != 'Default'" (click)="deleteCategory()" icon-only item-right clear>
+        <ion-icon name="close"></ion-icon>
+      </button>
+      <ion-avatar item-start>
+        <ion-text-avatar>{{category.categoryLetter}}</ion-text-avatar>
+      </ion-avatar>
+      <h2>{{category.categoryName}}</h2>
+      <p>{{category.categoryCount}} ITEMS</p>
+    </ion-item>
+  </ion-card>
+</ion-content>
 
-
-
-      <ion-footer>
-          <ion-toolbar style = "position: absolute">
-              <ion-item >
-                  <ion-label floating>Add a category</ion-label>
-                  <ion-input  type="text" [(ngModel)]="MyModel" ></ion-input>
-                  <button ion-button large clear (click)="doSomething(MyModel)" item-end>
-                    <ion-icon name="md-add-circle"></ion-icon>
-                  </button>
-                </ion-item>
-          </ion-toolbar>
-        </ion-footer>
-  </ion-content>
+<ion-footer>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-10>
+        <ion-input type="text" placeholder="Type a message" name="message" [(ngModel)]="categoryToCreate"></ion-input>
+      </ion-col>
+      <ion-col col-2 (click)="doSomething(categoryToCreate)">
+        <ion-icon name="paper-plane"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
