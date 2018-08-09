@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ActionSheetController, Platform } from 'ionic-angular';
+import { NavController, NavParams, ActionSheetController, Platform, LoadingController } from 'ionic-angular';
 import { CompletedTasksProvider } from '../../providers/tasks/completedTask'
 import { TaskRestorePage } from '../task-restore/task-restore';
 import { TasksProvider } from '../../providers/tasks/task';
@@ -13,18 +13,21 @@ export class CompletedTasksPage {
 
   //array to store the completed tasks
   public completedItems = [];
-
+  private loader;
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public completedTasksProvider : CompletedTasksProvider, 
               public platform: Platform,
               public actionsheetCtrl: ActionSheetController,
               public tasksProvider: TasksProvider,
-              public categoriesProvider : CategoriesProvider) {
+              public categoriesProvider : CategoriesProvider,
+              public loadingCtrl : LoadingController) {
   }
 
   ionViewDidLoad() {
+    this.doLoad();
     console.log('Completed Tasks loaded Successfully');
+    let self = this;
     this.completedTasksProvider.completedTasksRef.on("value", eventListSnapshot => {
       this.completedItems = [];
       eventListSnapshot.forEach(snap => {
@@ -36,12 +39,10 @@ export class CompletedTasksPage {
           taskCategory: snap.val().taskCategory,
           taskCompletionTime: snap.val().taskCompletionTime
         });
-        return false;
       });
+      self.loader.dismiss();
     });
-
     this.loadCategories();
-
   }
 
 
@@ -50,18 +51,12 @@ export class CompletedTasksPage {
   }
 
   restore(item, itemId){
-    console.log("+++++++++++++++++++++++++++++++++");
     this.tasksProvider.createTask(item.taskTitle,
     item.taskDescription, item.taskDate,
     item.taskCategory).then(newEvent =>{
     this.delete(itemId)
-    console.log("---------------------------------");
-
     let newCount = this.findCategoryCount(item.taskCategory);
     let categoryKey = this.findCategoryId(item.taskCategory);
-    console.log("Crack " + item.taskCategory);
-    console.log("NEW COUNT IS " + newCount);
-    console.log("CATEGORY KEY IS " + categoryKey);
     this.categoriesProvider.updateCategoryCount(categoryKey, newCount, item.taskCategory);
   });
     
@@ -113,6 +108,16 @@ export class CompletedTasksPage {
         //return false;
       });
     });
+
+  }
+
+  doLoad(){
+    this.loader = this.loadingCtrl.create(
+      {
+        content: "Please wait...",
+      }
+    );
+    this.loader.present();
   }
 
 

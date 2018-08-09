@@ -3,10 +3,14 @@ import {
   Alert,
   AlertController,
   IonicPage,
-  NavController
+  NavController,
+  App
 } from "ionic-angular";
 import { ProfileProvider } from "../../providers/profile/profile";
 import { AuthProvider } from "../../providers/auth/auth";
+import { LoginPage } from "../login/login";
+
+
 
 @IonicPage()
 @Component({
@@ -21,7 +25,8 @@ export class ProfilePage {
     public navCtrl: NavController,
     public alertCtrl: AlertController,
     public authProvider: AuthProvider,
-    public profileProvider: ProfileProvider
+    public profileProvider: ProfileProvider,
+    public appCtrl: App
   ) {}
 
   ionViewDidLoad() {
@@ -33,7 +38,15 @@ export class ProfilePage {
 
   logOut(): void {
     this.authProvider.logoutUser().then(() => {
-      this.navCtrl.setRoot("LoginPage");
+      //this.navCtrl.setRoot("LoginPage");
+      //this.navCtrl.rootNav.setRoot(IntroPage);
+      this.appCtrl.getRootNav().setRoot(LoginPage);
+
+      //window.location.reload();
+
+     // this.navCtrl.popToRoot ();
+      //this.navCtrl.goToRoot("LoginPage");
+     // this.navCtrl.setRoot ("LoginPage");
     });
   }
 

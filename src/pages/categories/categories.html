@@ -11,7 +11,7 @@
 
     <ion-card class = "card" *ngFor="let category of categoriesList;">
         <ion-item (click) = "openCategory(category.categoryName)">
-            <button ion-button *ngIf="category.categoryName != 'Default'" icon-only item-right clear (click) = "deleteCategory">
+            <button ion-button *ngIf="category.categoryName != 'Default'" (click) = "deleteCategory()" icon-only item-right clear >
                 <ion-icon name="close"></ion-icon>
               </button>
             <ion-avatar item-start>
