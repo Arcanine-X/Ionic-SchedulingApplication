@@ -43,16 +43,12 @@ export class TasksProvider {
   }
 
   deleteTask(key){
-    console.log("in here");
     firebase.database().ref('userProfile/'+this.userId+'/tasksList/' + key).remove();
-    console.log("Maybe deleted");
-
   }
 
   deleteCategoryTasks(keyList){
     for(let i = 0; i < keyList.length; i++){
       let key = keyList[i];
-      console.log("Key is " + key);
       this.deleteTask(key);
     }
   }

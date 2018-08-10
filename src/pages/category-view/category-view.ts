@@ -62,9 +62,7 @@ export class CategoryViewPage {
     // update fb count
     let categoryKey = this.findCategoryId(item.taskCategory);
     let count  = this.getCategoryCount(item.taskCategory);
-    console.log("Returnd back a count of " + count);
     count--;
-    console.log("Then I am injecting in a count of " + count);
     this.categoriesProvider.updateCategoryCount(categoryKey, count, item.taskCategory);
     //then delete
     this.tasksProvider.deleteTask(key);

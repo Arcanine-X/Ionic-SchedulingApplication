@@ -12,6 +12,8 @@ export class TaskCreatePage {
   description: string;
   itemsList = [];
   categoriesList = [];
+  public eventDate:string=new Date().toISOString();
+
   constructor(public navCtrl: NavController, 
               public view: ViewController,
               public tasksProvider: TasksProvider,
@@ -182,12 +184,7 @@ export class TaskCreatePage {
     let newCategoryCount = this.findCategoryCount(taskCategory);
     let categoryId = this.findCategoryId(taskCategory);
     //format inputs
-    console.log("======");
-    console.log(taskCategory);
-    console.log(newCategoryCount);
-    console.log(categoryId);
-    console.log(taskTitle);
-    console.log("-------");
+
     taskDate = this.formatDate(taskDate);
     taskDescription = this.formatDescription(taskDescription);
     taskCategory = this.formatCategory(taskCategory);

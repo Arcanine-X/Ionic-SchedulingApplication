@@ -2,3 +2,19 @@ page-category-view {
 
 }
 
+.outerDiv {
+    display: inline-flex;  // <-- This is responsible for vertical alignment
+    height: 500px;
+    background-color: white;
+    color: white;
+}
+
+
+.emptyCategory{
+    margin: auto;
+    color: black;
+    background-color: lightblue;  
+    font-size: 5em;
+    text-align: center;
+}
+

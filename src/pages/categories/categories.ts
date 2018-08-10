@@ -138,17 +138,7 @@ export class CategoriesPage {
     this.tasksProvider.deleteCategoryTasks(keyList);
     // then delete category
     this.categoriesProvider.deleteCategory(category.id);
-    // console.log("====================in delete category");
   }
-
-  debug1(){
-    console.log("1111111");
-  }
-
-  debug2(){
-    console.log("23222222222");
-  }
-
 
   loadItems(){
     //this.doLoad();

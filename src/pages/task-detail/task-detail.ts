@@ -14,22 +14,31 @@ export class TaskDetailPage {
   item;
   key;
   buttonText = "Save";
+
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public tasksProvier: TasksProvider,
               public view: ViewController,
 ) {
+  
     this.item = navParams.get('item');
     this.key = navParams.get('key');
     this.title = this.item.taskTitle;
     this.description = this.item.taskDescription;
-    this.date = this.item.taskDate;
+    this.date = new Date(this.dateStructure(this.item.taskDate)).toISOString();
     this.category = this.item.taskCategory;
   }
 
   ionViewDidLoad() {
-    console.log("Task Details Page Loaded Successfully");
+
   }
+
+  dateStructure(date){
+    var split = date.split('-');
+    return split[2] + "-" + split[1] + "-" +split[0];
+  }
+
+
 
   unsave(){
     this.buttonText = "Click to Save"
@@ -37,6 +46,7 @@ export class TaskDetailPage {
 
   save(){
     this.buttonText = "Saved";
+    this.item.taskDate = this.date;
     this.item.taskDate = this.formatDate(this.item.taskDate);
     this.item.taskDescription = this.formatDescription(this.item.taskDescription);
     this.item.taskCategory = this.formatCategory(this.item.taskCategory);
@@ -53,12 +63,9 @@ export class TaskDetailPage {
   * into 07-08-2018, reversing the date.
   */
  formatDate(date){
-   
-    var newDate = date.substring(9,10);
-    var year = date.substring(0,4);
-    var month = date.substring(5,7);
-    var day = date.substring(8,10);
-    return day+"-"+month+"-"+year;
+   let split_hhmmss = date.split('T'); //split hh:mm:ss
+   let split = split_hhmmss[0].split('-'); //split yyyy-mm-dd
+   return split[2] + "-" + split[1] + "-" +split[0];
   }
 
   formatDescription(taskDescription){
