@@ -114,10 +114,56 @@ export class CategoriesPage {
       this.selectionSort(this.categoriesList);
       self.loader.dismiss();
     });
-    
   }
 
-  deleteCategory(){
-    console.log("in delete category");
+
+  getCategoryTaskKeys(category){
+    console.log("Got input " + category);
+    this.loadItems();
+    let keyList = [];
+    for(let i = 0; i < this.itemsList.length; i++){
+      if(this.itemsList[i].taskCategory === category.categoryName){
+        let key = this.itemsList[i].id;
+        keyList.push(key);
+      }
+    }
+    this.itemsList = [];
+    return keyList;
+  }
+
+
+
+  deleteCategory(e, category){
+    e.stopPropagation();
+    //delete tasks first
+    let keyList = this.getCategoryTaskKeys(category);
+    this.tasksProvider.deleteCategoryTasks(keyList);
+    console.log("Keys are " + keyList);
+    // then delete category
+    this.categoriesProvider.deleteCategory(category.id);
+    // console.log("====================in delete category");
+  }
+
+  debug1(){
+    console.log("1111111");
+  }
+
+  debug2(){
+    console.log("23222222222");
+  }
+
+
+  loadItems(){
+    //this.doLoad();
+    this.tasksProvider.getTasksList().on("value", tasksList => {
+      this.itemsList = [];
+      tasksList.forEach(snap => {
+        this.itemsList.push({
+          id: snap.key,
+          taskCategory: snap.val().taskCategory
+        });
+        return false;
+      });
+    });
   }
 }

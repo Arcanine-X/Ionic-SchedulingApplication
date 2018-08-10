@@ -1,6 +1,9 @@
 <ion-header>
   <ion-navbar color="burple">
     <ion-title>Categories</ion-title>
+    <ion-buttons end>
+        <button ion-button icon-only (click)="addItem()"><ion-icon name="more"></ion-icon></button>
+      </ion-buttons>
   </ion-navbar>
 </ion-header>
 <ion-content padding>
@@ -9,9 +12,10 @@
   </div> -->
 
   <ion-card class="card" *ngFor="let category of categoriesList;">
-    <ion-item (click)="openCategory(category.categoryName)">
+    <!-- <ion-item (click)="openCategory(category.categoryName)"> -->
+      <ion-item (click)="openCategory(category.categoryName)">
 
-      <button ion-button *ngIf="category.categoryName != 'Default'" (click)="deleteCategory()" icon-only item-right clear>
+      <button ion-button *ngIf="category.categoryName != 'Default'" (click)="deleteCategory($event, category)" icon-only item-right clear>
         <ion-icon name="close"></ion-icon>
       </button>
       <ion-avatar item-start>
@@ -20,14 +24,38 @@
       <h2>{{category.categoryName}}</h2>
       <p>{{category.categoryCount}} ITEMS</p>
     </ion-item>
-  </ion-card>
+  </ion-card> 
+
+  <!-- <ion-card class="card" *ngFor="let category of categoriesList;">
+      <ion-card-header (click) = "debug1()">
+          <ion-item (click)="openCategory(category.categoryName)">
+
+              <button ion-button *ngIf="category.categoryName != 'Default'" (click)="deleteCategory()" icon-only item-right clear>
+                <ion-icon name="close"></ion-icon>
+              </button>
+              <ion-avatar item-start>
+                <ion-text-avatar>{{category.categoryLetter}}</ion-text-avatar>
+              </ion-avatar>
+              <h2>{{category.categoryName}}</h2>
+              <p>{{category.categoryCount}} ITEMS</p>
+            </ion-item>  
+      </ion-card-header>
+      
+      <ion-card-content (click) = "debug2()">
+
+      </ion-card-content>
+  </ion-card> -->
+
+
+
+
 </ion-content>
 
 <ion-footer>
   <ion-grid>
     <ion-row>
       <ion-col col-10>
-        <ion-input type="text" placeholder="Type a message" name="message" [(ngModel)]="categoryToCreate"></ion-input>
+        <ion-input type="text" placeholder="Type to create a task..." name="message" [(ngModel)]="categoryToCreate"></ion-input>
       </ion-col>
       <ion-col col-2 (click)="doSomething(categoryToCreate)">
         <ion-icon name="paper-plane"></ion-icon>
