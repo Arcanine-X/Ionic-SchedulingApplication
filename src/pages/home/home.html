@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar color = "burple">
     <ion-title *ngIf="!isSearchbarOpened">
-        Your Day
+        Your Tasks
     </ion-title>
     <ion-searchbar *ngIf = "isSearchbarOpened" showCancelButton = "true" (ionInput)="getItems($event)" (ionCancel) = "isSearchbarOpened = false"></ion-searchbar>
     <ion-buttons end>
@@ -33,7 +33,7 @@
             </ion-item>
   
           <ion-item-options side="left">
-              <button ion-button color="danger" (click)="deleteFB(item.id)">
+              <button ion-button color="danger" (click)="delete(item.id)">
                 <ion-icon name="trash"></ion-icon>
                   Delete
                 </button>
@@ -62,7 +62,7 @@
   
           <ion-item-options side="left">
 
-              <button ion-button color="danger" (click)="cateTest(item.id, item)">
+              <button ion-button color="danger" (click)="delete(item.id, item)">
 
 
               <!-- <button ion-button color="danger" (click)="showConfirm(item)"> -->
@@ -95,7 +95,7 @@
               </ion-item>
     
             <ion-item-options side="left">
-                <button ion-button color="danger" (click)="deleteFB(item.id)">
+                <button ion-button color="danger" (click)="delete(item.id)">
                   <ion-icon name="trash"></ion-icon>
                     Delete
                   </button>
@@ -125,7 +125,7 @@
               </ion-item>
     
             <ion-item-options side="left">
-                <button ion-button color="danger" (click)="deleteFB(item.id)">
+                <button ion-button color="danger" (click)="delete(item.id)">
                   <ion-icon name="trash"></ion-icon>
                     Delete
                   </button>

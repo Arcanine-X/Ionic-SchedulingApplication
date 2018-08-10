@@ -1,10 +1,26 @@
 import { Injectable } from '@angular/core';
+import { CategoriesProvider } from '../tasks/categories';
 
 
 @Injectable()
 export class HelpProvider {
-  constructor() {
+  constructor(private categoriesProvider : CategoriesProvider) {
 
+  }
+  public categoriesList;
+  getCategories() :any{
+    this.categoriesProvider.getCategories().on("value", categoriesList => {
+      this.categoriesList = [];
+      categoriesList.forEach(snap => {
+        this.categoriesList.push({
+          id: snap.key,
+          categoryName: snap.val().categoryName,
+          categoryCount: snap.val().categoryCount
+        });
+        return this.categoriesList;
+      });
+    });
+    
   }
 
 

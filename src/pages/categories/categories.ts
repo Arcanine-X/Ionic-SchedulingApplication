@@ -75,10 +75,9 @@ export class CategoriesPage {
   }
 
   alreadyContains(category){
-    console.log("TECST " + this.categoriesList[0].categoryName);
+    if(this.categoriesList.length == 0) return false
     for(let i = 0; i < this.categoriesList.length; i ++){
       if(this.categoriesList[i].categoryName.toLowerCase() == category.toLowerCase()){
-        console.log("Returned true");
         return true;
       }
     }
@@ -118,7 +117,6 @@ export class CategoriesPage {
 
 
   getCategoryTaskKeys(category){
-    console.log("Got input " + category);
     this.loadItems();
     let keyList = [];
     for(let i = 0; i < this.itemsList.length; i++){
@@ -138,7 +136,6 @@ export class CategoriesPage {
     //delete tasks first
     let keyList = this.getCategoryTaskKeys(category);
     this.tasksProvider.deleteCategoryTasks(keyList);
-    console.log("Keys are " + keyList);
     // then delete category
     this.categoriesProvider.deleteCategory(category.id);
     // console.log("====================in delete category");

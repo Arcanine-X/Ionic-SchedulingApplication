@@ -26,8 +26,6 @@ export class CompletedTasksProvider {
     taskCategory: string,
     taskCompletionTime: string
   ): firebase.database.ThenableReference {
-    console.log("hereeeeee");
-
     return this.completedTasksRef.push({
       taskTitle: taskTitle,
       taskDescription: taskDescription,

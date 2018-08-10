@@ -74,10 +74,8 @@ export class CompletedTasksPage {
 
 
   findCategoryId(categoryName : string){
-    console.log("IN ID " + categoryName);
     for(let i = 0;i < this.categoriesList.length; i++){
       if(this.categoriesList[i].categoryName === categoryName){
-        console.log("in here??? ffs");
         return this.categoriesList[i].id;
       }
     }
@@ -95,16 +93,11 @@ export class CompletedTasksPage {
     this.categoriesProvider.getCategories().on("value", categoriesList => {
       this.categoriesList = [];
       categoriesList.forEach(snap => {
-        console.log("got close");
-        console.log(snap.key);
-        console.log(snap.val().categoryName);
         this.categoriesList.push({
           id: snap.key,
           categoryName: snap.val().categoryName,
           categoryCount: snap.val().categoryCount
         });
-        console.log("pushed i guess");
-        console.log(this.categoriesList.length);
         //return false;
       });
     });

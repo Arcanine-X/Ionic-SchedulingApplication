@@ -35,6 +35,9 @@ export class HomePage {
   public tomorrowsItems = [];
   public upcomingItems = [];
 
+  //Stores all the categories
+  public categoriesList = [];
+
   //Variables for the altert when deleting tasks
   testRadioOpen: boolean;
   testRadioResult;
@@ -65,8 +68,6 @@ export class HomePage {
   ionViewDidLoad(){
     this.doLoad();
     this.tasksProvider.getTasksList().on("value", tasksList => {
-
-
       this.items = [];
       this.todaysItems = [];
       this.tomorrowsItems = [];
@@ -81,21 +82,32 @@ export class HomePage {
           taskDate: snap.val().taskDate,
           taskCategory: snap.val().taskCategory
         });
-        //return false;
       });
       this.items.reverse();
       this.populateToday();
     });
-
     this.loadCategories();
   }
 
+  loadCategories(){
+    let self = this;
+    this.categoriesProvider.getCategories().on("value", categoriesList => {
+      this.categoriesList = [];
+      categoriesList.forEach(snap => {
+        this.categoriesList.push({
+          id: snap.key,
+          categoryName: snap.val().categoryName,
+          categoryCount: snap.val().categoryCount
+        });
+      });
+      self.loader.dismiss();
+    });
+  }
 
   dateStructure(date){
     var split = date.split('-');
     return split[2] + "-" + split[1] + "-" +split[0];
   }
-
 
   populateToday(){
     let today = Date.parse(this.dateStructure(this.helper.getTodaysDate()));
@@ -127,40 +139,21 @@ export class HomePage {
     this.completedTasksProvider
       .addCompletedTask(item.taskTitle, item.taskDescription, 
         item.taskDate, item.taskCategory, this.helper.getCompletetionTime()).then(newEvent=>{
-          let categoryKey = this.findCategoryId(item.taskCategory);
-          let categoryCount = this.getMinusCounty(item.taskCategory);
-          this.categoriesProvider.updateCategoryCount(categoryKey, categoryCount, item.taskCategory);
-          this.deleteFB(item.id);
+          this.delete(item.id, item);
         });
   }
 
-  cateTest(key, item){
-    console.log("IN CATE TEST");
+  delete(key, item){
     //update fb count
     let categoryKey = this.findCategoryId(item.taskCategory);
-    console.log("CATE KEY is " + categoryKey);
-    let count  = this.getCounty(item.taskCategory);
-    console.log("1COUNT is " + count);
+    let count  = this.getCategoryCount(item.taskCategory);
     count--;
-    console.log("2COUNT is " + count);
     this.categoriesProvider.updateCategoryCount(categoryKey, count, item.taskCategory);
-
     //then delete
     this.tasksProvider.deleteTask(key);
-
   }
 
-  getMinusCounty(categoryName : string){
-    for(let i = 0; i < this.categoriesList.length; i++){
-      if(this.categoriesList[i].categoryName === categoryName){
-        let original = this.categoriesList[i].categoryCount;
-        return original - 1;
-      }
-    }
-    return 0;
-  }
-
-  getCounty(categoryName : string){
+  getCategoryCount(categoryName : string){
     for(let i = 0; i < this.categoriesList.length; i++){
       if(this.categoriesList[i].categoryName === categoryName){
        return this.categoriesList[i].categoryCount;
@@ -169,31 +162,12 @@ export class HomePage {
     return 0;
   }
 
-    //Tricky Businesss
-    findCategoryCount(categoryName : string){
-      for(let i = 0; i < this.categoriesList.length; i++){
-        if(this.categoriesList[i].categoryName === categoryName){
-          let original = this.categoriesList[i].categoryCount;
-          return original + 1;
-        }
-      }
-      return 0;
-    }
-  
-    findCategoryId(categoryName : string){
-      console.log("Entered " + categoryName);
-      for(let i = 0;i < this.categoriesList.length; i++){
-  
-        if(this.categoriesList[i].categoryName === categoryName){
-          console.log("In IT???");
-          return this.categoriesList[i].id;
-        }
+  findCategoryId(categoryName : string){
+    for(let i = 0;i < this.categoriesList.length; i++){
+      if(this.categoriesList[i].categoryName === categoryName){
+        return this.categoriesList[i].id;
       }
     }
-
-  deleteFB(key){
-    //update count of categories
-    this.tasksProvider.deleteTask(key);
   }
 
   addPush(){
@@ -204,9 +178,7 @@ export class HomePage {
  
   addItem(){
     let addModal = this.modalCtrl.create(TaskCreatePage);
- 
     addModal.onDidDismiss((item) => {
-
     });
     addModal.present();
   }
@@ -217,29 +189,9 @@ export class HomePage {
     });
   }
 
-  
-
-  /*
-  Search bar functionality
-  */
-  getItems(ev) {
-    // Reset items back to all of the items
-    this.ionViewDidLoad();
-    // set val to the value of the ev target
-    var val = ev.target.value;
-    // if the value is an empty string don't filter the items
-    this.A(ev);
-    this.B(ev);
-    this.C(ev);
-    this.D(ev);
-  }
-
-
-
   /*
   For the swiping gesture
   */
-
   expandAction(item: ItemSliding, _: any, text: string) {
     // TODO item.setElementClass(action, true);
     setTimeout(() => {
@@ -256,8 +208,6 @@ export class HomePage {
   /*
   Alert when deleting
   */
-
-
  showConfirm(item) {
   const confirm = this.alertCtrl.create({
     title: 'Confirmation',
@@ -266,14 +216,12 @@ export class HomePage {
       {
         text: 'Yes',
         handler: () => {
-          console.log('Yes clicked');
-          this.deleteFB(item.id);
+          this.delete(item.id, item);
         }
       },
       {
         text: 'No',
         handler: () => {
-          console.log('No clicked');
           return;
         }
       }
@@ -282,41 +230,21 @@ export class HomePage {
   confirm.present();
 }
 
-
-
-
-
-public categoriesList = [];
-
-
-
-
-
-  loadCategories(){
-    let self = this;
-    this.categoriesProvider.getCategories().on("value", categoriesList => {
-      this.categoriesList = [];
-      categoriesList.forEach(snap => {
-        console.log("got close");
-        console.log(snap.key);
-        console.log(snap.val().categoryName);
-        this.categoriesList.push({
-          id: snap.key,
-          categoryName: snap.val().categoryName,
-          categoryCount: snap.val().categoryCount
-        });
-        console.log("pushed i guess");
-        console.log(this.categoriesList.length);
-        //return false;
-      });
-      self.loader.dismiss();
-    });
-  }
-
-
-
-
   //stupid
+    /*
+  Search bar functionality
+  */
+ getItems(ev) {
+  // Reset items back to all of the items
+  this.ionViewDidLoad();
+  // set val to the value of the ev target
+  var val = ev.target.value;
+  // if the value is an empty string don't filter the items
+  this.A(ev);
+  this.B(ev);
+  this.C(ev);
+  this.D(ev);
+}
 
   A(ev){
     var val = ev.target.value;
@@ -353,6 +281,4 @@ public categoriesList = [];
       })
     }
   }
-
-
 }
