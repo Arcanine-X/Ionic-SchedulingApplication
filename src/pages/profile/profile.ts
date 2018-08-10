@@ -2,7 +2,6 @@ import { Component } from "@angular/core";
 import {
   Alert,
   AlertController,
-  IonicPage,
   NavController,
   App
 } from "ionic-angular";
@@ -10,9 +9,6 @@ import { ProfileProvider } from "../../providers/profile/profile";
 import { AuthProvider } from "../../providers/auth/auth";
 import { LoginPage } from "../login/login";
 
-
-
-@IonicPage()
 @Component({
   selector: "page-profile",
   templateUrl: "profile.html"
@@ -38,15 +34,7 @@ export class ProfilePage {
 
   logOut(): void {
     this.authProvider.logoutUser().then(() => {
-      //this.navCtrl.setRoot("LoginPage");
-      //this.navCtrl.rootNav.setRoot(IntroPage);
       this.appCtrl.getRootNav().setRoot(LoginPage);
-
-      //window.location.reload();
-
-     // this.navCtrl.popToRoot ();
-      //this.navCtrl.goToRoot("LoginPage");
-     // this.navCtrl.setRoot ("LoginPage");
     });
   }
 

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { ProfilePage } from '../profile/profile';
 
 @Component({
   selector: 'page-settings',
@@ -15,6 +16,6 @@ export class SettingsPage {
   }
 
   goToProfile(): void {
-    this.navCtrl.push("ProfilePage");
+    this.navCtrl.push(ProfilePage);
   }
 }

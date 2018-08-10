@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import {
   Alert,
   AlertController,
-  IonicPage,
   Loading,
   LoadingController,
   NavController
@@ -11,8 +10,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmailValidator } from '../../validators/email'
 import { AuthProvider } from '../../providers/auth/auth';
 import { TabsPage } from '../tabs/tabs';
+import { ResetPasswordPage } from '../reset-password/reset-password';
+import { SignupPage } from '../signup/signup';
 
-@IonicPage()
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
@@ -40,11 +40,11 @@ public loading: Loading;
   }
 
   goToSignup():void {
-    this.navCtrl.push('SignupPage');
+    this.navCtrl.push(SignupPage);
   }
 
   goToResetPassword():void {
-    this.navCtrl.push('ResetPasswordPage');
+    this.navCtrl.push(ResetPasswordPage);
   }
 
   loginUser(): void {
