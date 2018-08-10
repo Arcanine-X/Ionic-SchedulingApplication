@@ -2,7 +2,6 @@ import { Component } from "@angular/core";
 import {
   Alert,
   AlertController,
-  IonicPage,
   Loading,
   LoadingController,
   NavController
@@ -10,7 +9,8 @@ import {
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthProvider } from "../../providers/auth/auth";
 import { EmailValidator } from "../../validators/email";
-import { HomePage } from "../home/home";
+import { CategoriesProvider } from "../../providers/tasks/categories";
+import { TabsPage } from "../tabs/tabs";
 
 @Component({
   selector: "page-signup",
@@ -25,6 +25,7 @@ export class SignupPage {
     public authProvider: AuthProvider,
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController,
+    public categoriesProvider: CategoriesProvider,
     formBuilder: FormBuilder
   ) {
     this.signupForm = formBuilder.group({
@@ -50,7 +51,8 @@ export class SignupPage {
       this.authProvider.signupUser(email, password).then(
         user => {
           this.loading.dismiss().then(() => {
-            this.navCtrl.setRoot(HomePage);
+            this.navCtrl.setRoot(TabsPage);
+            this.categoriesProvider.addCategory("Default");
           });
         },
         error => {

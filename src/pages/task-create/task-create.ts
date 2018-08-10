@@ -197,25 +197,6 @@ export class TaskCreatePage {
       });
   }
 
-
-  // createEvent(
-  //   taskTitle: string,
-  //   taskDescription: string,
-  //   taskDate: string,
-  //   taskCategory: string
-  // ): void {
-  //   //format inputs
-  //   taskDate = this.formatDate(taskDate);
-  //   taskDescription = this.formatDescription(taskDescription);
-  //   taskCategory = this.formatCategory(taskCategory);
-  //   this.tasksProvider
-  //     .createTask(taskTitle, taskDescription, taskDate, taskCategory)
-  //     .then(newEvent => {
-  //       this.navCtrl.pop();
-  //     });
-  // }
-
-
   /*
   * Takes in a date in the format of 2018-08-07 which is converted
   * into 07-08-2018, reversing the date.
