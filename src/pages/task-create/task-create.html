@@ -19,7 +19,9 @@
       <!-- Description -->
       <ion-item>
         <ion-label floating>Description</ion-label>
-        <ion-input type="text" [(ngModel)]="description"></ion-input>
+        <ion-textarea type="text" [(ngModel)]="description"></ion-textarea>
+
+        <!-- <ion-input type="text" [(ngModel)]="description"></ion-input> -->
       </ion-item>
       <!-- Date -->
       <ion-item>
@@ -35,58 +37,9 @@
             <ion-option *ngFor="let c of categoriesList;">{{c.categoryName}}</ion-option>
           </ion-select>
         </ion-item>
-    </ion-list>
-  
+    </ion-list>    
     <!-- Button to save -->
     <button full ion-button color="primary" (click) = "createEvent(title, description, eventDate, selectedCategory)">
       Create task
     </button>
   </ion-content>
-
-
-<!-- Old code -->
-
-<!-- <ion-header>
-  <ion-toolbar color="burple">
-    <ion-title>
-      Create A Task
-    </ion-title>
-      <ion-buttons end>
-        <button ion-button icon-only (click)="close()"><ion-icon name="close"></ion-icon></button>
-      </ion-buttons>
-    </ion-toolbar>
-</ion-header>
- 
-<ion-content>
-  <ion-list>
-    <ion-item>
-      <ion-label floating>Title</ion-label>
-      <ion-input type="text" [(ngModel)]="title" ></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label floating>Description</ion-label>
-      <ion-input type="text" [(ngModel)]="description"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label floating>Event Date</ion-label>
-      <ion-datetime displayFormat="D MMM, YY" pickerFormat="DD MMM YYYY" [(ngModel)]="eventDate">
-      </ion-datetime>
-    </ion-item>
-    <ion-item>
-      <ion-label stacked>Category</ion-label>
-      <ion-input [(ngModel)]="eventName" type="text"placeholder="Default">
-      </ion-input>
-    </ion-item>
-
-    <ion-item >
-        <ion-label stacked>Category</ion-label>
-        <ion-select [(ngModel)]="rating" interface="action-sheet" >
-          <ion-option *ngFor="let c of categoriesList;">{{c.title}}</ion-option>
-        </ion-select>
-      </ion-item>
-  </ion-list>
-
-  <button full ion-button color="primary" (click) = "createEvent(title, description, eventDate, eventName)">
-    Create task
-  </button>
-</ion-content> -->
