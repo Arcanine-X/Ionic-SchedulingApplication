@@ -24,6 +24,8 @@ import { LoginPage } from '../pages/login/login'
 import { ProfilePage } from '../pages/profile/profile';
 import {ResetPasswordPage} from '../pages/reset-password/reset-password';
 import { SignupPage } from  '../pages/signup/signup';
+import { TaskCreateCategoryPage } from '../pages/task-create-category/task-create-category';
+
 
 
 @NgModule({
@@ -42,7 +44,8 @@ import { SignupPage } from  '../pages/signup/signup';
     LoginPage,
     ProfilePage,
     ResetPasswordPage,
-    SignupPage
+    SignupPage,
+    TaskCreateCategoryPage
   ],
   imports: [
     BrowserModule,
@@ -63,7 +66,8 @@ import { SignupPage } from  '../pages/signup/signup';
     LoginPage,
     ProfilePage,
     ResetPasswordPage,
-    SignupPage
+    SignupPage,
+    TaskCreateCategoryPage
   ],
   providers: [
     StatusBar,

@@ -5,6 +5,7 @@ import { TaskDetailPage } from '../task-detail/task-detail';
 import { CompletedTasksProvider } from '../../providers/tasks/completedTask';
 import { HelpProvider } from '../../providers/helper/helper';
 import { CategoriesProvider } from '../../providers/tasks/categories';
+import { TaskCreateCategoryPage } from '../task-create-category/task-create-category';
 
 
 @Component({
@@ -24,6 +25,14 @@ export class CategoryViewPage {
   ionViewDidLoad() {
     this.populate();
     console.log('Category View Loaded');
+  }
+
+  createTaskInCategory(){
+    console.log("Trying to create task");
+    this.navCtrl.push(TaskCreateCategoryPage,
+      {
+        categoryName : this.categoryName
+      });
   }
 
   getItems(ev) {
