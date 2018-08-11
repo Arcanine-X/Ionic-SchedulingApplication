@@ -14,7 +14,7 @@ export class TaskCreatePage {
   itemsList = [];
   categoriesList = [];
   public eventDate:string=new Date().toISOString();
-
+  selectedCategory = "Default";
   constructor(public navCtrl: NavController, 
               public view: ViewController,
               public tasksProvider: TasksProvider,

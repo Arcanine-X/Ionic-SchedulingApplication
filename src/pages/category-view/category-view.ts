@@ -26,6 +26,21 @@ export class CategoryViewPage {
     console.log('Category View Loaded');
   }
 
+  getItems(ev) {
+    // Reset items back to all of the items
+    this.ionViewDidLoad();
+    // set val to the value of the ev target
+    var val = ev.target.value;
+    // if the value is an empty string don't filter the items
+    var val = ev.target.value;
+    if (val && val.trim() != '') {
+      this.categoryItems = this.categoryItems.filter((item) => {
+        return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
+  }
+
+
   populate(){
     //get all the items
     this.tasksProvider.getTasksList().on("value", eventListSnapshot => {

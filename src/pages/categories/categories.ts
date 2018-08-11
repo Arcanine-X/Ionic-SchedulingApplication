@@ -14,6 +14,7 @@ export class CategoriesPage {
   public itemsList = [];
   loader;
   categoryToCreate;
+  public alphabeticColors = [];
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -26,6 +27,17 @@ export class CategoriesPage {
   ionViewDidLoad(){
     this.doLoad();
     this.loadCategories();
+    this.populateColor();
+  }
+
+  
+
+  populateColor(){
+    for(var i=0; i<25;i++){
+      this.alphabeticColors[i] = {
+        'color': ('#'+Math.floor(Math.random()*16777215).toString(16))
+      };
+    }
   }
 
 
