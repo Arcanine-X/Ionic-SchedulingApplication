@@ -7,21 +7,41 @@ export class HelpProvider {
   constructor(private categoriesProvider : CategoriesProvider) {
 
   }
-  public categoriesList;
-  getCategories() :any{
-    this.categoriesProvider.getCategories().on("value", categoriesList => {
-      this.categoriesList = [];
-      categoriesList.forEach(snap => {
-        this.categoriesList.push({
-          id: snap.key,
-          categoryName: snap.val().categoryName,
-          categoryCount: snap.val().categoryCount
-        });
-        return this.categoriesList;
-      });
-    });
-    
+
+
+   /*
+  Selection sorts by a natural sort of alphanumerical strings
+  */
+ sortCategoryNames(arr){
+  let i,m,j;
+  for (i = -1; ++i < arr.length;) {
+    for (m = j = i; ++j < arr.length;) {
+      if (this.selectionSortComparator(arr[m].categoryName, arr[j].categoryName)) m = j;
+    }
+    [arr[m], arr[i]] = [arr[i], arr[m]];
   }
+  return arr;
+}
+
+/*
+Comparator method for selection sort using localeCompare. By passing the
+numeric: true option, it will smartly recognize numbers. You can do case-insensitive using sensitivity: 'base'
+*/
+selectionSortComparator(a, b) {
+  var arr = [];
+  arr.push(a);
+  arr.push(b);
+  var collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+  arr.sort(collator.compare);
+  if (arr[0] == a) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+
+
 
 
 
