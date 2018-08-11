@@ -25,21 +25,15 @@
           </ion-datetime>
         </ion-item>
       <!-- Category -->
-      <!-- <ion-item >
+       <ion-item >
           <ion-label stacked>Category</ion-label>
-          <ion-select [(ngModel)]="selectedCategory" interface="action-sheet" >
+          <ion-select [(ngModel)]="newCategory" interface="action-sheet" >
             <ion-option *ngFor="let c of categoriesList;">{{c.categoryName}}</ion-option>
           </ion-select>
         </ion-item>
-    </ion-list> -->
-
-
-
-      <ion-item>
-        <ion-label stacked>Category</ion-label>
-        <ion-input [(ngModel)]="item.taskCategory" type="text" (keyup)="unsave()"></ion-input>
-      </ion-item>
     </ion-list>
     <!-- Save Button -->
   <button ion-button color="burple" id = "saveButton" (click)="save()">{{buttonText}}</button>
+  <button ion-button color="danger" id = "asd" (click)="debugger()">{{buttonText}}</button>
+
 </ion-content>

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { TasksProvider } from '../../providers/tasks/task';
+import { HelpProvider } from '../../providers/helper/helper';
+import { CategoriesProvider } from '../../providers/tasks/categories';
 
 @Component({
   selector: 'page-task-detail',
@@ -14,11 +16,15 @@ export class TaskDetailPage {
   item;
   key;
   buttonText = "Save";
+  categoriesList = [];
+  newCategory;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public tasksProvier: TasksProvider,
               public view: ViewController,
+              public helper: HelpProvider,
+              public categoriesProvider : CategoriesProvider
 ) {
   
     this.item = navParams.get('item');
@@ -27,10 +33,30 @@ export class TaskDetailPage {
     this.description = this.item.taskDescription;
     this.date = new Date(this.dateStructure(this.item.taskDate)).toISOString();
     this.category = this.item.taskCategory;
+    this.newCategory = this.item.taskCategory;
+  }
+
+  loadCategories(){
+    this.categoriesProvider.getCategories().on("value", categoriesList => {
+      this.categoriesList = [];
+      categoriesList.forEach(snap => {
+        this.categoriesList.push({
+          id: snap.key,
+          categoryName: snap.val().categoryName,
+          categoryCount: snap.val().categoryCount
+        });
+        //return false;
+      });
+      this.helper.sortCategoryNames(this.categoriesList);
+    });
+  }
+
+  debugger(){
+    console.log(">>> " + this.newCategory);
   }
 
   ionViewDidLoad() {
-
+    this.loadCategories();
   }
 
   dateStructure(date){
@@ -49,8 +75,50 @@ export class TaskDetailPage {
     this.item.taskDate = this.date;
     this.item.taskDate = this.formatDate(this.item.taskDate);
     this.item.taskDescription = this.formatDescription(this.item.taskDescription);
-    this.item.taskCategory = this.formatCategory(this.item.taskCategory);
+    if(this.newCategory != this.item.taskCategory){
+      this.updateNewCategory(this.newCategory);
+      this.updateOldCategory(this.item.taskCategory);
+    }
+    this.item.taskCategory = this.newCategory;//this.formatCategory(this.item.taskCategory);
     this.tasksProvier.updateTask(this.key, this.item);
+
+  }
+
+  updateOldCategory(taskCategory){
+        //update old category
+        let newCategoryCount = this.findCategoryCount(taskCategory);
+        newCategoryCount--;
+        console.log("Category is " + taskCategory + " with " + newCategoryCount + " items");
+        newCategoryCount--;
+        let categoryId = this.findCategoryId(taskCategory);
+        this.categoriesProvider.updateCategoryCount(categoryId, newCategoryCount, taskCategory);
+  }
+
+  updateNewCategory(taskCategory){
+
+    //update new category
+    let newCategoryCount = this.findCategoryCount(taskCategory);
+    let categoryId = this.findCategoryId(taskCategory);
+    this.categoriesProvider.updateCategoryCount(categoryId, newCategoryCount, taskCategory);
+
+  }
+
+  findCategoryCount(categoryName : string){
+    for(let i = 0; i < this.categoriesList.length; i++){
+      if(this.categoriesList[i].categoryName === categoryName){
+        let original = this.categoriesList[i].categoryCount;
+        return original + 1;
+      }
+    }
+    return 0;
+  }
+
+  findCategoryId(categoryName : string){
+    for(let i = 0;i < this.categoriesList.length; i++){
+      if(this.categoriesList[i].categoryName === categoryName){
+        return this.categoriesList[i].id;
+      }
+    }
   }
 
   close(){
