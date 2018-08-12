@@ -18,11 +18,20 @@
         <ion-note>Completed on {{item?.taskCompletionTime}}</ion-note>
       </ion-item>
 
-      <ion-item-options side="left">
-        <button ion-button color="danger" (click)="delete(item.id)">
-          <ion-icon name="trash"></ion-icon>
-          Delete
-        </button>
+          <ion-item-options side="left">
+        <div *ngIf="taskAlertToggle==true; else showNoAlert">
+            <button ion-button  color="danger" (click)="showConfirm(item)">
+                <ion-icon name="trash"></ion-icon>
+                  Delete
+             </button>
+         </div>
+        <ng-template #showNoAlert>  
+          <button ion-button color="danger" (click)="delete(item.id)">
+                <ion-icon name="trash"></ion-icon>
+                  Delete
+                </button>
+        </ng-template> 
+
       </ion-item-options>
 
       <ion-item-options side="right">

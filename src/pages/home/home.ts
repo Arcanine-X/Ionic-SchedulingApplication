@@ -12,6 +12,7 @@ import { TasksProvider } from '../../providers/tasks/task';
 import { CompletedTasksProvider } from '../../providers/tasks/completedTask';
 import { CategoriesProvider } from '../../providers/tasks/categories';
 import { HelpProvider } from '../../providers/helper/helper';
+import { SettingsProvider } from '../../providers/settings/settings';
 
 
 @Component({
@@ -38,6 +39,9 @@ export class HomePage {
   //Stores all the categories
   public categoriesList = [];
 
+  //Alert vairables
+  public taskAlertToggle;
+  public soundToggle;
   //Variables for the altert when deleting tasks
   testRadioOpen: boolean;
   testRadioResult;
@@ -51,7 +55,8 @@ export class HomePage {
     public completedTasksProvider : CompletedTasksProvider,
     public categoriesProvider : CategoriesProvider,
     public helper : HelpProvider,
-    public loadingCtrl : LoadingController  
+    public loadingCtrl : LoadingController,
+    public settingsProvider: SettingsProvider  
   ) {
 
   }
@@ -87,6 +92,16 @@ export class HomePage {
       this.populateToday();
     });
     this.loadCategories();
+    this.loadSettings();
+  }
+
+  loadSettings(){
+    this.settingsProvider.getSettings().on("value", setting => {
+      setting.forEach(snap => {
+        this.taskAlertToggle = snap.val().taskAlertToggle,
+        this.soundToggle = snap.val().soundToggle
+      });
+    });
   }
 
   loadCategories(){

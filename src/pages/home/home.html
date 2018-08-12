@@ -32,12 +32,21 @@
               <p>{{item?.taskDate}}</p>
             </ion-item>
   
-          <ion-item-options side="left">
-              <button ion-button color="danger" (click)="delete(item.id)">
-                <ion-icon name="trash"></ion-icon>
-                  Delete
-                </button>
-          </ion-item-options>
+            <ion-item-options side="left">
+                <div *ngIf="taskAlertToggle==true; else showNoAlert">
+                    <button ion-button  color="danger" (click)="showConfirm(item)">
+                        <ion-icon name="trash"></ion-icon>
+                          Delete
+                     </button>
+                 </div>
+                <ng-template #showNoAlert>  
+                  <button ion-button color="danger" (click)="delete(item.id, item)">
+                        <ion-icon name="trash"></ion-icon>
+                          Delete
+                        </button>
+                </ng-template> 
+        
+              </ion-item-options>
   
           <ion-item-options side="right">
               <button ion-button color="secondary" (click)="addToCompletedTasks(item)">
@@ -61,17 +70,22 @@
             </ion-item>
   
           <ion-item-options side="left">
-
-              <button ion-button color="danger" (click)="delete(item.id, item)">
-
-
-              <!-- <button ion-button color="danger" (click)="showConfirm(item)"> -->
-
-              <!-- <button ion-button color="danger" (click)="deleteFB(item.id)"> -->
+        <div *ngIf="taskAlertToggle==true; else showNoAlert">
+            <button ion-button  color="danger" (click)="showConfirm(item)">
+                <ion-icon name="trash"></ion-icon>
+                  Delete
+             </button>
+         </div>
+        <ng-template #showNoAlert>  
+          <button ion-button color="danger" (click)="delete(item.id, item)">
                 <ion-icon name="trash"></ion-icon>
                   Delete
                 </button>
-          </ion-item-options>
+        </ng-template> 
+
+      </ion-item-options>
+
+
   
           <ion-item-options side="right">
               <button ion-button color="secondary" (click)="addToCompletedTasks(item)">
@@ -94,12 +108,21 @@
                 <!-- <p>{{item?.taskDate}}</p> -->
               </ion-item>
     
-            <ion-item-options side="left">
-                <button ion-button color="danger" (click)="delete(item.id)">
-                  <ion-icon name="trash"></ion-icon>
-                    Delete
-                  </button>
-            </ion-item-options>
+              <ion-item-options side="left">
+                  <div *ngIf="taskAlertToggle==true; else showNoAlert">
+                      <button ion-button  color="danger" (click)="showConfirm(item)">
+                          <ion-icon name="trash"></ion-icon>
+                            Delete
+                       </button>
+                   </div>
+                  <ng-template #showNoAlert>  
+                    <button ion-button color="danger" (click)="delete(item.id, item)">
+                          <ion-icon name="trash"></ion-icon>
+                            Delete
+                          </button>
+                  </ng-template> 
+          
+                </ion-item-options>
     
             <ion-item-options side="right">
                 <button ion-button color="secondary" (click)="addToCompletedTasks(item)">
@@ -124,12 +147,21 @@
                 <p>{{item?.taskDate}}</p>
               </ion-item>
     
-            <ion-item-options side="left">
-                <button ion-button color="danger" (click)="delete(item.id)">
-                  <ion-icon name="trash"></ion-icon>
-                    Delete
-                  </button>
-            </ion-item-options>
+              <ion-item-options side="left">
+                  <div *ngIf="taskAlertToggle==true; else showNoAlert">
+                      <button ion-button  color="danger" (click)="showConfirm(item)">
+                          <ion-icon name="trash"></ion-icon>
+                            Delete
+                       </button>
+                   </div>
+                  <ng-template #showNoAlert>  
+                    <button ion-button color="danger" (click)="delete(item.id, item)">
+                          <ion-icon name="trash"></ion-icon>
+                            Delete
+                          </button>
+                  </ng-template> 
+          
+                </ion-item-options>
     
             <ion-item-options side="right">
                 <button ion-button color="secondary" (click)="addToCompletedTasks(item)">

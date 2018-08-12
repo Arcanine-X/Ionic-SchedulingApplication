@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ActionSheetController, Platform, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, ActionSheetController, Platform, LoadingController, AlertController } from 'ionic-angular';
 import { CompletedTasksProvider } from '../../providers/tasks/completedTask'
 import { TaskRestorePage } from '../task-restore/task-restore';
 import { TasksProvider } from '../../providers/tasks/task';
 import { CategoriesProvider } from '../../providers/tasks/categories';
+import { SettingsProvider } from '../../providers/settings/settings';
 
 @Component({
   selector: 'page-completed-tasks',
@@ -14,6 +15,8 @@ export class CompletedTasksPage {
   //array to store the completed tasks
   public completedItems = [];
   private loader;
+  public taskAlertToggle;
+
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public completedTasksProvider : CompletedTasksProvider, 
@@ -21,7 +24,9 @@ export class CompletedTasksPage {
               public actionsheetCtrl: ActionSheetController,
               public tasksProvider: TasksProvider,
               public categoriesProvider : CategoriesProvider,
-              public loadingCtrl : LoadingController) {
+              public loadingCtrl : LoadingController,
+              public alertCtrl: AlertController,
+              public settingsProvider: SettingsProvider) {
   }
 
   ionViewDidLoad() {
@@ -43,6 +48,15 @@ export class CompletedTasksPage {
       self.loader.dismiss();
     });
     this.loadCategories();
+    this.loadSettings();
+  }
+
+  loadSettings(){
+    this.settingsProvider.getSettings().on("value", setting => {
+      setting.forEach(snap => {
+        this.taskAlertToggle = snap.val().taskAlertToggle
+      });
+    });
   }
 
 
@@ -60,6 +74,29 @@ export class CompletedTasksPage {
     this.categoriesProvider.updateCategoryCount(categoryKey, newCount, item.taskCategory);
   });
     
+  }
+
+
+  showConfirm(item) {
+    const confirm = this.alertCtrl.create({
+      title: 'Confirmation',
+      message: 'Are you sure you want to delete the task?',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: () => {
+            this.delete(item.id);
+          }
+        },
+        {
+          text: 'No',
+          handler: () => {
+            return;
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
   findCategoryCount(categoryName : string){
