@@ -24,11 +24,11 @@
     <ion-item-divider color="light">General</ion-item-divider>
     <ion-item>
       <ion-label>Task Deletion Confirmation</ion-label>
-      <ion-toggle color="primary"></ion-toggle>
+      <ion-toggle color="primary" (ionChange)="save()" [(ngModel)]="taskAlertToggle"></ion-toggle>
     </ion-item>
     <ion-item>
       <ion-label>Category Deletion Confirmation</ion-label>
-      <ion-toggle color="primary"></ion-toggle>
+      <ion-toggle color="primary" (ionChange)="save()" [(ngModel)]="categoryAlertToggle"></ion-toggle>
     </ion-item>
   </ion-list>
 
@@ -36,7 +36,7 @@
     <ion-item-divider color="light">Notifications</ion-item-divider>
     <ion-item>
       <ion-label>Turn of Completion Sound</ion-label>
-      <ion-toggle color="primary"></ion-toggle>
+      <ion-toggle color="primary" (ionChange)="save()" [(ngModel)]="soundToggle"></ion-toggle>
     </ion-item>
   </ion-list>
 
@@ -47,4 +47,7 @@
     </ion-item>
   </ion-list>
 
+  <ion-fab right bottom>
+    <button ion-fab class = "debug" (click)="debug()" color="light"><ion-icon name="add"></ion-icon></button>
+</ion-fab>
 </ion-content>

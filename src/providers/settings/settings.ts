@@ -19,16 +19,25 @@ export class SettingsProvider {
       });
     }
 
-    updateDeleteTaskAlert(){
 
-    }
+  /*
+  * Should not be called other then when account is signing up
+  */
+    setDefaultSettings(
+  ): firebase.database.ThenableReference {
+    return this.settingsRef.push({
+      taskAlertToggle : true,
+      categoryAlertToggle : true,
+      soundToggle : false
+    });
+  }
 
-    updateDeleteCategoryAlert(){
-
-    }
-
-    updateSoundNotification(){
-
+    updateSettings(taskAlert, categoryAlert, soundToggle, key){
+      firebase.database().ref('userProfile/'+this.userId+'/settings/' + key).update({
+        taskAlertToggle : taskAlert,
+        categoryAlertToggle : categoryAlert,
+        soundToggle : soundToggle
+      });    
     }
 
     getSettings(): firebase.database.Reference {

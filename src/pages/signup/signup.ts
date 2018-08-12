@@ -11,6 +11,7 @@ import { AuthProvider } from "../../providers/auth/auth";
 import { EmailValidator } from "../../validators/email";
 import { CategoriesProvider } from "../../providers/tasks/categories";
 import { TabsPage } from "../tabs/tabs";
+import { SettingsProvider } from "../../providers/settings/settings";
 
 @Component({
   selector: "page-signup",
@@ -26,6 +27,7 @@ export class SignupPage {
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController,
     public categoriesProvider: CategoriesProvider,
+    public settingsProvider : SettingsProvider,
     formBuilder: FormBuilder
   ) {
     this.signupForm = formBuilder.group({
@@ -53,6 +55,7 @@ export class SignupPage {
           this.loading.dismiss().then(() => {
             this.navCtrl.setRoot(TabsPage);
             this.categoriesProvider.addCategory("Default");
+            this.settingsProvider.setDefaultSettings();
           });
         },
         error => {

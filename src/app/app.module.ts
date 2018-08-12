@@ -25,6 +25,7 @@ import { ProfilePage } from '../pages/profile/profile';
 import {ResetPasswordPage} from '../pages/reset-password/reset-password';
 import { SignupPage } from  '../pages/signup/signup';
 import { TaskCreateCategoryPage } from '../pages/task-create-category/task-create-category';
+import { SettingsProvider } from '../providers/settings/settings';
 
 
 
@@ -78,7 +79,8 @@ import { TaskCreateCategoryPage } from '../pages/task-create-category/task-creat
     TasksProvider,
     CompletedTasksProvider,
     CategoriesProvider,
-    HelpProvider
+    HelpProvider,
+    SettingsProvider
   ]
 })
 export class AppModule {}
