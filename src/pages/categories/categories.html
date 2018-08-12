@@ -15,9 +15,18 @@
   </div> -->
   <ion-card class="card" *ngFor="let category of categoriesList;">
       <ion-item (click)="openCategory(category.categoryName)">
-      <button ion-button *ngIf="category.categoryName != 'Default'" (click)="deleteCategory($event, category)" icon-only item-right clear>
-        <ion-icon name="close"></ion-icon>
-      </button>
+          <button ion-button *ngIf="category.categoryName != 'Default' && categoryAlertToggle==true; else showNoAlert" (click)="showConfirm($event, category)" icon-only item-right clear>
+              <ion-icon name="close"></ion-icon>
+            </button>
+      <ng-template #showNoAlert>  
+          <button ion-button *ngIf="category.categoryName != 'Default'" (click)="deleteCategory($event, category)" icon-only item-right clear>
+              <ion-icon name="close"></ion-icon>
+            </button>
+      </ng-template> 
+
+
+
+
       <ion-avatar item-start>
           <ion-text-avatar color = "burple">{{category.categoryLetter}}</ion-text-avatar>
 

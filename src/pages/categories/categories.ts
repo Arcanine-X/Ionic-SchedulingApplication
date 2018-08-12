@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import {  NavController, NavParams, LoadingController } from 'ionic-angular';
+import {  NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { TasksProvider } from '../../providers/tasks/task';
 import { CategoryViewPage } from '../category-view/category-view';
 import { CategoriesProvider } from '../../providers/tasks/categories';
 import { HelpProvider } from '../../providers/helper/helper';
+import { SettingsProvider } from '../../providers/settings/settings';
 
 @Component({
   selector: 'page-categories',
@@ -15,19 +16,30 @@ export class CategoriesPage {
   loader;
   categoryToCreate;
   public alphabeticColors = [];
-
+  categoryAlertToggle;
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public tasksProvider : TasksProvider,
               public categoriesProvider : CategoriesProvider,
               public loadingCtrl : LoadingController,
-              public helper : HelpProvider) {    
+              public helper : HelpProvider,
+              public alertCtrl: AlertController,
+              public settingsProvider: SettingsProvider) {    
   }
 
   ionViewDidLoad(){
     this.doLoad();
     this.loadCategories();
+    this.loadSettings();
     this.populateColor();
+  }
+
+  loadSettings(){
+    this.settingsProvider.getSettings().on("value", setting => {
+      setting.forEach(snap => {
+        this.categoryAlertToggle = snap.val().categoryAlertToggle
+      });
+    });
   }
 
   
@@ -134,5 +146,28 @@ export class CategoriesPage {
         return false;
       });
     });
+  }
+
+  showConfirm(e, category) {
+    e.stopPropagation();
+    const confirm = this.alertCtrl.create({
+      title: 'Confirmation',
+      message: 'Are you sure you want to delete the Category? It will delete the tasks contained within it.',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: () => {
+            this.deleteCategory(e, category);
+          }
+        },
+        {
+          text: 'No',
+          handler: () => {
+            return;
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 }
