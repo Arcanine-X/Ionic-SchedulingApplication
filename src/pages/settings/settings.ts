@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, AlertController, App } from 'ionic-angular';
 import { ProfilePage } from '../profile/profile';
 import { SettingsProvider } from '../../providers/settings/settings';
+import { AuthProvider } from '../../providers/auth/auth';
+import { LoginPage } from '../login/login';
 
 @Component({
   selector: 'page-settings',
@@ -18,7 +20,21 @@ export class SettingsPage {
               public navParams: NavParams,
               public settingsProvider: SettingsProvider,
               public loadingCtrl : LoadingController,
+              public alertCtrl: AlertController,
+              public authProvider: AuthProvider,
+              public appCtrl: App
             ) {
+  }
+
+  logOut(): void {
+    this.authProvider.logoutUser().then(() => {
+      this.appCtrl.getRootNav().setRoot(LoginPage);
+    });
+  }
+
+  
+  openProfile(){
+    this.navCtrl.push(ProfilePage);
   }
 
   ionViewDidLoad() {
@@ -45,6 +61,40 @@ export class SettingsPage {
   save(){
     this.settingsProvider.updateSettings(this.taskAlertToggle, this.categoryAlertToggle, this.soundToggle, this.settingsKey);
   }
+
+  alertTest(){
+    if(this.categoryAlertToggle == true){
+      this.save();
+    }else{
+      this.showConfirm();
+    }
+  }
+
+
+  showConfirm() {
+    const confirm = this.alertCtrl.create({
+      title: 'Confirmation',
+      message: 'This is not reccomended. Would you like to change your mind?',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: () => {
+            this.categoryAlertToggle = true;
+            this.save();
+          }
+        },
+        {
+          text: 'No',
+          handler: () => {
+            this.save();
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+
 
 
   loadSettings(){

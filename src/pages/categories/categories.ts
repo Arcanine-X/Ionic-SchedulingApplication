@@ -34,6 +34,7 @@ export class CategoriesPage {
     this.populateColor();
   }
 
+
   loadSettings(){
     this.settingsProvider.getSettings().on("value", setting => {
       setting.forEach(snap => {
