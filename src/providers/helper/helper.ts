@@ -8,8 +8,9 @@ export class HelpProvider {
 
   }
 
+  //Sorting Algorithims//
 
-   /*
+  /*
   Selection sorts by a natural sort of alphanumerical strings
   */
  sortCategoryNames(arr){
@@ -40,20 +41,27 @@ selectionSortComparator(a, b) {
   }
 }
 
+  //Text Formatters//
+
+  formatDate(date){
+    return this.convertToNZDate(date);
+  }
+
+  formatDescription(taskDescription){
+    return taskDescription == undefined ? "Empty" : taskDescription; 
+  }
+
+  formatCategory(taskCategory){
+    return taskCategory == undefined ? "Default" : taskCategory; 
+  }
+
+  formatTitle(taskTitle){
+    return taskTitle == undefined ? "Unlabelled" : taskTitle; 
+  }
 
 
 
-
-
-
-
-
-
-
-
-  /*
-  * Date methods
-  */
+  //Date Methods//
 
   /*
   * Returns todays date in the format of: dd-mm-yyyy
@@ -109,11 +117,45 @@ selectionSortComparator(a, b) {
     return datetime;
   }
 
+  /*
+  * Converts date formats as such: 2018-08-18T01:35:44.245Z and returns
+  * the following: 18-08-2018
+  */
+  convertToNZDate(date){
+    if(date == undefined){
+      return this.getTodaysDate();
+    }
+    let split = date.split("-");
+    return split[2].split("T")[0] + "-" + split[1] + "-" + split[0];
+  }
 
 
 
+  //Category Methods//
 
 
+  findCategoryId(categoriesList, categoryName : string) : string{
+    for(let i = 0;i < categoriesList.length; i++){
+      if(categoriesList[i].categoryName === categoryName){
+        return categoriesList[i].id;
+      }
+    }
+  }
+
+  /*
+  * Returns the original category count + 1
+  */
+  getIncreaseCategoryCount(categoriesList, categoryName : string) : number{
+    for(let i = 0; i < categoriesList.length; i++){
+      if(categoriesList[i].categoryName === categoryName){
+        let original = categoriesList[i].categoryCount;
+        return original + 1;
+      }
+    }
+    return 0;
+  }
+
+  
 
 
 

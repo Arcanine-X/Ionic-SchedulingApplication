@@ -33,7 +33,6 @@ export class TaskCreatePage {
           categoryName: snap.val().categoryName,
           categoryCount: snap.val().categoryCount
         });
-        //return false;
       });
       this.helper.sortCategoryNames(this.categoriesList);
     });
@@ -48,71 +47,24 @@ export class TaskCreatePage {
     this.view.dismiss();
   }
 
-  findCategoryCount(categoryName : string){
-    for(let i = 0; i < this.categoriesList.length; i++){
-      if(this.categoriesList[i].categoryName === categoryName){
-        let original = this.categoriesList[i].categoryCount;
-        return original + 1;
-      }
-    }
-    return 0;
-  }
-
-  findCategoryId(categoryName : string){
-    for(let i = 0;i < this.categoriesList.length; i++){
-      if(this.categoriesList[i].categoryName === categoryName){
-        return this.categoriesList[i].id;
-      }
-    }
-  }
-
-
   createEvent(
     taskTitle: string,
     taskDescription: string,
     taskDate: string,
     taskCategory: string
   ): void {
-    let newCategoryCount = this.findCategoryCount(taskCategory);
-    let categoryId = this.findCategoryId(taskCategory);
+    let newCategoryCount = this.helper.getIncreaseCategoryCount(this.categoriesList, taskCategory);
+    let categoryId = this.helper.findCategoryId(this.categoriesList, taskCategory);
     //format inputs
-    taskDate = this.formatDate(taskDate);
-    taskDescription = this.formatDescription(taskDescription);
-    taskCategory = this.formatCategory(taskCategory);
+    taskTitle = this.helper.formatTitle(taskTitle);
+    taskDate = this.helper.formatDate(taskDate);
+    taskDescription = this.helper.formatDescription(taskDescription);
+    taskCategory = this.helper.formatCategory(taskCategory);
     this.tasksProvider
       .createTask(taskTitle, taskDescription, taskDate, taskCategory)
       .then(newEvent => {
         this.categoriesProvider.updateCategoryCount(categoryId, newCategoryCount, taskCategory);
         this.navCtrl.pop();
       });
-  }
-
-  /*
-  * Takes in a date in the format of 2018-08-07 which is converted
-  * into 07-08-2018, reversing the date.
-  */
-  formatDate(date){
-    if(date == undefined){
-      return this.helper.getTodaysDate();
-    }
-    var newDate = date.substring(9,10);
-    var year = date.substring(0,4);
-    var month = date.substring(5,7);
-    var day = date.substring(8,10);
-    return day+"-"+month+"-"+year;
-  }
-
-  formatDescription(taskDescription){
-    if(taskDescription == undefined){
-      return " ";
-    }
-    return taskDescription;
-  }
-
-  formatCategory(taskCategory){
-    if(taskCategory == undefined){
-      return "Default";
-    }
-    return taskCategory;
   }
 }

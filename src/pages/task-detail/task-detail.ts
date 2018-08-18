@@ -51,10 +51,6 @@ export class TaskDetailPage {
     });
   }
 
-  debugger(){
-    console.log(">>> " + this.newCategory);
-  }
-
   ionViewDidLoad() {
     this.loadCategories();
   }

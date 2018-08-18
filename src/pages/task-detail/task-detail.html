@@ -16,7 +16,8 @@
      <!-- Description -->
       <ion-item>
         <ion-label floating>Description</ion-label>
-        <ion-textarea type="text" [(ngModel)]="item.taskDescription" (keyup)="unsave()"></ion-textarea>
+        <!-- <ion-textarea class="textbox" type="text" [(ngModel)]="description"></ion-textarea> -->
+        <ion-textarea class="textbox" type="text" [(ngModel)]="item.taskDescription" (keyup)="unsave()"></ion-textarea>
       </ion-item>
       <!-- Date -->
       <ion-item>
@@ -34,6 +35,4 @@
     </ion-list>
     <!-- Save Button -->
   <button ion-button color="burple" id = "saveButton" (click)="save()">{{buttonText}}</button>
-  <button ion-button color="danger" id = "asd" (click)="debugger()">{{buttonText}}</button>
-
 </ion-content>

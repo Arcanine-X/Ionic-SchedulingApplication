@@ -4,9 +4,10 @@ page-task-create {
         height: 100%;
     }
 
-    #areaThing{
-        background-color: aqua;
-    }
+
+    textarea.text-input {
+        display: block;
+        height: 150px;
+     }
     
 }
-
