@@ -22,6 +22,16 @@
 
 
 <ion-content>
+
+  <div id ="empty" class = "emptyCategory" *ngIf="missedItems?.length == 0 && 
+                                                  todaysItems?.length == 0 &&
+                                                  tomorrowsItems?.length == 0 &&
+                                                  upcomingItems?.length == 0 &&
+                                                  !isSearchbarOpened"> 
+    <img class = "logo" src="../../assets/imgs/emptyState1.png" alt="Smiley face">
+  </div>
+
+
   <!-- Missed Items -->
     <ion-list class="login-sliding-demo" >
         <ion-item-divider class = "dividerAlign" *ngIf="missedItems?.length > 0" color="light">Missed</ion-item-divider>
