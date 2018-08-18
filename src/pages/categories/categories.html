@@ -44,7 +44,7 @@
       <ion-col col-10>
         <ion-input type="text" placeholder="Type to create a task..." name="message" [(ngModel)]="categoryToCreate"></ion-input>
       </ion-col>
-      <ion-col col-2 (click)="doSomething(categoryToCreate)">
+      <ion-col col-2 (click)="createNewCategory(categoryToCreate)">
         <ion-icon name="arrow-up"></ion-icon>
       </ion-col>
     </ion-row>

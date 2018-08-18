@@ -72,6 +72,12 @@ export class HomePage {
 
   ionViewDidLoad(){
     this.doLoad();
+    this.loadTasks();
+    this.loadCategories();
+    this.loadSettings();
+  }
+
+  loadTasks(){
     this.tasksProvider.getTasksList().on("value", tasksList => {
       this.items = [];
       this.todaysItems = [];
@@ -89,10 +95,8 @@ export class HomePage {
         });
       });
       this.items.reverse();
-      this.populateToday();
+      this.populateTasks();
     });
-    this.loadCategories();
-    this.loadSettings();
   }
 
   loadSettings(){
@@ -124,7 +128,7 @@ export class HomePage {
     return split[2] + "-" + split[1] + "-" +split[0];
   }
 
-  populateToday(){
+  populateTasks(){
     let today = Date.parse(this.dateStructure(this.helper.getTodaysDate()));
     let tomorrow = Date.parse(this.dateStructure(this.helper.getTomorrowsDate()));
     for(let i  = 0; i < this.items.length; i++){
@@ -160,30 +164,14 @@ export class HomePage {
 
   delete(key, item){
     //update fb count
-    let categoryKey = this.findCategoryId(item.taskCategory);
-    let count  = this.getCategoryCount(item.taskCategory);
+    let categoryKey = this.helper.findCategoryId(this.categoriesList, item.taskCategory);
+    let count  = this.helper.getCategoryCount(this.categoriesList, item.taskCategory);
     count--;
     this.categoriesProvider.updateCategoryCount(categoryKey, count, item.taskCategory);
     //then delete
     this.tasksProvider.deleteTask(key);
   }
 
-  getCategoryCount(categoryName : string){
-    for(let i = 0; i < this.categoriesList.length; i++){
-      if(this.categoriesList[i].categoryName === categoryName){
-       return this.categoriesList[i].categoryCount;
-      }
-    }
-    return 0;
-  }
-
-  findCategoryId(categoryName : string){
-    for(let i = 0;i < this.categoriesList.length; i++){
-      if(this.categoriesList[i].categoryName === categoryName){
-        return this.categoriesList[i].id;
-      }
-    }
-  }
 
   addPush(){
     this.navCtrl.push(TaskCreatePage, {
@@ -245,55 +233,28 @@ export class HomePage {
   confirm.present();
 }
 
-  //stupid
-    /*
+  /*
   Search bar functionality
   */
  getItems(ev) {
   // Reset items back to all of the items
-  this.ionViewDidLoad();
+  this.loadTasks();
   // set val to the value of the ev target
   var val = ev.target.value;
   // if the value is an empty string don't filter the items
-  this.A(ev);
-  this.B(ev);
-  this.C(ev);
-  this.D(ev);
+  this.missedItems = this.taskFilter(ev, this.missedItems);
+  this.upcomingItems = this.taskFilter(ev, this.upcomingItems);
+  this.todaysItems = this.taskFilter(ev, this.todaysItems);
+  this.tomorrowsItems = this.taskFilter(ev, this.tomorrowsItems);
 }
 
-  A(ev){
+taskFilter(ev, list){
     var val = ev.target.value;
     if (val && val.trim() != '') {
-      this.missedItems = this.missedItems.filter((item) => {
-        return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      list = list.filter((item) => {
+         return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
     }
-  }
-
-  B(ev){
-    var val = ev.target.value;
-    if (val && val.trim() != '') {
-      this.todaysItems = this.todaysItems.filter((item) => {
-        return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
-    }
-  }
-
-  C(ev){
-    var val = ev.target.value;
-    if (val && val.trim() != '') {
-      this.tomorrowsItems = this.tomorrowsItems.filter((item) => {
-        return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
-    }
-  }
-
-  D(ev){
-    var val = ev.target.value;
-    if (val && val.trim() != '') {
-      this.upcomingItems = this.upcomingItems.filter((item) => {
-        return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
-    }
+    return list;
   }
 }

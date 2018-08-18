@@ -15,7 +15,6 @@ export class CategoriesPage {
   public itemsList = [];
   loader;
   categoryToCreate;
-  public alphabeticColors = [];
   categoryAlertToggle;
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -31,7 +30,6 @@ export class CategoriesPage {
     this.doLoad();
     this.loadCategories();
     this.loadSettings();
-    this.populateColor();
   }
 
 
@@ -43,16 +41,6 @@ export class CategoriesPage {
     });
   }
 
-  
-
-  populateColor(){
-    for(var i=0; i<25;i++){
-      this.alphabeticColors[i] = {
-        'color': ('#'+Math.floor(Math.random()*16777215).toString(16))
-      };
-    }
-  }
-
 
   openCategory(categoryName){
     this.navCtrl.push(CategoryViewPage, {
@@ -60,7 +48,7 @@ export class CategoriesPage {
     })
   }
 
-  doSomething(category){
+  createNewCategory(category){
     if(category == undefined) return;
     if(this.isEmpty(category)) return;
     if(this.alreadyContains(category)) return; 
@@ -110,7 +98,6 @@ export class CategoriesPage {
     });
   }
 
-
   getCategoryTaskKeys(category){
     this.loadItems();
     let keyList = [];
@@ -123,8 +110,6 @@ export class CategoriesPage {
     this.itemsList = [];
     return keyList;
   }
-
-
 
   deleteCategory(e, category){
     e.stopPropagation();

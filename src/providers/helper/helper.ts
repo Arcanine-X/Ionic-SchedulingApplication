@@ -155,6 +155,15 @@ selectionSortComparator(a, b) {
     return 0;
   }
 
+  getCategoryCount(categoriesList, categoryName : string) : number{
+    for(let i = 0; i < categoriesList.length; i++){
+      if(categoriesList[i].categoryName === categoryName){
+       return categoriesList[i].categoryCount;
+      }
+    }
+    return 0;
+  }
+
   
 
 
