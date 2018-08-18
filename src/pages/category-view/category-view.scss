@@ -1,19 +1,19 @@
 page-category-view {
-
+    .outerDiv {
+        display: inline-flex;  // <-- This is responsible for vertical alignment
+        height: 500px;
+        background-color: white;
+        color: white;
+    }
+    
+    
+    .emptyCategory{
+        margin: auto;
+        color: grey;
+        font-size: 4em;
+        text-align: center;
+    }
 }
 
-.outerDiv {
-    display: inline-flex;  // <-- This is responsible for vertical alignment
-    height: 500px;
-    background-color: white;
-    color: white;
-}
 
-
-.emptyCategory{
-    margin: auto;
-    color: grey;
-    font-size: 4em;
-    text-align: center;
-}
 

@@ -27,7 +27,7 @@
         <ion-item-divider class = "dividerAlign" *ngIf="missedItems?.length > 0" color="light">Missed</ion-item-divider>
         <ion-item-sliding *ngFor="let item of missedItems;" >
           <ion-item (click)="goToTaskDetail(item, item.id)">
-             <h1>{{item?.taskTitle}}</h1>
+             <h2><strong>{{item?.taskTitle}}</strong></h2>
               <p>Description: {{item?.taskDescription}}</p>
               <p>{{item?.taskDate}}</p>
             </ion-item>
@@ -64,9 +64,9 @@
         <ion-item-sliding *ngFor="let item of todaysItems;" >
   
           <ion-item (click)="goToTaskDetail(item, item.id)">
-             <h2>{{item?.taskTitle}}</h2>
-              <h3>Description: <strong>{{item?.taskDescription}}</strong></h3>
-              <!-- <p>{{item?.taskDate}}</p> -->
+            <h2><strong>{{item?.taskTitle}}</strong></h2>
+            <p>Description: {{item?.taskDescription}}</p>
+            <!-- <p>{{item?.taskDate}}</p> -->
             </ion-item>
   
           <ion-item-options side="left">
@@ -103,9 +103,9 @@
           <ion-item-sliding *ngFor="let item of tomorrowsItems;" >
     
             <ion-item (click)="goToTaskDetail(item, item.id)">
-               <h2>{{item?.taskTitle}}</h2>
-                <h3>Description: <strong>{{item?.taskDescription}}</strong></h3>
-                <!-- <p>{{item?.taskDate}}</p> -->
+              <h2><strong>{{item?.taskTitle}}</strong></h2>
+              <p>Description: {{item?.taskDescription}}</p>
+              <!-- <p>{{item?.taskDate}}</p> -->
               </ion-item>
     
               <ion-item-options side="left">
@@ -142,9 +142,9 @@
           <ion-item-sliding *ngFor="let item of upcomingItems;" >
     
             <ion-item (click)="goToTaskDetail(item, item.id)">
-               <h2>{{item?.taskTitle}}</h2>
-                <h3>Description: <strong>{{item?.taskDescription}}</strong></h3>
-                <p>{{item?.taskDate}}</p>
+              <h2><strong>{{item?.taskTitle}}</strong></h2>
+              <p>Description: {{item?.taskDescription}}</p>
+              <p>{{item?.taskDate}}</p>
               </ion-item>
     
               <ion-item-options side="left">

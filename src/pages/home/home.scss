@@ -1,23 +1,23 @@
 page-home {
+    .dividerAlign{
+        text-align: center;
+        background: rgb(176, 188, 255);
+    }
+    
+    .dividerAlign:hover{
+        text-align: center;
+    }
+    
+    .addButton{
+        background-color: rgb(68, 93, 247)
+    }
+    
+    .ion-md-add{
+        color: white;
+    }
+    
+    .bluify{
+        background-color: blue !important;
+    }
 
-}
-.dividerAlign{
-    text-align: center;
-    background: rgb(191, 194, 219);
-}
-
-.dividerAlign:hover{
-    text-align: center;
-}
-
-.addButton{
-    background-color: rgb(68, 93, 247)
-}
-
-.ion-md-add{
-	color: white;
-}
-
-.bluify{
-    background-color: blue !important;
 }
