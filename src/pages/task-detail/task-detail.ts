@@ -15,7 +15,7 @@ export class TaskDetailPage {
   category;
   item;
   key;
-  buttonText = "Save";
+  buttonText = "Saved";
   categoriesList = [];
   newCategory;
 
@@ -60,7 +60,7 @@ export class TaskDetailPage {
   }
 
   unsave(){
-    this.buttonText = "Click to Save"
+    this.buttonText = "Save"
   }
 
   save(){

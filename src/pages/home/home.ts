@@ -174,17 +174,12 @@ export class HomePage {
 
 
   addPush(){
+    console.log("in here???");
     this.navCtrl.push(TaskCreatePage, {
       items: this.items
     });
   }
  
-  addItem(){
-    let addModal = this.modalCtrl.create(TaskCreatePage);
-    addModal.onDidDismiss((item) => {
-    });
-    addModal.present();
-  }
  
   viewItem(item){
     this.navCtrl.push(TaskDetailPage, {
