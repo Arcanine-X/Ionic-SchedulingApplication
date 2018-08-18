@@ -41,7 +41,11 @@
         </ion-item>
     </ion-list>    
     <!-- Button to save -->
-    <button full ion-button color="primary" (click) = "createEvent(title, description, eventDate, selectedCategory)">
-      Create task
-    </button>
+    <div id = "buttonWrapper">
+
+      <button full ion-button color="burple" (click) = "createEvent(title, description, eventDate, selectedCategory)">
+        Create task
+      </button>
+    </div>
+
   </ion-content>

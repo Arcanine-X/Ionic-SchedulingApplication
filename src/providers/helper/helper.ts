@@ -164,6 +164,21 @@ selectionSortComparator(a, b) {
     return 0;
   }
 
+  // Filters
+
+  /*
+  * Task Filterer
+  */
+ taskFilter(ev, list){
+  var val = ev.target.value;
+  if (val && val.trim() != '') {
+    list = list.filter((item) => {
+       return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
+    })
+  }
+  return list;
+}
+
   
 
 

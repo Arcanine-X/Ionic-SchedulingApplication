@@ -7,7 +7,6 @@ import { HelpProvider } from '../../providers/helper/helper';
 import { CategoriesProvider } from '../../providers/tasks/categories';
 import { TaskCreateCategoryPage } from '../task-create-category/task-create-category';
 
-
 @Component({
   selector: 'page-category-view',
   templateUrl: 'category-view.html',
@@ -42,6 +41,7 @@ export class CategoryViewPage {
     var val = ev.target.value;
     // if the value is an empty string don't filter the items
     var val = ev.target.value;
+    
     if (val && val.trim() != '') {
       this.categoryItems = this.categoryItems.filter((item) => {
         return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
@@ -84,32 +84,12 @@ export class CategoryViewPage {
   delete(key, item){
     this.loadCategories();
     // update fb count
-    let categoryKey = this.findCategoryId(item.taskCategory);
-    let count  = this.getCategoryCount(item.taskCategory);
+    let categoryKey = this.helper.findCategoryId(this.categoriesList, item.taskCategory);
+    let count  = this.helper.getCategoryCount(this.categoriesList, item.taskCategory);
     count--;
     this.categoriesProvider.updateCategoryCount(categoryKey, count, item.taskCategory);
     //then delete
     this.tasksProvider.deleteTask(key);
-  }
-
-
-  getCategoryCount(categoryName : string){
-    for(let i = 0; i < this.categoriesList.length; i++){
-      if(this.categoriesList[i].categoryName === categoryName){
-        return this.categoriesList[i].categoryCount;
-      }
-    }
-    return 0;
-  }
-
-
-
-  findCategoryId(categoryName : string){
-    for(let i = 0;i < this.categoriesList.length; i++){
-      if(this.categoriesList[i].categoryName === categoryName){
-        return this.categoriesList[i].id;
-      }
-    }
   }
 
   loadCategories(){

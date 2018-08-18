@@ -1,14 +1,16 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color = "burple">
     <ion-title>Signup</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <img src="assets/img/banner.jpg" />
   <form [formGroup]="signupForm" (submit)="signupUser()" novalidate>
     <ion-item>
-      <ion-label stacked>Email</ion-label>
+      <ion-label stacked>
+        <ion-icon name="mail" item-start class="text-primary"></ion-icon>
+        Email
+      </ion-label>
       <ion-input formControlName="email" type="email"
       placeholder="Your email address"
       [class.invalid]="!signupForm.controls.email.valid && blur">
@@ -20,7 +22,10 @@
     </ion-item>
 
     <ion-item>
-      <ion-label stacked>Password</ion-label>
+      <ion-label stacked>
+        <ion-icon name="lock" item-start class="text-primary"></ion-icon>
+        Password
+      </ion-label>
       <ion-input formControlName="password" type="password"
       placeholder="Your password"
       [class.invalid]="!signupForm.controls.password.valid && blur">
@@ -31,9 +36,10 @@
     signupForm.controls.password.touched">
       <p>Your password needs more than 6 characters.</p>
     </ion-item>
-
-    <button ion-button block type="submit" [disabled]="!signupForm.valid">
-      Create an Account
+    <div id = "buttonWrapper">
+    <button class = "buttonWrapper" ion-button color = "burple"  type="submit" [disabled]="!signupForm.valid">
+      Create Account
     </button>
+  </div>
   </form>
 </ion-content>

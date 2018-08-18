@@ -237,24 +237,14 @@ export class HomePage {
   Search bar functionality
   */
  getItems(ev) {
-  // Reset items back to all of the items
-  this.loadTasks();
-  // set val to the value of the ev target
-  var val = ev.target.value;
-  // if the value is an empty string don't filter the items
-  this.missedItems = this.taskFilter(ev, this.missedItems);
-  this.upcomingItems = this.taskFilter(ev, this.upcomingItems);
-  this.todaysItems = this.taskFilter(ev, this.todaysItems);
-  this.tomorrowsItems = this.taskFilter(ev, this.tomorrowsItems);
-}
-
-taskFilter(ev, list){
+    // Reset items back to all of the items
+    this.loadTasks();
+    // set val to the value of the ev target
     var val = ev.target.value;
-    if (val && val.trim() != '') {
-      list = list.filter((item) => {
-         return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
-    }
-    return list;
+    // if the value is an empty string don't filter the items
+    this.missedItems = this.helper.taskFilter(ev, this.missedItems);
+    this.upcomingItems = this.helper.taskFilter(ev, this.upcomingItems);
+    this.todaysItems = this.helper.taskFilter(ev, this.todaysItems);
+    this.tomorrowsItems = this.helper.taskFilter(ev, this.tomorrowsItems);
   }
 }
