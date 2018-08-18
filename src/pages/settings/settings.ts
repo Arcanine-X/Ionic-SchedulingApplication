@@ -94,9 +94,6 @@ export class SettingsPage {
     confirm.present();
   }
 
-
-
-
   loadSettings(){
     let self = this;
     this.settingsProvider.getSettings().on("value", categoriesList => {
@@ -109,15 +106,4 @@ export class SettingsPage {
       self.loader.dismiss();
     });
   }
-
-
-  debug(){
-    console.log("debug");
-    console.log(this.settingsKey);
-    console.log(this.soundToggle);
-    console.log(this.categoryAlertToggle);
-    console.log(this.taskAlertToggle);
-
-  }
-
 }

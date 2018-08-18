@@ -5,13 +5,13 @@ import { TaskRestorePage } from '../task-restore/task-restore';
 import { TasksProvider } from '../../providers/tasks/task';
 import { CategoriesProvider } from '../../providers/tasks/categories';
 import { SettingsProvider } from '../../providers/settings/settings';
+import { HelpProvider } from '../../providers/helper/helper';
 
 @Component({
   selector: 'page-completed-tasks',
   templateUrl: 'completed-tasks.html',
 })
 export class CompletedTasksPage {
-
   //array to store the completed tasks
   public completedItems = [];
   private loader;
@@ -26,7 +26,8 @@ export class CompletedTasksPage {
               public categoriesProvider : CategoriesProvider,
               public loadingCtrl : LoadingController,
               public alertCtrl: AlertController,
-              public settingsProvider: SettingsProvider) {
+              public settingsProvider: SettingsProvider,
+              public helper : HelpProvider) {
   }
 
   ionViewDidLoad() {
@@ -69,8 +70,8 @@ export class CompletedTasksPage {
     item.taskDescription, item.taskDate,
     item.taskCategory).then(newEvent =>{
     this.delete(itemId)
-    let newCount = this.findCategoryCount(item.taskCategory);
-    let categoryKey = this.findCategoryId(item.taskCategory);
+    let newCount = this.helper.getIncreaseCategoryCount(this.categoriesList, item.taskCategory);
+    let categoryKey = this.helper.findCategoryId(this.categoriesList, item.taskCategory);
     this.categoriesProvider.updateCategoryCount(categoryKey, newCount, item.taskCategory);
   });
     
@@ -99,25 +100,6 @@ export class CompletedTasksPage {
     confirm.present();
   }
 
-  findCategoryCount(categoryName : string){
-    for(let i = 0; i < this.categoriesList.length; i++){
-      if(this.categoriesList[i].categoryName === categoryName){
-        let original = this.categoriesList[i].categoryCount;
-        return original + 1;
-      }
-    }
-    return 0;
-  }
-
-
-  findCategoryId(categoryName : string){
-    for(let i = 0;i < this.categoriesList.length; i++){
-      if(this.categoriesList[i].categoryName === categoryName){
-        return this.categoriesList[i].id;
-      }
-    }
-  }
-
   goToTaskDetail(item, itemId){
     this.navCtrl.push(TaskRestorePage, {
       item: item,
@@ -135,7 +117,6 @@ export class CompletedTasksPage {
           categoryName: snap.val().categoryName,
           categoryCount: snap.val().categoryCount
         });
-        //return false;
       });
     });
 
@@ -149,6 +130,4 @@ export class CompletedTasksPage {
     );
     this.loader.present();
   }
-
-
 }

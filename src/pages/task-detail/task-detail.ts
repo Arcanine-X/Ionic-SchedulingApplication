@@ -45,7 +45,6 @@ export class TaskDetailPage {
           categoryName: snap.val().categoryName,
           categoryCount: snap.val().categoryCount
         });
-        //return false;
       });
       this.helper.sortCategoryNames(this.categoriesList);
     });
@@ -60,8 +59,6 @@ export class TaskDetailPage {
     return split[2] + "-" + split[1] + "-" +split[0];
   }
 
-
-
   unsave(){
     this.buttonText = "Click to Save"
   }
@@ -69,8 +66,9 @@ export class TaskDetailPage {
   save(){
     this.buttonText = "Saved";
     this.item.taskDate = this.date;
-    this.item.taskDate = this.formatDate(this.item.taskDate);
-    this.item.taskDescription = this.formatDescription(this.item.taskDescription);
+    this.item.taskDate = this.helper.formatDate(this.item.taskDate);
+    this.item.taskDescription = this.helper.formatDescription(this.item.taskDescription);
+    this.item.taskTitle = this.helper.formatTitle(this.item.taskTitle);
     if(this.newCategory != this.item.taskCategory){
       this.updateNewCategory(this.newCategory);
       this.updateOldCategory(this.item.taskCategory);
@@ -82,67 +80,22 @@ export class TaskDetailPage {
 
   updateOldCategory(taskCategory){
         //update old category
-        let newCategoryCount = this.findCategoryCount(taskCategory);
+        let newCategoryCount = this.helper.getIncreaseCategoryCount(this.categoriesList, taskCategory);
         newCategoryCount--;
         console.log("Category is " + taskCategory + " with " + newCategoryCount + " items");
         newCategoryCount--;
-        let categoryId = this.findCategoryId(taskCategory);
+        let categoryId = this.helper.findCategoryId(this.categoriesList, taskCategory);
         this.categoriesProvider.updateCategoryCount(categoryId, newCategoryCount, taskCategory);
   }
 
   updateNewCategory(taskCategory){
-
     //update new category
-    let newCategoryCount = this.findCategoryCount(taskCategory);
-    let categoryId = this.findCategoryId(taskCategory);
+    let newCategoryCount = this.helper.getIncreaseCategoryCount(this.categoriesList, taskCategory);
+    let categoryId = this.helper.findCategoryId(this.categoriesList, taskCategory);
     this.categoriesProvider.updateCategoryCount(categoryId, newCategoryCount, taskCategory);
-
-  }
-
-  findCategoryCount(categoryName : string){
-    for(let i = 0; i < this.categoriesList.length; i++){
-      if(this.categoriesList[i].categoryName === categoryName){
-        let original = this.categoriesList[i].categoryCount;
-        return original + 1;
-      }
-    }
-    return 0;
-  }
-
-  findCategoryId(categoryName : string){
-    for(let i = 0;i < this.categoriesList.length; i++){
-      if(this.categoriesList[i].categoryName === categoryName){
-        return this.categoriesList[i].id;
-      }
-    }
   }
 
   close(){
     this.view.dismiss();
-  }
-
-
-  /*
-  * Takes in a date in the format of 2018-08-07 which is converted
-  * into 07-08-2018, reversing the date.
-  */
- formatDate(date){
-   let split_hhmmss = date.split('T'); //split hh:mm:ss
-   let split = split_hhmmss[0].split('-'); //split yyyy-mm-dd
-   return split[2] + "-" + split[1] + "-" +split[0];
-  }
-
-  formatDescription(taskDescription){
-    if(taskDescription == undefined){
-      return " ";
-    }
-    return taskDescription;
-  }
-
-  formatCategory(taskCategory){
-    if(taskCategory == undefined){
-      return "Default";
-    }
-    return taskCategory;
   }
 }
