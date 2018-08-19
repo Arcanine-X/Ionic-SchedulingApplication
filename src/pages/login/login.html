@@ -5,7 +5,7 @@
 
   <form [formGroup]="loginForm" (submit)="loginUser()" novalidate>
 
-    <ion-item>
+    <ion-item class="item item-trns">
       <!-- <ion-label stacked>Email</ion-label> -->
       <ion-label stacked>
         <ion-icon name="mail" item-start class="text-primary"></ion-icon>
@@ -15,7 +15,7 @@
         [class.invalid]="!loginForm.controls.email.valid && blur"></ion-input>
     </ion-item>
 
-    <ion-item>
+    <ion-item class="item item-trns">
       <!-- <ion-label stacked>Password</ion-label> -->
       <ion-label stacked>
         <ion-icon name="lock" item-start class="text-primary"></ion-icon>

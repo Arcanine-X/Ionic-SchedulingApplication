@@ -55,6 +55,10 @@ export class SignupPage {
           this.loading.dismiss().then(() => {
             this.navCtrl.setRoot(TabsPage);
             this.categoriesProvider.addCategory("Default");
+            this.categoriesProvider.addCategory("Home");
+            this.categoriesProvider.addCategory("Work");
+            this.categoriesProvider.addCategory("Travel");
+            this.categoriesProvider.addCategory("Important");
             this.settingsProvider.setDefaultSettings();
           });
         },

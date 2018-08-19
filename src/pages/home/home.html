@@ -27,8 +27,17 @@
                                                   todaysItems?.length == 0 &&
                                                   tomorrowsItems?.length == 0 &&
                                                   upcomingItems?.length == 0 &&
-                                                  !isSearchbarOpened"> 
+                                                  items?.length == 0"> 
     <img class = "logo" src="../../assets/imgs/emptyState1.png" alt="Smiley face">
+  </div>
+
+  <div id ="empty" class = "emptyCategory" *ngIf="missedItems?.length == 0 && 
+  todaysItems?.length == 0 &&
+  tomorrowsItems?.length == 0 &&
+  upcomingItems?.length == 0 &&
+  items?.length != 0 &&
+  isSearchbarOpened"> 
+  <img class = "logo" src="../../assets/imgs/emptyState5.png" alt="Smiley face">
   </div>
 
 

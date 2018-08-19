@@ -23,14 +23,8 @@
               <ion-icon name="close"></ion-icon>
             </button>
       </ng-template> 
-
-
-
-
       <ion-avatar item-start>
           <ion-text-avatar color = "burple">{{category.categoryLetter}}</ion-text-avatar>
-
-        <!-- <ion-text-avatar color = "secondary">{{category.categoryLetter}}</ion-text-avatar> -->
       </ion-avatar>
       <h2>{{category.categoryName}}</h2>
       <p>{{category.categoryCount}} ITEMS</p>
@@ -42,7 +36,7 @@
   <ion-grid>
     <ion-row>
       <ion-col col-10>
-        <ion-input type="text" placeholder="Type to create a task..." name="message" [(ngModel)]="categoryToCreate"></ion-input>
+        <ion-input type="text" placeholder="Type to create a category..." name="message" [(ngModel)]="categoryToCreate"></ion-input>
       </ion-col>
       <ion-col col-2 (click)="createNewCategory(categoryToCreate)">
         <ion-icon name="arrow-up"></ion-icon>
