@@ -79,8 +79,6 @@ export class CategoryViewPage {
      });
 }
 
-
-
   delete(key, item){
     this.loadCategories();
     // update fb count
@@ -93,21 +91,8 @@ export class CategoryViewPage {
   }
 
   loadCategories(){
-    let self = this;
-    this.categoriesProvider.getCategories().on("value", categoriesList => {
-      this.categoriesList = [];
-      categoriesList.forEach(snap => {
-        this.categoriesList.push({
-          id: snap.key,
-          categoryName: snap.val().categoryName,
-          categoryCount: snap.val().categoryCount
-        });
-      });
-      return false;
-    });
+    this.categoriesList = this.categoriesProvider.getCategoriesArray();
   }
-
-
 
   goToTaskDetail(item, itemId){
     this.navCtrl.push(TaskDetailPage, {

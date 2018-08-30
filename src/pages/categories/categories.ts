@@ -27,18 +27,13 @@ export class CategoriesPage {
   }
 
   ionViewDidLoad(){
-    this.doLoad();
     this.loadCategories();
     this.loadSettings();
   }
 
 
   loadSettings(){
-    this.settingsProvider.getSettings().on("value", setting => {
-      setting.forEach(snap => {
-        this.categoryAlertToggle = snap.val().categoryAlertToggle
-      });
-    });
+    this.categoryAlertToggle = this.settingsProvider.getCategoryAlertToggle();
   }
 
 
@@ -72,30 +67,9 @@ export class CategoriesPage {
     return (!str || 0 === str.length);
   }
 
-  doLoad(){
-    this.loader = this.loadingCtrl.create(
-      {
-        content: "Please wait...",
-      }
-    );
-    this.loader.present();
-  }
-
   loadCategories(){
-    let self = this;
-    this.categoriesProvider.getCategories().on("value", categoriesList => {
-      this.categoriesList = [];
-      categoriesList.forEach(snap => {
-        this.categoriesList.push({
-          id: snap.key,
-          categoryName: snap.val().categoryName,
-          categoryCount: snap.val().categoryCount,
-          categoryLetter : snap.val().categoryLetter
-        });
-      });
-      this.helper.sortCategoryNames(this.categoriesList);
-      self.loader.dismiss();
-    });
+    this.categoriesList = this.categoriesProvider.getCategoriesArray();
+    this.helper.sortCategoryNames(this.categoriesList);
   }
 
   getCategoryTaskKeys(category){

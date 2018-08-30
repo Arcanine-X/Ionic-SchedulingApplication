@@ -37,17 +37,8 @@ export class TaskDetailPage {
   }
 
   loadCategories(){
-    this.categoriesProvider.getCategories().on("value", categoriesList => {
-      this.categoriesList = [];
-      categoriesList.forEach(snap => {
-        this.categoriesList.push({
-          id: snap.key,
-          categoryName: snap.val().categoryName,
-          categoryCount: snap.val().categoryCount
-        });
-      });
-      this.helper.sortCategoryNames(this.categoriesList);
-    });
+    this.categoriesList = this.categoriesProvider.getCategoriesArray();
+    this.helper.sortCategoryNames(this.categoriesList);
   }
 
   ionViewDidLoad() {
@@ -79,6 +70,7 @@ export class TaskDetailPage {
   }
 
   updateOldCategory(taskCategory){
+        this.categoriesList = this.categoriesProvider.getCategoriesArray();
         //update old category
         let newCategoryCount = this.helper.getIncreaseCategoryCount(this.categoriesList, taskCategory);
         newCategoryCount--;
@@ -89,6 +81,7 @@ export class TaskDetailPage {
   }
 
   updateNewCategory(taskCategory){
+    this.categoriesList = this.categoriesProvider.getCategoriesArray();
     //update new category
     let newCategoryCount = this.helper.getIncreaseCategoryCount(this.categoriesList, taskCategory);
     let categoryId = this.helper.findCategoryId(this.categoriesList, taskCategory);

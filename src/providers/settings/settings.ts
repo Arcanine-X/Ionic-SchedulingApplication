@@ -8,6 +8,10 @@ import 'firebase/storage';
 export class SettingsProvider {
     public userId;
     public settingsRef: firebase.database.Reference;
+    public taskAlertToggle;
+    public soundToggle;
+    public categoryAlertToggle;
+    public key;
     constructor() {
       firebase.auth().onAuthStateChanged(user => {
         if (user) {
@@ -18,6 +22,7 @@ export class SettingsProvider {
         }
       });
     }
+
 
 
   /*
@@ -32,15 +37,40 @@ export class SettingsProvider {
     });
   }
 
-    updateSettings(taskAlert, categoryAlert, soundToggle, key){
+    updateSettings(taskAlert, categoryAlert, key){
       firebase.database().ref('userProfile/'+this.userId+'/settings/' + key).update({
         taskAlertToggle : taskAlert,
         categoryAlertToggle : categoryAlert,
-        soundToggle : soundToggle
       });    
     }
 
     getSettings(): firebase.database.Reference {
         return this.settingsRef;
     }
+
+    fetchSettings(){
+      this.getSettings().on("value", setting => {
+        setting.forEach(snap => {
+          this.key = snap.key;
+          this.taskAlertToggle = snap.val().taskAlertToggle,
+          this.categoryAlertToggle = snap.val().categoryAlertToggle
+        });
+      });
+    }
+
+    getKey(){
+      return this.key;
+    }
+
+    getTaskAlertToggle(){
+      return this.taskAlertToggle;
+    }
+
+    getCategoryAlertToggle(){
+      return this.categoryAlertToggle;
+    }
+
+    
+
+    
 }

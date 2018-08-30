@@ -20,6 +20,29 @@ export class CategoriesProvider {
     });
   }
 
+  fetchCategories() : any{
+    this.categoriesList = [];
+    this.getCategories().on("value", categoriesList => {
+      this.categoriesList = [];
+      categoriesList.forEach(snap => {
+        this.categoriesList.push({
+          id: snap.key,
+          categoryName: snap.val().categoryName,
+          categoryCount: snap.val().categoryCount,
+          categoryLetter : snap.val().categoryLetter
+        });
+        
+      });
+      return this.categoriesList;
+    });
+  }
+
+
+
+  getCategoriesArray():any{
+    return this.categoriesList;
+  }
+
   addCategory(
       categoryName: string
   ): firebase.database.ThenableReference {

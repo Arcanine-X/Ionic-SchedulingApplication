@@ -41,7 +41,6 @@ export class HomePage {
 
   //Alert vairables
   public taskAlertToggle;
-  public soundToggle;
   //Variables for the altert when deleting tasks
   testRadioOpen: boolean;
   testRadioResult;
@@ -56,7 +55,7 @@ export class HomePage {
     public categoriesProvider : CategoriesProvider,
     public helper : HelpProvider,
     public loadingCtrl : LoadingController,
-    public settingsProvider: SettingsProvider  
+    public settingsProvider: SettingsProvider,
   ) {
 
   }
@@ -72,9 +71,10 @@ export class HomePage {
 
   ionViewDidLoad(){
     this.doLoad();
+    this.settingsProvider.fetchSettings();
+    this.categoriesList = this.categoriesProvider.fetchCategories();
+    this.completedTasksProvider.fetchCompletedItems();
     this.loadTasks();
-    this.loadCategories();
-    this.loadSettings();
   }
 
   loadTasks(){
@@ -94,32 +94,10 @@ export class HomePage {
           taskCategory: snap.val().taskCategory
         });
       });
+      this.loader.dismiss();
       this.items.reverse();
       this.populateTasks();
-    });
-  }
-
-  loadSettings(){
-    this.settingsProvider.getSettings().on("value", setting => {
-      setting.forEach(snap => {
-        this.taskAlertToggle = snap.val().taskAlertToggle,
-        this.soundToggle = snap.val().soundToggle
-      });
-    });
-  }
-
-  loadCategories(){
-    let self = this;
-    this.categoriesProvider.getCategories().on("value", categoriesList => {
-      this.categoriesList = [];
-      categoriesList.forEach(snap => {
-        this.categoriesList.push({
-          id: snap.key,
-          categoryName: snap.val().categoryName,
-          categoryCount: snap.val().categoryCount
-        });
-      });
-      self.loader.dismiss();
+      this.taskAlertToggle = this.settingsProvider.getTaskAlertToggle();
     });
   }
 
@@ -164,6 +142,7 @@ export class HomePage {
 
   delete(key, item){
     //update fb count
+    this.categoriesList = this.categoriesProvider.getCategoriesArray();
     let categoryKey = this.helper.findCategoryId(this.categoriesList, item.taskCategory);
     let count  = this.helper.getCategoryCount(this.categoriesList, item.taskCategory);
     count--;

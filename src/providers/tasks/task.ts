@@ -3,9 +3,11 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 import 'firebase/storage';
+import { ItemSliding } from '../../../node_modules/ionic-angular/umd';
 
 @Injectable()
 export class TasksProvider {
+  items = [];
   public eventListRef: firebase.database.Reference;
   public userId;
   constructor() {
@@ -31,6 +33,28 @@ export class TasksProvider {
       taskDate: taskDate,
       taskCategory: taskCategory,
     });
+  }
+
+  fetchData(loader): any{
+    this.getTasksList().on("value", tasksList => {
+      tasksList.forEach(snap => {
+        this.items.push({
+          id: snap.key,
+          taskTitle: snap.val().taskTitle,
+          taskDescription: snap.val().taskDescription,
+          taskDate: snap.val().taskDate,
+          taskCategory: snap.val().taskCategory
+        });
+      });
+
+      this.items.reverse();
+      loader.dismiss();
+      return this.items;
+    });
+  }
+
+  getItems(){
+    return this.items;
   }
   
 
