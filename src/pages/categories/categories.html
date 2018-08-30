@@ -7,13 +7,7 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <!-- <div *ngIf ="categoriesList"> 
-        {{categoriesList | json}}
-  </div> -->
-  <!-- <div *ngIf ="alphabeticColors"> 
-        {{alphabeticColors | json}}
-  </div> -->
-  <ion-card class="card" *ngFor="let category of categoriesList;">
+  <ion-card class="card" *ngFor="let category of this.getCategories();">
       <ion-item (click)="openCategory(category.categoryName)">
           <button ion-button *ngIf="category.categoryName != 'Default' && categoryAlertToggle==true; else showNoAlert" (click)="showConfirm($event, category)" icon-only item-right clear>
               <ion-icon name="close"></ion-icon>

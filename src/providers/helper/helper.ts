@@ -1,14 +1,8 @@
 import { Injectable } from '@angular/core';
-import { CategoriesProvider } from '../tasks/categories';
-
 
 @Injectable()
 export class HelpProvider {
-  constructor(private categoriesProvider : CategoriesProvider) {
-
-  }
-
-  //Sorting Algorithims//
+  constructor() {  }
 
   /*
   Selection sorts by a natural sort of alphanumerical strings
@@ -58,8 +52,6 @@ selectionSortComparator(a, b) {
   formatTitle(taskTitle){
     return taskTitle == undefined ? "Unlabelled" : taskTitle; 
   }
-
-
 
   //Date Methods//
 

@@ -16,14 +16,20 @@ export class CategoryViewPage {
   public categoryItems = [];
   public isSearchbarOpened = false;
   public categoriesList = [];
-  constructor(public navCtrl: NavController, public navParams: NavParams, public tasksProvider : TasksProvider, public completedTasksProvider : CompletedTasksProvider
-            , public helper : HelpProvider, public categoriesProvider : CategoriesProvider) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    public tasksProvider : TasksProvider, 
+    public completedTasksProvider : CompletedTasksProvider, 
+    public helper : HelpProvider, 
+    public categoriesProvider : CategoriesProvider) {
     this.categoryName = navParams.get('categoryName');
   }
 
   ionViewDidLoad() {
-    this.populate();
     console.log('Category View Loaded');
+    //Load in data 
+    this.tasksProvider.fetchFilteredData(this.categoryName);
   }
 
   createTaskInCategory(){
@@ -36,12 +42,10 @@ export class CategoryViewPage {
 
   getItems(ev) {
     // Reset items back to all of the items
-    this.ionViewDidLoad();
+    this.categoryItems = this.tasksProvider.getFilteredItems();
     // set val to the value of the ev target
     var val = ev.target.value;
     // if the value is an empty string don't filter the items
-    var val = ev.target.value;
-    
     if (val && val.trim() != '') {
       this.categoryItems = this.categoryItems.filter((item) => {
         return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
@@ -49,24 +53,10 @@ export class CategoryViewPage {
     }
   }
 
-
-  populate(){
-    //get all the items
-    this.tasksProvider.getTasksList().on("value", eventListSnapshot => {
-      this.categoryItems = [];
-      eventListSnapshot.forEach(snap => {
-        if(snap.val().taskCategory.toLowerCase() === this.categoryName.toLowerCase()){
-          this.categoryItems.push({
-          id: snap.key,
-          taskTitle: snap.val().taskTitle,
-          taskDescription: snap.val().taskDescription,
-          taskDate: snap.val().taskDate,
-          taskCategory: snap.val().taskCategory
-        });
-        }
-      });
-    });
+  getFilteredItems(){
+    return this.tasksProvider.getFilteredItems();
   }
+
 
   /*
   Complete tasks test
@@ -80,7 +70,7 @@ export class CategoryViewPage {
 }
 
   delete(key, item){
-    this.loadCategories();
+    this.categoriesList = this.categoriesProvider.getCategoriesArray();
     // update fb count
     let categoryKey = this.helper.findCategoryId(this.categoriesList, item.taskCategory);
     let count  = this.helper.getCategoryCount(this.categoriesList, item.taskCategory);
@@ -88,10 +78,6 @@ export class CategoryViewPage {
     this.categoriesProvider.updateCategoryCount(categoryKey, count, item.taskCategory);
     //then delete
     this.tasksProvider.deleteTask(key);
-  }
-
-  loadCategories(){
-    this.categoriesList = this.categoriesProvider.getCategoriesArray();
   }
 
   goToTaskDetail(item, itemId){

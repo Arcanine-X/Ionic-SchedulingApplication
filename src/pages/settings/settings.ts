@@ -36,8 +36,8 @@ export class SettingsPage {
   }
 
   ionViewDidLoad() {
-    this.loadSettings();
     console.log('Settings page successfully loaded');
+    this.loadSettings();
   }
 
   goToProfile(): void {

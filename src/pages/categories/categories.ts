@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
+import {  NavController, NavParams, AlertController } from 'ionic-angular';
 import { TasksProvider } from '../../providers/tasks/task';
 import { CategoryViewPage } from '../category-view/category-view';
 import { CategoriesProvider } from '../../providers/tasks/categories';
@@ -13,14 +13,12 @@ import { SettingsProvider } from '../../providers/settings/settings';
 export class CategoriesPage {
   public categoriesList = [];
   public itemsList = [];
-  loader;
   categoryToCreate;
   categoryAlertToggle;
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public tasksProvider : TasksProvider,
               public categoriesProvider : CategoriesProvider,
-              public loadingCtrl : LoadingController,
               public helper : HelpProvider,
               public alertCtrl: AlertController,
               public settingsProvider: SettingsProvider) {    
@@ -62,9 +60,12 @@ export class CategoriesPage {
     return false;
   }
 
-
   isEmpty(str) {
     return (!str || 0 === str.length);
+  }
+
+  getCategories(){
+    return this.categoriesProvider.getCategoriesArray();
   }
 
   loadCategories(){
@@ -73,7 +74,8 @@ export class CategoriesPage {
   }
 
   getCategoryTaskKeys(category){
-    this.loadItems();
+    this.itemsList = this.tasksProvider.getItems();
+    //this.loadItems();
     let keyList = [];
     for(let i = 0; i < this.itemsList.length; i++){
       if(this.itemsList[i].taskCategory === category.categoryName){
@@ -92,20 +94,6 @@ export class CategoriesPage {
     this.tasksProvider.deleteCategoryTasks(keyList);
     // then delete category
     this.categoriesProvider.deleteCategory(category.id);
-  }
-
-  loadItems(){
-    //this.doLoad();
-    this.tasksProvider.getTasksList().on("value", tasksList => {
-      this.itemsList = [];
-      tasksList.forEach(snap => {
-        this.itemsList.push({
-          id: snap.key,
-          taskCategory: snap.val().taskCategory
-        });
-        return false;
-      });
-    });
   }
 
   showConfirm(e, category) {

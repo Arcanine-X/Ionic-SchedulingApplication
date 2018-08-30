@@ -5,37 +5,37 @@
     </ion-title>
   </ion-navbar>
 </ion-header>
- 
+
 <ion-content>
   <ion-list>
-      <!-- Title -->
-      <ion-item>
-        <ion-label floating>Title</ion-label>
-        <ion-input type="text" color = "burple" id = "title" [(ngModel)]="item.taskTitle" (keyup)="unsave()"></ion-input>
-      </ion-item>
-     <!-- Description -->
-      <ion-item>
-        <ion-label floating>Description</ion-label>
-        <!-- <ion-textarea class="textbox" type="text" [(ngModel)]="description"></ion-textarea> -->
-        <ion-textarea class="textbox" type="text" [(ngModel)]="item.taskDescription" (keyup)="unsave()"></ion-textarea>
-      </ion-item>
-      <!-- Date -->
-      <ion-item>
-          <ion-label floating>Event Date</ion-label>
-          <ion-datetime displayFormat="D MMM, YY" pickerFormat="DD MMM YYYY" [(ngModel)]="date">
-          </ion-datetime>
-        </ion-item>
-      <!-- Category -->
-       <ion-item >
-          <ion-label stacked>Category</ion-label>
-          <ion-select [(ngModel)]="newCategory" interface="action-sheet" >
-            <ion-option *ngFor="let c of categoriesList;">{{c.categoryName}}</ion-option>
-          </ion-select>
-        </ion-item>
-    </ion-list>
-    <!-- Save Button -->
-    <div id = "buttonWrapper">
-      <button ion-button color="burple" id = "saveButton" (click)="save()">{{buttonText}}</button>
+    <!-- Title -->
+    <ion-item>
+      <ion-label floating>Title</ion-label>
+      <ion-input type="text" color="burple" id="title" [(ngModel)]="item.taskTitle" (keyup)="unsave()"></ion-input>
+    </ion-item>
+    <!-- Description -->
+    <ion-item>
+      <ion-label floating>Description</ion-label>
+      <!-- <ion-textarea class="textbox" type="text" [(ngModel)]="description"></ion-textarea> -->
+      <ion-textarea class="textbox" type="text" [(ngModel)]="item.taskDescription" (keyup)="unsave()"></ion-textarea>
+    </ion-item>
+    <!-- Date -->
+    <ion-item>
+      <ion-label floating>Event Date</ion-label>
+      <ion-datetime displayFormat="D MMM, YY" pickerFormat="DD MMM YYYY" [(ngModel)]="date">
+      </ion-datetime>
+    </ion-item>
+    <!-- Category -->
+    <ion-item>
+      <ion-label stacked>Category</ion-label>
+      <ion-select [(ngModel)]="newCategory" interface="action-sheet">
+        <ion-option *ngFor="let c of categoriesList;">{{c.categoryName}}</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+  <!-- Save Button -->
+  <div id="buttonWrapper">
+    <button ion-button color="burple" id="saveButton" (click)="save()">{{buttonText}}</button>
 
-    </div>
+  </div>
 </ion-content>

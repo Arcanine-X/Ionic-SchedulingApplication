@@ -74,6 +74,7 @@ export class HomePage {
     this.settingsProvider.fetchSettings();
     this.categoriesList = this.categoriesProvider.fetchCategories();
     this.completedTasksProvider.fetchCompletedItems();
+    this.tasksProvider.fetchData();
     this.loadTasks();
   }
 

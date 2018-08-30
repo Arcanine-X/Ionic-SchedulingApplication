@@ -1,198 +1,187 @@
 <ion-header>
-  <ion-navbar color = "burple">
+  <ion-navbar color="burple">
     <ion-title *ngIf="!isSearchbarOpened">
-        Your Tasks
+      Your Tasks
     </ion-title>
-    <ion-searchbar *ngIf = "isSearchbarOpened" showCancelButton = "true" (ionInput)="getItems($event)" (ionCancel) = "isSearchbarOpened = false"></ion-searchbar>
+    <ion-searchbar *ngIf="isSearchbarOpened" showCancelButton="true" (ionInput)="getItems($event)" (ionCancel)="isSearchbarOpened = false"></ion-searchbar>
     <ion-buttons end>
       <!-- <button ion-button icon-only (click)="addItem()"><ion-icon name="add-circle"></ion-icon></button> -->
     </ion-buttons>
     <ion-buttons end>
-        <button ion-button icon-only *ngIf = "!isSearchbarOpened" (click)="isSearchbarOpened = true">
-          <ion-icon name = "search"></ion-icon>
-        </button>
-      </ion-buttons>
-      <ion-buttons end>
-        <button ion-button icon-only (click)="addItem()"><ion-icon name="more"></ion-icon></button>
-      </ion-buttons>
+      <button ion-button icon-only *ngIf="!isSearchbarOpened" (click)="isSearchbarOpened = true">
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="addItem()">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-
-
-
 <ion-content>
-
-  <div id ="empty" class = "emptyCategory" *ngIf="missedItems?.length == 0 && 
+  <div id="empty" class="emptyCategory" *ngIf="missedItems?.length == 0 && 
                                                   todaysItems?.length == 0 &&
                                                   tomorrowsItems?.length == 0 &&
                                                   upcomingItems?.length == 0 &&
-                                                  items?.length == 0"> 
-    <img class = "logo" src="../../assets/imgs/emptyState1.png" alt="Smiley face">
+                                                  items?.length == 0">
+    <img class="logo" src="../../assets/imgs/emptyState1.png" alt="Empty State">
   </div>
-
-  <div id ="empty" class = "emptyCategory" *ngIf="missedItems?.length == 0 && 
-  todaysItems?.length == 0 &&
-  tomorrowsItems?.length == 0 &&
-  upcomingItems?.length == 0 &&
-  items?.length != 0 &&
-  isSearchbarOpened"> 
-  <img class = "logo" src="../../assets/imgs/emptyState5.png" alt="Smiley face">
+  <div id="empty" class="emptyCategory" *ngIf="missedItems?.length == 0 && 
+                                                  todaysItems?.length == 0 &&
+                                                  tomorrowsItems?.length == 0 &&
+                                                  upcomingItems?.length == 0 &&
+                                                  items?.length != 0 &&
+                                                  isSearchbarOpened">
+    <img class="logo" src="../../assets/imgs/emptyState5.png" alt="Empty State">
   </div>
-
-
   <!-- Missed Items -->
-    <ion-list class="login-sliding-demo" >
-        <ion-item-divider class = "dividerAlign" *ngIf="missedItems?.length > 0" color="light">Missed</ion-item-divider>
-        <ion-item-sliding *ngFor="let item of missedItems;" >
-          <ion-item (click)="goToTaskDetail(item, item.id)">
-             <h2><strong>{{item?.taskTitle}}</strong></h2>
-              <p>Description: {{item?.taskDescription}}</p>
-              <p>{{item?.taskDate}}</p>
-            </ion-item>
-  
-            <ion-item-options side="left">
-                <div *ngIf="taskAlertToggle==true; else showNoAlert">
-                    <button ion-button  color="danger" (click)="showConfirm(item)">
-                        <ion-icon name="trash"></ion-icon>
-                          Delete
-                     </button>
-                 </div>
-                <ng-template #showNoAlert>  
-                  <button ion-button color="danger" (click)="delete(item.id, item)">
-                        <ion-icon name="trash"></ion-icon>
-                          Delete
-                        </button>
-                </ng-template> 
-        
-              </ion-item-options>
-  
-          <ion-item-options side="right">
-              <button ion-button color="secondary" (click)="addToCompletedTasks(item)">
-                  <ion-icon name="checkmark"></ion-icon>
-                  Complete
-                </button>
-            </ion-item-options>
-        </ion-item-sliding>
-      </ion-list>
+  <ion-list class="login-sliding-demo">
+    <ion-item-divider class="dividerAlign" *ngIf="missedItems?.length > 0" color="light">Missed</ion-item-divider>
+    <ion-item-sliding *ngFor="let item of missedItems;">
+      <ion-item (click)="goToTaskDetail(item, item.id)">
+        <h2>
+          <strong>{{item?.taskTitle}}</strong>
+        </h2>
+        <p>Description: {{item?.taskDescription}}</p>
+        <p>{{item?.taskDate}}</p>
+      </ion-item>
 
-
-      <!-- Todays Items -->
-    <ion-list class="login-sliding-demo" >
-        <ion-item-divider class = "dividerAlign" *ngIf="todaysItems?.length > 0" color="light">Today</ion-item-divider>
-        <ion-item-sliding *ngFor="let item of todaysItems;" >
-  
-          <ion-item (click)="goToTaskDetail(item, item.id)">
-            <h2><strong>{{item?.taskTitle}}</strong></h2>
-            <p>Description: {{item?.taskDescription}}</p>
-            <!-- <p>{{item?.taskDate}}</p> -->
-            </ion-item>
-  
-          <ion-item-options side="left">
+      <ion-item-options side="left">
         <div *ngIf="taskAlertToggle==true; else showNoAlert">
-            <button ion-button  color="danger" (click)="showConfirm(item)">
-                <ion-icon name="trash"></ion-icon>
-                  Delete
-             </button>
-         </div>
-        <ng-template #showNoAlert>  
+          <button ion-button color="danger" (click)="showConfirm(item)">
+            <ion-icon name="trash"></ion-icon>
+            Delete
+          </button>
+        </div>
+        <ng-template #showNoAlert>
           <button ion-button color="danger" (click)="delete(item.id, item)">
-                <ion-icon name="trash"></ion-icon>
-                  Delete
-                </button>
-        </ng-template> 
+            <ion-icon name="trash"></ion-icon>
+            Delete
+          </button>
+        </ng-template>
 
       </ion-item-options>
 
+      <ion-item-options side="right">
+        <button ion-button color="secondary" (click)="addToCompletedTasks(item)">
+          <ion-icon name="checkmark"></ion-icon>
+          Complete
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <!-- Todays Items -->
+  <ion-list class="login-sliding-demo">
+    <ion-item-divider class="dividerAlign" *ngIf="todaysItems?.length > 0" color="light">Today</ion-item-divider>
+    <ion-item-sliding *ngFor="let item of todaysItems;">
 
-  
-          <ion-item-options side="right">
-              <button ion-button color="secondary" (click)="addToCompletedTasks(item)">
-                  <ion-icon name="checkmark"></ion-icon>
-                  Complete
-                </button>
-            </ion-item-options>
-        </ion-item-sliding>
-      </ion-list>
+      <ion-item (click)="goToTaskDetail(item, item.id)">
+        <h2>
+          <strong>{{item?.taskTitle}}</strong>
+        </h2>
+        <p>Description: {{item?.taskDescription}}</p>
+        <!-- <p>{{item?.taskDate}}</p> -->
+      </ion-item>
 
+      <ion-item-options side="left">
+        <div *ngIf="taskAlertToggle==true; else showNoAlert">
+          <button ion-button color="danger" (click)="showConfirm(item)">
+            <ion-icon name="trash"></ion-icon>
+            Delete
+          </button>
+        </div>
+        <ng-template #showNoAlert>
+          <button ion-button color="danger" (click)="delete(item.id, item)">
+            <ion-icon name="trash"></ion-icon>
+            Delete
+          </button>
+        </ng-template>
+      </ion-item-options>
+      <ion-item-options side="right">
+        <button ion-button color="secondary" (click)="addToCompletedTasks(item)">
+          <ion-icon name="checkmark"></ion-icon>
+          Complete
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 
-      <!-- Tomorrows Items -->
-      <ion-list class="login-sliding-demo" >
-          <ion-item-divider class = "dividerAlign" *ngIf="tomorrowsItems?.length > 0" color="light">Tomorrow</ion-item-divider>
-          <ion-item-sliding *ngFor="let item of tomorrowsItems;" >
-    
-            <ion-item (click)="goToTaskDetail(item, item.id)">
-              <h2><strong>{{item?.taskTitle}}</strong></h2>
-              <p>Description: {{item?.taskDescription}}</p>
-              <!-- <p>{{item?.taskDate}}</p> -->
-              </ion-item>
-    
-              <ion-item-options side="left">
-                  <div *ngIf="taskAlertToggle==true; else showNoAlert">
-                      <button ion-button  color="danger" (click)="showConfirm(item)">
-                          <ion-icon name="trash"></ion-icon>
-                            Delete
-                       </button>
-                   </div>
-                  <ng-template #showNoAlert>  
-                    <button ion-button color="danger" (click)="delete(item.id, item)">
-                          <ion-icon name="trash"></ion-icon>
-                            Delete
-                          </button>
-                  </ng-template> 
-          
-                </ion-item-options>
-    
-            <ion-item-options side="right">
-                <button ion-button color="secondary" (click)="addToCompletedTasks(item)">
-                    <ion-icon name="checkmark"></ion-icon>
-                    Complete
-                  </button>
-              </ion-item-options>
-          </ion-item-sliding>
-        </ion-list>
+  <!-- Tomorrows Items -->
+  <ion-list class="login-sliding-demo">
+    <ion-item-divider class="dividerAlign" *ngIf="tomorrowsItems?.length > 0" color="light">Tomorrow</ion-item-divider>
+    <ion-item-sliding *ngFor="let item of tomorrowsItems;">
 
+      <ion-item (click)="goToTaskDetail(item, item.id)">
+        <h2>
+          <strong>{{item?.taskTitle}}</strong>
+        </h2>
+        <p>Description: {{item?.taskDescription}}</p>
+        <!-- <p>{{item?.taskDate}}</p> -->
+      </ion-item>
+      <ion-item-options side="left">
+        <div *ngIf="taskAlertToggle==true; else showNoAlert">
+          <button ion-button color="danger" (click)="showConfirm(item)">
+            <ion-icon name="trash"></ion-icon>
+            Delete
+          </button>
+        </div>
+        <ng-template #showNoAlert>
+          <button ion-button color="danger" (click)="delete(item.id, item)">
+            <ion-icon name="trash"></ion-icon>
+            Delete
+          </button>
+        </ng-template>
+      </ion-item-options>
+      <ion-item-options side="right">
+        <button ion-button color="secondary" (click)="addToCompletedTasks(item)">
+          <ion-icon name="checkmark"></ion-icon>
+          Complete
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 
+  <!-- Upcoming Items -->
+  <ion-list class="login-sliding-demo">
+    <ion-item-divider class="dividerAlign" *ngIf="upcomingItems?.length > 0" color="light">Future</ion-item-divider>
+    <ion-item-sliding *ngFor="let item of upcomingItems;">
 
-        
-      <!-- Upcoming Items -->
-      <ion-list class="login-sliding-demo" >
-          <ion-item-divider class = "dividerAlign" *ngIf="upcomingItems?.length > 0" color="light">Future</ion-item-divider>
-          <ion-item-sliding *ngFor="let item of upcomingItems;" >
-    
-            <ion-item (click)="goToTaskDetail(item, item.id)">
-              <h2><strong>{{item?.taskTitle}}</strong></h2>
-              <p>Description: {{item?.taskDescription}}</p>
-              <p>{{item?.taskDate}}</p>
-              </ion-item>
-    
-              <ion-item-options side="left">
-                  <div *ngIf="taskAlertToggle==true; else showNoAlert">
-                      <button ion-button  color="danger" (click)="showConfirm(item)">
-                          <ion-icon name="trash"></ion-icon>
-                            Delete
-                       </button>
-                   </div>
-                  <ng-template #showNoAlert>  
-                    <button ion-button color="danger" (click)="delete(item.id, item)">
-                          <ion-icon name="trash"></ion-icon>
-                            Delete
-                          </button>
-                  </ng-template> 
-          
-                </ion-item-options>
-    
-            <ion-item-options side="right">
-                <button ion-button color="secondary" (click)="addToCompletedTasks(item)">
-                    <ion-icon name="checkmark"></ion-icon>
-                    Complete
-                  </button>
-              </ion-item-options>
-          </ion-item-sliding>
-        </ion-list>
+      <ion-item (click)="goToTaskDetail(item, item.id)">
+        <h2>
+          <strong>{{item?.taskTitle}}</strong>
+        </h2>
+        <p>Description: {{item?.taskDescription}}</p>
+        <p>{{item?.taskDate}}</p>
+      </ion-item>
+      <ion-item-options side="left">
+        <div *ngIf="taskAlertToggle==true; else showNoAlert">
+          <button ion-button color="danger" (click)="showConfirm(item)">
+            <ion-icon name="trash"></ion-icon>
+            Delete
+          </button>
+        </div>
+        <ng-template #showNoAlert>
+          <button ion-button color="danger" (click)="delete(item.id, item)">
+            <ion-icon name="trash"></ion-icon>
+            Delete
+          </button>
+        </ng-template>
+      </ion-item-options>
+      <ion-item-options side="right">
+        <button ion-button color="secondary" (click)="addToCompletedTasks(item)">
+          <ion-icon name="checkmark"></ion-icon>
+          Complete
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 
-      <!-- Plus button -->
-    <ion-fab right bottom>
-        <button ion-fab class = "addButton" (click)="addPush()" color="light"><ion-icon name="add"></ion-icon></button>
-    </ion-fab>
+  <!-- Plus button -->
+  <ion-fab right bottom>
+    <button ion-fab class="addButton" (click)="addPush()" color="light">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>

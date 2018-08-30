@@ -19,14 +19,14 @@ export class TaskDetailPage {
   categoriesList = [];
   newCategory;
 
-  constructor(public navCtrl: NavController, 
-              public navParams: NavParams,
-              public tasksProvier: TasksProvider,
-              public view: ViewController,
-              public helper: HelpProvider,
-              public categoriesProvider : CategoriesProvider
-) {
-  
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    public tasksProvier: TasksProvider,
+    public view: ViewController,
+    public helper: HelpProvider,
+    public categoriesProvider: CategoriesProvider
+  ) {
+
     this.item = navParams.get('item');
     this.key = navParams.get('key');
     this.title = this.item.taskTitle;
@@ -36,7 +36,7 @@ export class TaskDetailPage {
     this.newCategory = this.item.taskCategory;
   }
 
-  loadCategories(){
+  loadCategories() {
     this.categoriesList = this.categoriesProvider.getCategoriesArray();
     this.helper.sortCategoryNames(this.categoriesList);
   }
@@ -45,22 +45,22 @@ export class TaskDetailPage {
     this.loadCategories();
   }
 
-  dateStructure(date){
+  dateStructure(date) {
     var split = date.split('-');
-    return split[2] + "-" + split[1] + "-" +split[0];
+    return split[2] + "-" + split[1] + "-" + split[0];
   }
 
-  unsave(){
+  unsave() {
     this.buttonText = "Save"
   }
 
-  save(){
+  save() {
     this.buttonText = "Saved";
     this.item.taskDate = this.date;
     this.item.taskDate = this.helper.formatDate(this.item.taskDate);
     this.item.taskDescription = this.helper.formatDescription(this.item.taskDescription);
     this.item.taskTitle = this.helper.formatTitle(this.item.taskTitle);
-    if(this.newCategory != this.item.taskCategory){
+    if (this.newCategory != this.item.taskCategory) {
       this.updateNewCategory(this.newCategory);
       this.updateOldCategory(this.item.taskCategory);
     }
@@ -69,18 +69,18 @@ export class TaskDetailPage {
 
   }
 
-  updateOldCategory(taskCategory){
-        this.categoriesList = this.categoriesProvider.getCategoriesArray();
-        //update old category
-        let newCategoryCount = this.helper.getIncreaseCategoryCount(this.categoriesList, taskCategory);
-        newCategoryCount--;
-        console.log("Category is " + taskCategory + " with " + newCategoryCount + " items");
-        newCategoryCount--;
-        let categoryId = this.helper.findCategoryId(this.categoriesList, taskCategory);
-        this.categoriesProvider.updateCategoryCount(categoryId, newCategoryCount, taskCategory);
+  updateOldCategory(taskCategory) {
+    this.categoriesList = this.categoriesProvider.getCategoriesArray();
+    //update old category
+    let newCategoryCount = this.helper.getIncreaseCategoryCount(this.categoriesList, taskCategory);
+    newCategoryCount--;
+    console.log("Category is " + taskCategory + " with " + newCategoryCount + " items");
+    newCategoryCount--;
+    let categoryId = this.helper.findCategoryId(this.categoriesList, taskCategory);
+    this.categoriesProvider.updateCategoryCount(categoryId, newCategoryCount, taskCategory);
   }
 
-  updateNewCategory(taskCategory){
+  updateNewCategory(taskCategory) {
     this.categoriesList = this.categoriesProvider.getCategoriesArray();
     //update new category
     let newCategoryCount = this.helper.getIncreaseCategoryCount(this.categoriesList, taskCategory);
@@ -88,7 +88,7 @@ export class TaskDetailPage {
     this.categoriesProvider.updateCategoryCount(categoryId, newCategoryCount, taskCategory);
   }
 
-  close(){
+  close() {
     this.view.dismiss();
   }
 }
