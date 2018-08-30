@@ -32,6 +32,7 @@ export class TasksProvider {
       taskCategory: taskCategory,
     });
   }
+  
 
   updateTask(key, item){
     firebase.database().ref('userProfile/'+this.userId+'/tasksList/' + key).update({
