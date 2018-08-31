@@ -5,7 +5,6 @@
     </ion-title>
   </ion-navbar>
 </ion-header>
-
 <ion-content>
   <ion-list>
     <!-- Title -->
@@ -16,7 +15,6 @@
     <!-- Description -->
     <ion-item>
       <ion-label floating>Description</ion-label>
-      <!-- <ion-textarea class="textbox" type="text" [(ngModel)]="description"></ion-textarea> -->
       <ion-textarea class="textbox" type="text" [(ngModel)]="item.taskDescription" (keyup)="unsave()"></ion-textarea>
     </ion-item>
     <!-- Date -->
@@ -36,6 +34,5 @@
   <!-- Save Button -->
   <div id="buttonWrapper">
     <button ion-button color="burple" id="saveButton" (click)="save()">{{buttonText}}</button>
-
   </div>
 </ion-content>

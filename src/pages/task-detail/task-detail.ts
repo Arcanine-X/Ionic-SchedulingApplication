@@ -9,15 +9,15 @@ import { CategoriesProvider } from '../../providers/tasks/categories';
   templateUrl: 'task-detail.html',
 })
 export class TaskDetailPage {
-  title;
-  description;
-  date;
-  category;
-  item;
-  key;
-  buttonText = "Saved";
-  categoriesList = [];
-  newCategory;
+  public title;
+  public description;
+  public date;
+  public category;
+  public item;
+  public key;
+  public buttonText = "Saved";
+  public categoriesList = [];
+  public newCategory;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -72,9 +72,7 @@ export class TaskDetailPage {
   updateOldCategory(taskCategory) {
     this.categoriesList = this.categoriesProvider.getCategoriesArray();
     //update old category
-    let newCategoryCount = this.helper.getIncreaseCategoryCount(this.categoriesList, taskCategory);
-    newCategoryCount--;
-    console.log("Category is " + taskCategory + " with " + newCategoryCount + " items");
+    let newCategoryCount = this.helper.getCategoryCount(this.categoriesList, taskCategory);
     newCategoryCount--;
     let categoryId = this.helper.findCategoryId(this.categoriesList, taskCategory);
     this.categoriesProvider.updateCategoryCount(categoryId, newCategoryCount, taskCategory);

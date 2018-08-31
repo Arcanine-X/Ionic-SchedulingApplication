@@ -71,7 +71,7 @@ export class CategoryViewPage {
 
   delete(key, item){
     this.categoriesList = this.categoriesProvider.getCategoriesArray();
-    // update fb count
+    // update count for items in category in firebase
     let categoryKey = this.helper.findCategoryId(this.categoriesList, item.taskCategory);
     let count  = this.helper.getCategoryCount(this.categoriesList, item.taskCategory);
     count--;

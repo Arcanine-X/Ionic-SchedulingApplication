@@ -9,8 +9,8 @@ import { CompletedTasksPage } from '../completed-tasks/completed-tasks';
   templateUrl: 'task-restore.html',
 })
 export class TaskRestorePage {
-  item;
-  itemId;
+  public item;
+  public itemId;
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public tasksProvider: TasksProvider,

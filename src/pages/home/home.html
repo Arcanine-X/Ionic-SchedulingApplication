@@ -5,16 +5,8 @@
     </ion-title>
     <ion-searchbar *ngIf="isSearchbarOpened" showCancelButton="true" (ionInput)="getItems($event)" (ionCancel)="isSearchbarOpened = false"></ion-searchbar>
     <ion-buttons end>
-      <!-- <button ion-button icon-only (click)="addItem()"><ion-icon name="add-circle"></ion-icon></button> -->
-    </ion-buttons>
-    <ion-buttons end>
       <button ion-button icon-only *ngIf="!isSearchbarOpened" (click)="isSearchbarOpened = true">
         <ion-icon name="search"></ion-icon>
-      </button>
-    </ion-buttons>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="addItem()">
-        <ion-icon name="more"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -82,7 +74,6 @@
           <strong>{{item?.taskTitle}}</strong>
         </h2>
         <p>Description: {{item?.taskDescription}}</p>
-        <!-- <p>{{item?.taskDate}}</p> -->
       </ion-item>
 
       <ion-item-options side="left">
@@ -118,7 +109,6 @@
           <strong>{{item?.taskTitle}}</strong>
         </h2>
         <p>Description: {{item?.taskDescription}}</p>
-        <!-- <p>{{item?.taskDate}}</p> -->
       </ion-item>
       <ion-item-options side="left">
         <div *ngIf="taskAlertToggle==true; else showNoAlert">

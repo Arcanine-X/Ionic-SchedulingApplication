@@ -2,55 +2,55 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class HelpProvider {
-  constructor() {  }
+  constructor() { }
 
   /*
   Selection sorts by a natural sort of alphanumerical strings
   */
- sortCategoryNames(arr){
-  let i,m,j;
-  for (i = -1; ++i < arr.length;) {
-    for (m = j = i; ++j < arr.length;) {
-      if (this.selectionSortComparator(arr[m].categoryName, arr[j].categoryName)) m = j;
+  sortCategoryNames(arr) {
+    let i, m, j;
+    for (i = -1; ++i < arr.length;) {
+      for (m = j = i; ++j < arr.length;) {
+        if (this.selectionSortComparator(arr[m].categoryName, arr[j].categoryName)) m = j;
+      }
+      [arr[m], arr[i]] = [arr[i], arr[m]];
     }
-    [arr[m], arr[i]] = [arr[i], arr[m]];
+    return arr;
   }
-  return arr;
-}
 
-/*
-Comparator method for selection sort using localeCompare. By passing the
-numeric: true option, it will smartly recognize numbers. You can do case-insensitive using sensitivity: 'base'
-*/
-selectionSortComparator(a, b) {
-  var arr = [];
-  arr.push(a);
-  arr.push(b);
-  var collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
-  arr.sort(collator.compare);
-  if (arr[0] == a) {
-    return false;
-  } else {
-    return true;
+  /*
+  Comparator method for selection sort using localeCompare. By passing the
+  numeric: true option, it will smartly recognize numbers. You can do case-insensitive using sensitivity: 'base'
+  */
+  selectionSortComparator(a, b) {
+    var arr = [];
+    arr.push(a);
+    arr.push(b);
+    var collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+    arr.sort(collator.compare);
+    if (arr[0] == a) {
+      return false;
+    } else {
+      return true;
+    }
   }
-}
 
   //Text Formatters//
 
-  formatDate(date){
+  formatDate(date) {
     return this.convertToNZDate(date);
   }
 
-  formatDescription(taskDescription){
-    return taskDescription == undefined ? "Empty" : taskDescription; 
+  formatDescription(taskDescription) {
+    return taskDescription == undefined ? "Empty" : taskDescription;
   }
 
-  formatCategory(taskCategory){
-    return taskCategory == undefined ? "Default" : taskCategory; 
+  formatCategory(taskCategory) {
+    return taskCategory == undefined ? "Default" : taskCategory;
   }
 
-  formatTitle(taskTitle){
-    return taskTitle == undefined ? "Unlabelled" : taskTitle; 
+  formatTitle(taskTitle) {
+    return taskTitle == undefined ? "Unlabelled" : taskTitle;
   }
 
   //Date Methods//
@@ -58,10 +58,10 @@ selectionSortComparator(a, b) {
   /*
   * Returns todays date in the format of: dd-mm-yyyy
   */
- getTodaysDate(){
+  getTodaysDate() {
     var today = new Date();
     var dd = today.getDate();
-    var mm = today.getMonth()+1; //January is 0!
+    var mm = today.getMonth() + 1; //January is 0!
     var yyyy = today.getFullYear();
     dd = this.formatDays(dd);
     mm = this.formatMonths(mm);
@@ -71,7 +71,7 @@ selectionSortComparator(a, b) {
   /*
   * Returns tomorrows date in the formate of: dd-mm-yyyy
   */
- getTomorrowsDate(){
+  getTomorrowsDate() {
     var currentDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
     var day = currentDate.getDate()
     var month = currentDate.getMonth() + 1
@@ -84,28 +84,28 @@ selectionSortComparator(a, b) {
   /*
   * Formats days so if the day is 7, it will return 07
   */
-  formatDays(dd){
-    if(dd < 10) return '0' + dd;
+  formatDays(dd) {
+    if (dd < 10) return '0' + dd;
     return dd;
   }
 
   /*
   * Formats motns so if the month is 7, it will return 07
   */
-  formatMonths(mm){
-    if(mm < 10) return '0' + mm;
+  formatMonths(mm) {
+    if (mm < 10) return '0' + mm;
     return mm;
   }
 
   /*
   * Returns the current time
   */
-  getCompletetionTime(){
+  getCompletetionTime() {
     var currentdate = new Date();
-    var datetime = currentdate.getDate() + "/"+(currentdate.getMonth()+1) 
-    + "/" + currentdate.getFullYear() + " at " 
-    + currentdate.getHours() + ":" 
-    + currentdate.getMinutes();
+    var datetime = currentdate.getDate() + "/" + (currentdate.getMonth() + 1)
+      + "/" + currentdate.getFullYear() + " at "
+      + currentdate.getHours() + ":"
+      + currentdate.getMinutes();
     return datetime;
   }
 
@@ -113,8 +113,8 @@ selectionSortComparator(a, b) {
   * Converts date formats as such: 2018-08-18T01:35:44.245Z and returns
   * the following: 18-08-2018
   */
-  convertToNZDate(date){
-    if(date == undefined){
+  convertToNZDate(date) {
+    if (date == undefined) {
       return this.getTodaysDate();
     }
     let split = date.split("-");
@@ -126,9 +126,9 @@ selectionSortComparator(a, b) {
   //Category Methods//
 
 
-  findCategoryId(categoriesList, categoryName : string) : string{
-    for(let i = 0;i < categoriesList.length; i++){
-      if(categoriesList[i].categoryName === categoryName){
+  findCategoryId(categoriesList, categoryName: string): string {
+    for (let i = 0; i < categoriesList.length; i++) {
+      if (categoriesList[i].categoryName === categoryName) {
         return categoriesList[i].id;
       }
     }
@@ -137,9 +137,9 @@ selectionSortComparator(a, b) {
   /*
   * Returns the original category count + 1
   */
-  getIncreaseCategoryCount(categoriesList, categoryName : string) : number{
-    for(let i = 0; i < categoriesList.length; i++){
-      if(categoriesList[i].categoryName === categoryName){
+  getIncreaseCategoryCount(categoriesList, categoryName: string): number {
+    for (let i = 0; i < categoriesList.length; i++) {
+      if (categoriesList[i].categoryName === categoryName) {
         let original = categoriesList[i].categoryCount;
         return original + 1;
       }
@@ -147,10 +147,10 @@ selectionSortComparator(a, b) {
     return 0;
   }
 
-  getCategoryCount(categoriesList, categoryName : string) : number{
-    for(let i = 0; i < categoriesList.length; i++){
-      if(categoriesList[i].categoryName === categoryName){
-       return categoriesList[i].categoryCount;
+  getCategoryCount(categoriesList, categoryName: string): number {
+    for (let i = 0; i < categoriesList.length; i++) {
+      if (categoriesList[i].categoryName === categoryName) {
+        return categoriesList[i].categoryCount;
       }
     }
     return 0;
@@ -161,17 +161,17 @@ selectionSortComparator(a, b) {
   /*
   * Task Filterer
   */
- taskFilter(ev, list){
-  var val = ev.target.value;
-  if (val && val.trim() != '') {
-    list = list.filter((item) => {
-       return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
-    })
+  taskFilter(ev, list) {
+    var val = ev.target.value;
+    if (val && val.trim() != '') {
+      list = list.filter((item) => {
+        return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
+    return list;
   }
-  return list;
-}
 
-  
+
 
 
 

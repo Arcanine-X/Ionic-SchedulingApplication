@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar color = "burple">
+  <ion-navbar color="burple">
     <ion-title>Create An Account</ion-title>
   </ion-navbar>
 </ion-header>
@@ -11,9 +11,7 @@
         <ion-icon name="mail" item-start class="text-primary"></ion-icon>
         Email
       </ion-label>
-      <ion-input formControlName="email" type="email"
-      placeholder="Your email address"
-      [class.invalid]="!signupForm.controls.email.valid && blur">
+      <ion-input formControlName="email" type="email" placeholder="Your email address" [class.invalid]="!signupForm.controls.email.valid && blur">
       </ion-input>
     </ion-item>
     <ion-item class="error-message" *ngIf="!signupForm.controls.email.valid
@@ -26,20 +24,17 @@
         <ion-icon name="lock" item-start class="text-primary"></ion-icon>
         Password
       </ion-label>
-      <ion-input formControlName="password" type="password"
-      placeholder="Your password"
-      [class.invalid]="!signupForm.controls.password.valid && blur">
+      <ion-input formControlName="password" type="password" placeholder="Your password" [class.invalid]="!signupForm.controls.password.valid && blur">
       </ion-input>
     </ion-item>
-    <ion-item class="error-message"
-    *ngIf="!signupForm.controls.password.valid  &&
+    <ion-item class="error-message" *ngIf="!signupForm.controls.password.valid  &&
     signupForm.controls.password.touched">
       <p>Your password needs more than 6 characters.</p>
     </ion-item>
-    <div id = "buttonWrapper">
-    <button class = "buttonWrapper" ion-button color = "burple"  type="submit" [disabled]="!signupForm.valid">
-      Create Account
-    </button>
-  </div>
+    <div id="buttonWrapper">
+      <button class="buttonWrapper" ion-button color="burple" type="submit" [disabled]="!signupForm.valid">
+        Create Account
+      </button>
+    </div>
   </form>
 </ion-content>

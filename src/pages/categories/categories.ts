@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {  NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { TasksProvider } from '../../providers/tasks/task';
 import { CategoryViewPage } from '../category-view/category-view';
 import { CategoriesProvider } from '../../providers/tasks/categories';
@@ -13,47 +13,48 @@ import { SettingsProvider } from '../../providers/settings/settings';
 export class CategoriesPage {
   public categoriesList = [];
   public itemsList = [];
-  categoryToCreate;
-  categoryAlertToggle;
-  constructor(public navCtrl: NavController, 
-              public navParams: NavParams,
-              public tasksProvider : TasksProvider,
-              public categoriesProvider : CategoriesProvider,
-              public helper : HelpProvider,
-              public alertCtrl: AlertController,
-              public settingsProvider: SettingsProvider) {    
+  public categoryToCreate;
+  public categoryAlertToggle;
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    public tasksProvider: TasksProvider,
+    public categoriesProvider: CategoriesProvider,
+    public helper: HelpProvider,
+    public alertCtrl: AlertController,
+    public settingsProvider: SettingsProvider) {
   }
 
-  ionViewDidLoad(){
-    this.loadCategories();
-    this.loadSettings();
+  ionViewDidLoad() {
+    console.log("Categories Loaded Successfully");
+    this.setCategories();
+    this.setSettings();
   }
 
 
-  loadSettings(){
+  setSettings() {
     this.categoryAlertToggle = this.settingsProvider.getCategoryAlertToggle();
   }
 
 
-  openCategory(categoryName){
+  openCategory(categoryName) {
     this.navCtrl.push(CategoryViewPage, {
-      categoryName : categoryName
+      categoryName: categoryName
     })
   }
 
-  createNewCategory(category){
-    if(category == undefined) return;
-    if(this.isEmpty(category)) return;
-    if(this.alreadyContains(category)) return; 
+  createNewCategory(category) {
+    if (category == undefined) return;
+    if (this.isEmpty(category)) return;
+    if (this.alreadyContains(category)) return;
     this.categoriesProvider.addCategory(category);
     this.categoryToCreate = "";
 
   }
 
-  alreadyContains(category){
-    if(this.categoriesList.length == 0) return false
-    for(let i = 0; i < this.categoriesList.length; i ++){
-      if(this.categoriesList[i].categoryName.toLowerCase() == category.toLowerCase()){
+  alreadyContains(category) {
+    if (this.categoriesList.length == 0) return false
+    for (let i = 0; i < this.categoriesList.length; i++) {
+      if (this.categoriesList[i].categoryName.toLowerCase() == category.toLowerCase()) {
         return true;
       }
     }
@@ -64,21 +65,21 @@ export class CategoriesPage {
     return (!str || 0 === str.length);
   }
 
-  getCategories(){
+  getCategories() {
     return this.categoriesProvider.getCategoriesArray();
   }
 
-  loadCategories(){
+  setCategories() {
     this.categoriesList = this.categoriesProvider.getCategoriesArray();
     this.helper.sortCategoryNames(this.categoriesList);
   }
 
-  getCategoryTaskKeys(category){
+  
+  getCategoryTaskKeys(category) {
     this.itemsList = this.tasksProvider.getItems();
-    //this.loadItems();
     let keyList = [];
-    for(let i = 0; i < this.itemsList.length; i++){
-      if(this.itemsList[i].taskCategory === category.categoryName){
+    for (let i = 0; i < this.itemsList.length; i++) {
+      if (this.itemsList[i].taskCategory === category.categoryName) {
         let key = this.itemsList[i].id;
         keyList.push(key);
       }
@@ -87,7 +88,7 @@ export class CategoriesPage {
     return keyList;
   }
 
-  deleteCategory(e, category){
+  deleteCategory(e, category) {
     e.stopPropagation();
     //delete tasks first
     let keyList = this.getCategoryTaskKeys(category);

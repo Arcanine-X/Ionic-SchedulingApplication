@@ -8,6 +8,9 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthProvider } from "../../providers/auth/auth";
 import { EmailValidator } from "../../validators/email";
 
+/*
+* I followed through this tutorial to help me get my reset password sorted: https://javebratt.com/ionic-firebase-authentication/
+*/
 @Component({
   selector: "page-reset-password",
   templateUrl: "reset-password.html"

@@ -15,7 +15,5 @@ export class TabsPage {
   tab3Root = CompletedTasksPage;
   tab4Root = SettingsPage;
 
-  constructor() {
-
-  }
+  constructor() {}
 }

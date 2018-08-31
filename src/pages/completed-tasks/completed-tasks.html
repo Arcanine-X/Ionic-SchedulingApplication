@@ -8,7 +8,7 @@
 
 <ion-content>
     <div id ="empty" class = "emptyCategory" *ngIf="this.completedItems()?.length == 0">
-    <img class = "logo" src="../../assets/imgs/emptyState2.png" alt="Smiley face">
+    <img class = "logo" src="../../assets/imgs/emptyState2.png" alt="Empty State">
   </div>
   <ion-list class="login-sliding-demo">
       <ion-item-sliding *ngFor="let item of this.completedItems();">

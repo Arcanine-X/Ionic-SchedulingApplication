@@ -31,7 +31,7 @@ export class TaskCreateCategoryPage {
     this.view.dismiss();
   }
 
-  createEvent(
+  createTask(
     taskTitle: string,
     taskDescription: string,
     taskDate: string,
@@ -43,6 +43,7 @@ export class TaskCreateCategoryPage {
     taskDate = this.helper.formatDate(taskDate);
     taskDescription = this.helper.formatDescription(taskDescription);
     taskTitle = this.helper.formatTitle(taskTitle);
+    //create the task
     this.tasksProvider
       .createTask(taskTitle, taskDescription, taskDate, this.categoryName)
       .then(newEvent => {

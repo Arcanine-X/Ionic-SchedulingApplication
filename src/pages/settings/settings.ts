@@ -37,7 +37,7 @@ export class SettingsPage {
 
   ionViewDidLoad() {
     console.log('Settings page successfully loaded');
-    this.loadSettings();
+    this.setSettings();
   }
 
   goToProfile(): void {
@@ -52,7 +52,7 @@ export class SettingsPage {
     this.save();
   }
 
-  loadSettings(){
+  setSettings(){
     this.settingsKey = this.settingsProvider.getKey();
     this.taskAlertToggle = this.settingsProvider.getTaskAlertToggle();
     this.categoryAlertToggle = this.settingsProvider.getCategoryAlertToggle();

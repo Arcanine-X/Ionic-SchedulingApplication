@@ -12,7 +12,9 @@ import { EmailValidator } from "../../validators/email";
 import { CategoriesProvider } from "../../providers/tasks/categories";
 import { TabsPage } from "../tabs/tabs";
 import { SettingsProvider } from "../../providers/settings/settings";
-
+/*
+* I followed through this tutorial to help me get my signup sorted: https://javebratt.com/ionic-firebase-authentication/
+*/
 @Component({
   selector: "page-signup",
   templateUrl: "signup.html"

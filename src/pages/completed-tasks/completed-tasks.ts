@@ -40,12 +40,14 @@ export class CompletedTasksPage {
 
   restore(item, itemId){
     this.categoriesList = this.categoriesProvider.getCategoriesArray();
+    //Recreate the task
     this.tasksProvider.createTask(item.taskTitle,
     item.taskDescription, item.taskDate,
     item.taskCategory).then(newEvent =>{
       this.delete(itemId)
       let newCount = this.helper.getIncreaseCategoryCount(this.categoriesList, item.taskCategory);
       let categoryKey = this.helper.findCategoryId(this.categoriesList, item.taskCategory);
+      //Update number of items in the category
       this.categoriesProvider.updateCategoryCount(categoryKey, newCount, item.taskCategory);
     });
   }

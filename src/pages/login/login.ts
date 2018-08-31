@@ -13,13 +13,16 @@ import { TabsPage } from '../tabs/tabs';
 import { ResetPasswordPage } from '../reset-password/reset-password';
 import { SignupPage } from '../signup/signup';
 
+/*
+* I followed through this tutorial to help me get my login sorted: https://javebratt.com/ionic-firebase-authentication/
+*/
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
 })
 export class LoginPage {
   public loginForm: FormGroup;
-public loading: Loading;
+  public loading: Loading;
   constructor(
     public navCtrl: NavController,
     public loadingCtrl: LoadingController,

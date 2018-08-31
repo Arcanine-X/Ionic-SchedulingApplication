@@ -22,7 +22,7 @@ import { CategoriesProvider } from '../providers/tasks/categories';
 import { HelpProvider } from '../providers/helper/helper';
 import { LoginPage } from '../pages/login/login'
 import { ProfilePage } from '../pages/profile/profile';
-import {ResetPasswordPage} from '../pages/reset-password/reset-password';
+import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 import { SignupPage } from  '../pages/signup/signup';
 import { TaskCreateCategoryPage } from '../pages/task-create-category/task-create-category';
 import { SettingsProvider } from '../providers/settings/settings';

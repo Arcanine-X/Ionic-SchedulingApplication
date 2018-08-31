@@ -15,7 +15,6 @@ import { LoginPage } from "../login/login";
 })
 export class ProfilePage {
   public userProfile: any;
-  public birthDate: string;
 
   constructor(
     public navCtrl: NavController,
@@ -23,12 +22,11 @@ export class ProfilePage {
     public authProvider: AuthProvider,
     public profileProvider: ProfileProvider,
     public appCtrl: App
-  ) {}
+  ) { }
 
   ionViewDidLoad() {
     this.profileProvider.getUserProfile().on("value", userProfileSnapshot => {
       this.userProfile = userProfileSnapshot.val();
-      this.birthDate = userProfileSnapshot.val().birthDate;
     });
   }
 
@@ -38,37 +36,6 @@ export class ProfilePage {
     });
   }
 
-  updateName(): void {
-    const alert: Alert = this.alertCtrl.create({
-      message: "Your first name & last name",
-      inputs: [
-        {
-          name: "firstName",
-          placeholder: "Your first name",
-          value: this.userProfile.firstName
-        },
-        {
-          name: "lastName",
-          placeholder: "Your last name",
-          value: this.userProfile.lastName
-        }
-      ],
-      buttons: [
-        { text: "Cancel" },
-        {
-          text: "Save",
-          handler: data => {
-            this.profileProvider.updateName(data.firstName, data.lastName);
-          }
-        }
-      ]
-    });
-    alert.present();
-  }
-
-  updateDOB(birthDate:string):void {
-    this.profileProvider.updateDOB(birthDate);
-  }
 
   updateEmail(): void {
     let alert: Alert = this.alertCtrl.create({
@@ -76,13 +43,15 @@ export class ProfilePage {
       { name: 'password', placeholder: 'Your password', type: 'password' }],
       buttons: [
         { text: 'Cancel' },
-        { text: 'Save',
+        {
+          text: 'Save',
           handler: data => {
             this.profileProvider
               .updateEmail(data.newEmail, data.password)
               .then(() => { console.log('Email Changed Successfully'); })
               .catch(error => { console.log('ERROR: ' + error.message); });
-        }}]
+          }
+        }]
     });
     alert.present();
   }
@@ -94,7 +63,8 @@ export class ProfilePage {
         { name: 'oldPassword', placeholder: 'Old password', type: 'password' }],
       buttons: [
         { text: 'Cancel' },
-        { text: 'Save',
+        {
+          text: 'Save',
           handler: data => {
             this.profileProvider.updatePassword(
               data.newPassword,

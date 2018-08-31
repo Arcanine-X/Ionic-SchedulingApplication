@@ -1,49 +1,32 @@
-
 <ion-content padding class="getstart">
-    <img class = "logo" src="../../assets/imgs/A.png" alt="Smiley face">
-
-
+  <img class="logo" src="../../assets/imgs/A.png" alt="Logo">
   <form [formGroup]="loginForm" (submit)="loginUser()" novalidate>
-
     <ion-item class="item item-trns">
-      <!-- <ion-label stacked>Email</ion-label> -->
       <ion-label stacked>
         <ion-icon name="mail" item-start class="text-primary"></ion-icon>
         Email
       </ion-label>
-      <ion-input formControlName="email" type="email" placeholder="Your email address"
-        [class.invalid]="!loginForm.controls.email.valid && blur"></ion-input>
+      <ion-input formControlName="email" type="email" placeholder="Your email address" [class.invalid]="!loginForm.controls.email.valid && blur"></ion-input>
     </ion-item>
 
     <ion-item class="item item-trns">
-      <!-- <ion-label stacked>Password</ion-label> -->
       <ion-label stacked>
         <ion-icon name="lock" item-start class="text-primary"></ion-icon>
         Password
       </ion-label>
-      <ion-input formControlName="password" type="password" placeholder="Your password"
-        [class.invalid]="!loginForm.controls.password.valid && blur"></ion-input>
+      <ion-input formControlName="password" type="password" placeholder="Your password" [class.invalid]="!loginForm.controls.password.valid && blur"></ion-input>
     </ion-item>
 
-    <div id = "buttonWrapper">
-      <button ion-button color = "burple"  type="submit" [disabled]="!loginForm.valid">
+    <div id="buttonWrapper">
+      <button ion-button color="burple" type="submit" [disabled]="!loginForm.valid">
         Login
       </button>
     </div>
-
-
   </form>
-
-  <p text-center ion-text color="burple" tappable (click)="goToResetPassword()"><strong>Forgot Password?</strong></p>
-  <p text-center ion-text color="burple" tappable (click)="goToSignup()"><strong> Create a new account
-  </strong></p>
-
-<!-- 
-  <button ion-button block clear (click)="goToSignup()">
-    Create a new account
-  </button> -->
-
-  <!-- <button ion-button block clear (click)="goToResetPassword()">
-    I forgot my password
-  </button> -->
-
+  <p text-center ion-text color="burple" tappable (click)="goToResetPassword()">
+    <strong>Forgot Password?</strong>
+  </p>
+  <p text-center ion-text color="burple" tappable (click)="goToSignup()">
+    <strong> Create a new account
+    </strong>
+  </p>

@@ -142,7 +142,7 @@ export class HomePage {
   }
 
   delete(key, item){
-    //update fb count
+    //update count in firebase count
     this.categoriesList = this.categoriesProvider.getCategoriesArray();
     let categoryKey = this.helper.findCategoryId(this.categoriesList, item.taskCategory);
     let count  = this.helper.getCategoryCount(this.categoriesList, item.taskCategory);
@@ -171,13 +171,11 @@ export class HomePage {
   For the swiping gesture
   */
   expandAction(item: ItemSliding, _: any, text: string) {
-    // TODO item.setElementClass(action, true);
     setTimeout(() => {
       const toast = this.toastCtrl.create({
         message: text
       });
       toast.present();
-      // TODO item.setElementClass(action, false);
       item.close();
       setTimeout(() => toast.dismiss(), 2000);
     }, 1500);
