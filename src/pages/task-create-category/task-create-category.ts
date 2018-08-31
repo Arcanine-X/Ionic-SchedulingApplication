@@ -36,7 +36,6 @@ export class TaskCreateCategoryPage {
     taskDescription: string,
     taskDate: string,
   ): void {
-    this.categoriesList = this.categoriesProvider.getCategoriesArray();
     let newCategoryCount = this.helper.getIncreaseCategoryCount(this.categoriesList, this.categoryName);
     let categoryId = this.helper.findCategoryId(this.categoriesList, this.categoryName);
     //format inputs
@@ -53,7 +52,16 @@ export class TaskCreateCategoryPage {
   }
 
   loadCategories(){
-    this.categoriesList = this.categoriesProvider.getCategoriesArray();
-    this.helper.sortCategoryNames(this.categoriesList);
+    this.categoriesProvider.getCategories().on("value", categoriesList => {
+      this.categoriesList = [];
+      categoriesList.forEach(snap => {
+        this.categoriesList.push({
+          id: snap.key,
+          categoryName: snap.val().categoryName,
+          categoryCount: snap.val().categoryCount
+        });
+      });
+      this.helper.sortCategoryNames(this.categoriesList);
+    });
   }
 }

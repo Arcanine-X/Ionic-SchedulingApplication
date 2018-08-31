@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar color = "burple">
+  <ion-navbar color="burple">
     <ion-title>
       Completed Tasks
     </ion-title>
@@ -7,11 +7,11 @@
 </ion-header>
 
 <ion-content>
-    <div id ="empty" class = "emptyCategory" *ngIf="this.completedItems()?.length == 0">
-    <img class = "logo" src="../../assets/imgs/emptyState2.png" alt="Empty State">
+  <div id="empty" class="emptyCategory" *ngIf="completedItems?.length == 0">
+    <img class="logo" src="../../assets/imgs/emptyState2.png" alt="Empty State">
   </div>
   <ion-list class="login-sliding-demo">
-      <ion-item-sliding *ngFor="let item of this.completedItems();">
+    <ion-item-sliding *ngFor="let item of completedItems;">
       <ion-item (click)="goToTaskDetail(item, item.id)">
         <p>
           <s>Title:
@@ -21,19 +21,19 @@
         <ion-note>Completed on {{item?.taskCompletionTime}}</ion-note>
       </ion-item>
 
-          <ion-item-options side="left">
+      <ion-item-options side="left">
         <div *ngIf="taskAlertToggle==true; else showNoAlert">
-            <button ion-button  color="danger" (click)="showConfirm(item)">
-                <ion-icon name="trash"></ion-icon>
-                  Delete
-             </button>
-         </div>
-        <ng-template #showNoAlert>  
+          <button ion-button color="danger" (click)="showConfirm(item)">
+            <ion-icon name="trash"></ion-icon>
+            Delete
+          </button>
+        </div>
+        <ng-template #showNoAlert>
           <button ion-button color="danger" (click)="delete(item.id)">
-                <ion-icon name="trash"></ion-icon>
-                  Delete
-                </button>
-        </ng-template> 
+            <ion-icon name="trash"></ion-icon>
+            Delete
+          </button>
+        </ng-template>
 
       </ion-item-options>
 

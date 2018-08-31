@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, LoadingController } from 'ionic-angular';
 import { TasksProvider } from '../../providers/tasks/task';
 import { TaskDetailPage } from '../task-detail/task-detail';
 import { CompletedTasksProvider } from '../../providers/tasks/completedTask';
@@ -16,24 +16,52 @@ export class CategoryViewPage {
   public categoryItems = [];
   public isSearchbarOpened = false;
   public categoriesList = [];
+  public filteredItems = [];
+  public loader;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
     public tasksProvider : TasksProvider, 
     public completedTasksProvider : CompletedTasksProvider, 
     public helper : HelpProvider, 
+    public loadingCtrl : LoadingController,
     public categoriesProvider : CategoriesProvider) {
     this.categoryName = navParams.get('categoryName');
   }
 
   ionViewDidLoad() {
-    console.log('Category View Loaded');
-    //Load in data 
-    this.tasksProvider.fetchFilteredData(this.categoryName);
+    this.populate();
+
+  }
+
+  populate(){
+    //get all the items
+    this.tasksProvider.getTasksList().on("value", eventListSnapshot => {
+      this.categoryItems = [];
+      eventListSnapshot.forEach(snap => {
+        if(snap.val().taskCategory.toLowerCase() === this.categoryName.toLowerCase()){
+          this.categoryItems.push({
+          id: snap.key,
+          taskTitle: snap.val().taskTitle,
+          taskDescription: snap.val().taskDescription,
+          taskDate: snap.val().taskDate,
+          taskCategory: snap.val().taskCategory
+        });
+        }
+      });
+    });
+  }
+
+  doLoad(){
+    this.loader = this.loadingCtrl.create(
+      {
+        content: "Please wait...",
+      }
+    );
+    this.loader.present();
   }
 
   createTaskInCategory(){
-    console.log("Trying to create task");
     this.navCtrl.push(TaskCreateCategoryPage,
       {
         categoryName : this.categoryName
@@ -42,7 +70,7 @@ export class CategoryViewPage {
 
   getItems(ev) {
     // Reset items back to all of the items
-    this.categoryItems = this.tasksProvider.getFilteredItems();
+    this.ionViewDidLoad();
     // set val to the value of the ev target
     var val = ev.target.value;
     // if the value is an empty string don't filter the items
@@ -51,10 +79,6 @@ export class CategoryViewPage {
         return (item.taskTitle.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
     }
-  }
-
-  getFilteredItems(){
-    return this.tasksProvider.getFilteredItems();
   }
 
 
@@ -70,7 +94,7 @@ export class CategoryViewPage {
 }
 
   delete(key, item){
-    this.categoriesList = this.categoriesProvider.getCategoriesArray();
+    this.loadCategories();
     // update count for items in category in firebase
     let categoryKey = this.helper.findCategoryId(this.categoriesList, item.taskCategory);
     let count  = this.helper.getCategoryCount(this.categoriesList, item.taskCategory);
@@ -84,6 +108,21 @@ export class CategoryViewPage {
     this.navCtrl.push(TaskDetailPage, {
       item: item,
       key: itemId
+    });
+  }
+
+  loadCategories(){
+    let self = this;
+    this.categoriesProvider.getCategories().on("value", categoriesList => {
+      this.categoriesList = [];
+      categoriesList.forEach(snap => {
+        this.categoriesList.push({
+          id: snap.key,
+          categoryName: snap.val().categoryName,
+          categoryCount: snap.val().categoryCount
+        });
+      });
+      return false;
     });
   }
 }

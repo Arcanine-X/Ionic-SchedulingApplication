@@ -20,26 +20,6 @@ export class CompletedTasksProvider {
     });
   }
 
-  fetchCompletedItems(){
-    this.completedTasksRef.on("value", eventListSnapshot => {
-      this.completedItems = [];
-      eventListSnapshot.forEach(snap => {
-        this.completedItems.push({
-          id: snap.key,
-          taskTitle: snap.val().taskTitle,
-          taskDescription: snap.val().taskDescription,
-          taskDate: snap.val().taskDate,
-          taskCategory: snap.val().taskCategory,
-          taskCompletionTime: snap.val().taskCompletionTime
-        });
-      });
-    });
-  }
-
-  getCompletedItems(){
-    return this.completedItems;
-  }
-
   addCompletedTask(
     taskTitle: string,
     taskDescription: string,

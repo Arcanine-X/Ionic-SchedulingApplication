@@ -16,13 +16,13 @@
 
 <ion-content padding>
   <ion-list class="login-sliding-demo">
-    <div class="outerDiv" *ngIf="this.getFilteredItems()?.length == 0">
+    <div class="outerDiv" *ngIf="categoryItems?.length == 0">
 
-      <div id="empty" class="emptyCategory" *ngIf="this.getFilteredItems()?.length == 0 && !isSearchbarOpened">
+      <div id="empty" class="emptyCategory" *ngIf="categoryItems?.length == 0 && !isSearchbarOpened">
         <img class="logo" src="../../assets/imgs/emptyState1.png" alt="Empty State">
       </div>
     </div>
-    <ion-item-sliding *ngFor="let item of this.getFilteredItems();">
+    <ion-item-sliding *ngFor="let item of categoryItems;">
       <ion-item (click)="goToTaskDetail(item, item.id)">
         <p>Title:
           <strong>{{item?.taskTitle}}</strong>

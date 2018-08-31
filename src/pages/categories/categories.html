@@ -4,7 +4,7 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <ion-card class="card" *ngFor="let category of this.getCategories();">
+  <ion-card class="card" *ngFor="let category of categoriesList;">
     <ion-item (click)="openCategory(category.categoryName)">
       <button ion-button *ngIf="category.categoryName != 'Default' && categoryAlertToggle==true; else showNoAlert" (click)="showConfirm($event, category)"
         icon-only item-right clear>

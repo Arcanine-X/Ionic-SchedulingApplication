@@ -25,13 +25,21 @@ export class TaskCreatePage {
     this.itemsList = navParams.get('items');
   }
 
-  loadCategories() {
-    this.categoriesList = this.categoriesProvider.getCategoriesArray();
-    this.helper.sortCategoryNames(this.categoriesList);
+  loadCategories(){
+    this.categoriesProvider.getCategories().on("value", categoriesList => {
+      this.categoriesList = [];
+      categoriesList.forEach(snap => {
+        this.categoriesList.push({
+          id: snap.key,
+          categoryName: snap.val().categoryName,
+          categoryCount: snap.val().categoryCount
+        });
+      });
+      this.helper.sortCategoryNames(this.categoriesList);
+    });
   }
 
   ionViewDidLoad() {
-    console.log('Task Create Page Successfully Loadd');
     this.loadCategories();
   }
 
@@ -45,7 +53,6 @@ export class TaskCreatePage {
     taskDate: string,
     taskCategory: string
   ): void {
-    this.categoriesList = this.categoriesProvider.getCategoriesArray();
     let newCategoryCount = this.helper.getIncreaseCategoryCount(this.categoriesList, taskCategory);
     let categoryId = this.helper.findCategoryId(this.categoriesList, taskCategory);
     //format inputs

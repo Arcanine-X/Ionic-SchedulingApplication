@@ -47,30 +47,4 @@ export class SettingsProvider {
     getSettings(): firebase.database.Reference {
         return this.settingsRef;
     }
-
-    fetchSettings(){
-      this.getSettings().on("value", setting => {
-        setting.forEach(snap => {
-          this.key = snap.key;
-          this.taskAlertToggle = snap.val().taskAlertToggle,
-          this.categoryAlertToggle = snap.val().categoryAlertToggle
-        });
-      });
-    }
-
-    getKey(){
-      return this.key;
-    }
-
-    getTaskAlertToggle(){
-      return this.taskAlertToggle;
-    }
-
-    getCategoryAlertToggle(){
-      return this.categoryAlertToggle;
-    }
-
-    
-
-    
 }

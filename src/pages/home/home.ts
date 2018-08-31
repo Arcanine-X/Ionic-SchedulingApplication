@@ -41,10 +41,7 @@ export class HomePage {
 
   //Alert vairables
   public taskAlertToggle;
-  //Variables for the altert when deleting tasks
-  testRadioOpen: boolean;
-  testRadioResult;
-  loader;
+  public loader;
 
   constructor(public alertCtrl: AlertController, 
     private toastCtrl: ToastController, 
@@ -71,11 +68,9 @@ export class HomePage {
 
   ionViewDidLoad(){
     this.doLoad();
-    this.settingsProvider.fetchSettings();
-    this.categoriesList = this.categoriesProvider.fetchCategories();
-    this.completedTasksProvider.fetchCompletedItems();
-    this.tasksProvider.fetchData();
     this.loadTasks();
+    this.loadCategories();
+    this.loadSettings();
   }
 
   loadTasks(){
@@ -95,10 +90,8 @@ export class HomePage {
           taskCategory: snap.val().taskCategory
         });
       });
-      this.loader.dismiss();
       this.items.reverse();
       this.populateTasks();
-      this.taskAlertToggle = this.settingsProvider.getTaskAlertToggle();
     });
   }
 
@@ -123,6 +116,29 @@ export class HomePage {
     }
   }
 
+  loadSettings(){
+    this.settingsProvider.getSettings().on("value", setting => {
+      setting.forEach(snap => {
+        this.taskAlertToggle = snap.val().taskAlertToggle
+      });
+    });
+  }
+
+  loadCategories(){
+    let self = this;
+    this.categoriesProvider.getCategories().on("value", categoriesList => {
+      this.categoriesList = [];
+      categoriesList.forEach(snap => {
+        this.categoriesList.push({
+          id: snap.key,
+          categoryName: snap.val().categoryName,
+          categoryCount: snap.val().categoryCount
+        });
+      });
+      self.loader.dismiss();
+    });
+  }
+
   goToTaskDetail(item, itemId){
     this.navCtrl.push(TaskDetailPage, {
       item: item,
@@ -143,7 +159,6 @@ export class HomePage {
 
   delete(key, item){
     //update count in firebase count
-    this.categoriesList = this.categoriesProvider.getCategoriesArray();
     let categoryKey = this.helper.findCategoryId(this.categoriesList, item.taskCategory);
     let count  = this.helper.getCategoryCount(this.categoriesList, item.taskCategory);
     count--;
@@ -212,8 +227,6 @@ export class HomePage {
  getItems(ev) {
     // Reset items back to all of the items
     this.loadTasks();
-    // set val to the value of the ev target
-    var val = ev.target.value;
     // if the value is an empty string don't filter the items
     this.missedItems = this.helper.taskFilter(ev, this.missedItems);
     this.upcomingItems = this.helper.taskFilter(ev, this.upcomingItems);

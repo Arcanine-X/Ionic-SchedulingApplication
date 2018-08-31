@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 import { TasksProvider } from '../../providers/tasks/task';
 import { CategoryViewPage } from '../category-view/category-view';
 import { CategoriesProvider } from '../../providers/tasks/categories';
@@ -15,25 +15,59 @@ export class CategoriesPage {
   public itemsList = [];
   public categoryToCreate;
   public categoryAlertToggle;
+  public loader;
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public tasksProvider: TasksProvider,
     public categoriesProvider: CategoriesProvider,
     public helper: HelpProvider,
     public alertCtrl: AlertController,
-    public settingsProvider: SettingsProvider) {
+    public settingsProvider: SettingsProvider,
+    public loadingCtrl : LoadingController,
+  ) {
   }
 
   ionViewDidLoad() {
-    console.log("Categories Loaded Successfully");
-    this.setCategories();
-    this.setSettings();
+    this.doLoad();
+    this.loadCategories();
+    this.loadSettings();
+  }
+
+  doLoad(){
+    this.loader = this.loadingCtrl.create(
+      {
+        content: "Please wait...",
+      }
+    );
+    this.loader.present();
+  }
+
+  loadCategories(){
+    let self = this;
+    this.categoriesProvider.getCategories().on("value", categoriesList => {
+      this.categoriesList = [];
+      categoriesList.forEach(snap => {
+        this.categoriesList.push({
+          id: snap.key,
+          categoryName: snap.val().categoryName,
+          categoryCount: snap.val().categoryCount,
+          categoryLetter : snap.val().categoryLetter
+        });
+      });
+      this.helper.sortCategoryNames(this.categoriesList);
+      self.loader.dismiss();
+    });
+  }
+
+  loadSettings(){
+    this.settingsProvider.getSettings().on("value", setting => {
+      setting.forEach(snap => {
+        this.categoryAlertToggle = snap.val().categoryAlertToggle
+      });
+    });
   }
 
 
-  setSettings() {
-    this.categoryAlertToggle = this.settingsProvider.getCategoryAlertToggle();
-  }
 
 
   openCategory(categoryName) {
@@ -65,18 +99,9 @@ export class CategoriesPage {
     return (!str || 0 === str.length);
   }
 
-  getCategories() {
-    return this.categoriesProvider.getCategoriesArray();
-  }
-
-  setCategories() {
-    this.categoriesList = this.categoriesProvider.getCategoriesArray();
-    this.helper.sortCategoryNames(this.categoriesList);
-  }
-
   
   getCategoryTaskKeys(category) {
-    this.itemsList = this.tasksProvider.getItems();
+    this.loadItems();
     let keyList = [];
     for (let i = 0; i < this.itemsList.length; i++) {
       if (this.itemsList[i].taskCategory === category.categoryName) {
@@ -86,6 +111,19 @@ export class CategoriesPage {
     }
     this.itemsList = [];
     return keyList;
+  }
+
+  loadItems(){
+    this.tasksProvider.getTasksList().on("value", tasksList => {
+      this.itemsList = [];
+      tasksList.forEach(snap => {
+        this.itemsList.push({
+          id: snap.key,
+          taskCategory: snap.val().taskCategory
+        });
+        return false;
+      });
+    });
   }
 
   deleteCategory(e, category) {

@@ -5,7 +5,9 @@ import 'firebase/database';
 
 @Injectable()
 export class AuthProvider {
-
+/*
+* I followed through this tutorial to help me get my authentication sorted: https://javebratt.com/ionic-firebase-authentication/
+*/
   constructor() {}
 
   loginUser(email: string, password: string): Promise<any> {

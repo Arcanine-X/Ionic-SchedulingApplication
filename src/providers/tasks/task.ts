@@ -3,7 +3,6 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 import 'firebase/storage';
-import { ItemSliding } from '../../../node_modules/ionic-angular/umd';
 
 @Injectable()
 export class TasksProvider {
@@ -35,49 +34,6 @@ export class TasksProvider {
       taskCategory: taskCategory,
     });
   }
-
-
-  fetchFilteredData(categoryName):any {
-    this.getTasksList().on("value", eventListSnapshot => {
-      this.filteredItems = [];
-      eventListSnapshot.forEach(snap => {
-        if(snap.val().taskCategory.toLowerCase() === categoryName.toLowerCase()){
-          this.filteredItems.push({
-          id: snap.key,
-          taskTitle: snap.val().taskTitle,
-          taskDescription: snap.val().taskDescription,
-          taskDate: snap.val().taskDate,
-          taskCategory: snap.val().taskCategory
-        });
-        }
-      });
-    });
-  }
-
-  getFilteredItems(){
-    return this.filteredItems;
-  }
-
-  fetchData(): any{
-    this.getTasksList().on("value", tasksList => {
-      tasksList.forEach(snap => {
-        this.items.push({
-          id: snap.key,
-          taskTitle: snap.val().taskTitle,
-          taskDescription: snap.val().taskDescription,
-          taskDate: snap.val().taskDate,
-          taskCategory: snap.val().taskCategory
-        });
-      });
-
-      this.items.reverse();
-    });
-  }
-
-  getItems(): any{
-    return this.items;
-  }
-  
 
   updateTask(key, item){
     firebase.database().ref('userProfile/'+this.userId+'/tasksList/' + key).update({

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, App } from 'ionic-angular';
+import { NavController, NavParams, AlertController, App, LoadingController } from 'ionic-angular';
 import { ProfilePage } from '../profile/profile';
 import { SettingsProvider } from '../../providers/settings/settings';
 import { AuthProvider } from '../../providers/auth/auth';
@@ -20,7 +20,8 @@ export class SettingsPage {
               public settingsProvider: SettingsProvider,
               public alertCtrl: AlertController,
               public authProvider: AuthProvider,
-              public appCtrl: App
+              public appCtrl: App,
+              public loadingCtrl : LoadingController,
             ) {
   }
 
@@ -36,8 +37,8 @@ export class SettingsPage {
   }
 
   ionViewDidLoad() {
-    console.log('Settings page successfully loaded');
-    this.setSettings();
+    this.doLoad();
+    this.loadSettings();
   }
 
   goToProfile(): void {
@@ -52,9 +53,24 @@ export class SettingsPage {
     this.save();
   }
 
-  setSettings(){
-    this.settingsKey = this.settingsProvider.getKey();
-    this.taskAlertToggle = this.settingsProvider.getTaskAlertToggle();
-    this.categoryAlertToggle = this.settingsProvider.getCategoryAlertToggle();
+  doLoad(){
+    this.loader = this.loadingCtrl.create(
+      {
+        content: "Please wait...",
+      }
+    );
+    this.loader.present();
+  }
+
+  loadSettings(){
+    let self = this;
+    this.settingsProvider.getSettings().on("value", categoriesList => {
+      categoriesList.forEach(snap => {
+        this.settingsKey = snap.key;
+        this.taskAlertToggle = snap.val().taskAlertToggle,
+        this.categoryAlertToggle = snap.val().categoryAlertToggle
+      });
+      self.loader.dismiss();
+    });
   }
 }
