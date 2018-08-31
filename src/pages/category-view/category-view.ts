@@ -112,7 +112,6 @@ export class CategoryViewPage {
   }
 
   loadCategories(){
-    let self = this;
     this.categoriesProvider.getCategories().on("value", categoriesList => {
       this.categoriesList = [];
       categoriesList.forEach(snap => {
