@@ -23,7 +23,6 @@ export class TaskCreateCategoryPage {
   }
 
   ionViewDidLoad() {
-    console.log('Loaded Create Task In Category Page Successfully');
     this.loadCategories();
   }
 

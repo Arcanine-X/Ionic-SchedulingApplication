@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, 
-        ModalController,
-        ToastController,
-        AlertController,
-        ItemSliding,
-        LoadingController
-      } from 'ionic-angular';
+import {
+  NavController,
+  ModalController,
+  ToastController,
+  AlertController,
+  ItemSliding,
+  LoadingController
+} from 'ionic-angular';
 import { TaskCreatePage } from '../task-create/task-create';
 import { TaskDetailPage } from '../task-detail/task-detail';
 import { TasksProvider } from '../../providers/tasks/task';
@@ -43,21 +44,21 @@ export class HomePage {
   public taskAlertToggle;
   public loader;
 
-  constructor(public alertCtrl: AlertController, 
-    private toastCtrl: ToastController, 
-    public navCtrl: NavController, 
+  constructor(public alertCtrl: AlertController,
+    private toastCtrl: ToastController,
+    public navCtrl: NavController,
     public modalCtrl: ModalController,
-    public tasksProvider : TasksProvider  ,
-    public completedTasksProvider : CompletedTasksProvider,
-    public categoriesProvider : CategoriesProvider,
-    public helper : HelpProvider,
-    public loadingCtrl : LoadingController,
+    public tasksProvider: TasksProvider,
+    public completedTasksProvider: CompletedTasksProvider,
+    public categoriesProvider: CategoriesProvider,
+    public helper: HelpProvider,
+    public loadingCtrl: LoadingController,
     public settingsProvider: SettingsProvider,
   ) {
 
   }
 
-  doLoad(){
+  doLoad() {
     this.loader = this.loadingCtrl.create(
       {
         content: "Please wait...",
@@ -66,14 +67,14 @@ export class HomePage {
     this.loader.present();
   }
 
-  ionViewDidLoad(){
+  ionViewDidLoad() {
     this.doLoad();
     this.loadTasks();
     this.loadCategories();
     this.loadSettings();
   }
 
-  loadTasks(){
+  loadTasks() {
     this.tasksProvider.getTasksList().on("value", tasksList => {
       this.items = [];
       this.todaysItems = [];
@@ -95,20 +96,23 @@ export class HomePage {
     });
   }
 
-  dateStructure(date){
+  dateStructure(date) {
     var split = date.split('-');
-    return split[2] + "-" + split[1] + "-" +split[0];
+    return split[2] + "-" + split[1] + "-" + split[0];
   }
 
-  populateTasks(){
+  /*
+  * Populates the missed, todays, tomorrows, and upcoming tasks based on the date
+  */
+  populateTasks() {
     let today = Date.parse(this.dateStructure(this.helper.getTodaysDate()));
     let tomorrow = Date.parse(this.dateStructure(this.helper.getTomorrowsDate()));
-    for(let i  = 0; i < this.items.length; i++){
+    for (let i = 0; i < this.items.length; i++) {
       let itemDate = Date.parse(this.dateStructure(this.items[i].taskDate));
-      if(itemDate == today) this.todaysItems.push(this.items[i]);
-      else if(itemDate == tomorrow) this.tomorrowsItems.push(this.items[i]);
-      else if(itemDate < today) this.missedItems.push(this.items[i]);
-      else if(itemDate > tomorrow) this.upcomingItems.push(this.items[i]);
+      if (itemDate == today) this.todaysItems.push(this.items[i]);
+      else if (itemDate == tomorrow) this.tomorrowsItems.push(this.items[i]);
+      else if (itemDate < today) this.missedItems.push(this.items[i]);
+      else if (itemDate > tomorrow) this.upcomingItems.push(this.items[i]);
       else {
         console.log("Shouldn't get in here");
         console.log("Date that got here is " + this.items[i].taskDate);
@@ -116,7 +120,7 @@ export class HomePage {
     }
   }
 
-  loadSettings(){
+  loadSettings() {
     this.settingsProvider.getSettings().on("value", setting => {
       setting.forEach(snap => {
         this.taskAlertToggle = snap.val().taskAlertToggle
@@ -124,7 +128,7 @@ export class HomePage {
     });
   }
 
-  loadCategories(){
+  loadCategories() {
     let self = this;
     this.categoriesProvider.getCategories().on("value", categoriesList => {
       this.categoriesList = [];
@@ -139,7 +143,7 @@ export class HomePage {
     });
   }
 
-  goToTaskDetail(item, itemId){
+  goToTaskDetail(item, itemId) {
     this.navCtrl.push(TaskDetailPage, {
       item: item,
       key: itemId
@@ -149,18 +153,18 @@ export class HomePage {
   /*
   Complete tasks test
   */
-  addToCompletedTasks(item){
+  addToCompletedTasks(item) {
     this.completedTasksProvider
-      .addCompletedTask(item.taskTitle, item.taskDescription, 
-        item.taskDate, item.taskCategory, this.helper.getCompletetionTime()).then(newEvent=>{
+      .addCompletedTask(item.taskTitle, item.taskDescription,
+        item.taskDate, item.taskCategory, this.helper.getCompletetionTime()).then(newEvent => {
           this.delete(item.id, item);
         });
   }
 
-  delete(key, item){
+  delete(key, item) {
     //update count in firebase count
     let categoryKey = this.helper.findCategoryId(this.categoriesList, item.taskCategory);
-    let count  = this.helper.getCategoryCount(this.categoriesList, item.taskCategory);
+    let count = this.helper.getCategoryCount(this.categoriesList, item.taskCategory);
     count--;
     this.categoriesProvider.updateCategoryCount(categoryKey, count, item.taskCategory);
     //then delete
@@ -168,15 +172,14 @@ export class HomePage {
   }
 
 
-  addPush(){
-    console.log("in here???");
+  addPush() {
     this.navCtrl.push(TaskCreatePage, {
       items: this.items
     });
   }
- 
- 
-  viewItem(item){
+
+
+  viewItem(item) {
     this.navCtrl.push(TaskDetailPage, {
       item: item
     });
@@ -199,32 +202,32 @@ export class HomePage {
   /*
   Alert when deleting
   */
- showConfirm(item) {
-  const confirm = this.alertCtrl.create({
-    title: 'Confirmation',
-    message: 'Are you sure you want to delete the task?',
-    buttons: [
-      {
-        text: 'Yes',
-        handler: () => {
-          this.delete(item.id, item);
+  showConfirm(item) {
+    const confirm = this.alertCtrl.create({
+      title: 'Confirmation',
+      message: 'Are you sure you want to delete the task?',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: () => {
+            this.delete(item.id, item);
+          }
+        },
+        {
+          text: 'No',
+          handler: () => {
+            return;
+          }
         }
-      },
-      {
-        text: 'No',
-        handler: () => {
-          return;
-        }
-      }
-    ]
-  });
-  confirm.present();
-}
+      ]
+    });
+    confirm.present();
+  }
 
   /*
   Search bar functionality
   */
- getItems(ev) {
+  getItems(ev) {
     // Reset items back to all of the items
     this.loadTasks();
     // if the value is an empty string don't filter the items

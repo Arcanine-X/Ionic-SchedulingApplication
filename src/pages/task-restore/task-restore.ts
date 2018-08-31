@@ -20,17 +20,17 @@ export class TaskRestorePage {
   }
 
   ionViewDidLoad() {
-    console.log("Task restore page successfully loaded");
   }
 
   restore() {
     this.tasksProvider.createTask(this.item.taskTitle,
       this.item.taskDescription, this.item.taskDate,
       this.item.taskCategory).then(newEvent => {
-        this.delete(this.item.id)
+        this.delete(this.item.id);
+        //Take it back to the completed tasks page after task has been restored and deleted from completed tasks
+        this.navCtrl.setRoot(CompletedTasksPage);
+
       });
-    //Take it back to the completed tasks page after task has been restored and deleted from completed tasks
-    this.navCtrl.setRoot(CompletedTasksPage);
   }
 
   delete(key) {
